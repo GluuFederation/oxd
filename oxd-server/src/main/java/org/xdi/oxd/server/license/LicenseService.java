@@ -160,4 +160,8 @@ public class LicenseService {
         }
         return metadata.getThreadsCount();
     }
+
+    public boolean isFreeLicense() {
+        return getThreadsCount() == 1 && !isLicenseValid();
+    }
 }
