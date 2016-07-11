@@ -67,7 +67,7 @@ public class CheckAccessTokenOperation extends BaseOperation {
             final String jwkUrl = discoveryResponse.getJwksUri();
             final String kid = jwt.getHeader().getClaimAsString(JwtHeaderName.KEY_ID);
 
-            final SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.fromName(algorithm);
+            final SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.fromString(algorithm);
 
             final RSAPublicKey publicKey = JwkClient.getRSAPublicKey(jwkUrl, kid);
             final RSASigner rsaSigner = new RSASigner(signatureAlgorithm, publicKey);
