@@ -33,6 +33,8 @@ public class Configuration {
     private Boolean trustAllCerts;
     @JsonProperty(value = "trust_store_path")
     private String keyStorePath;
+    @JsonProperty(value = "trust_store_password")
+    private String keyStorePassword;
     @JsonProperty(value = "license_server_endpoint")
     private String licenseServerEndpoint;
     @JsonProperty(value = "license_id")
@@ -47,6 +49,14 @@ public class Configuration {
     private Integer licenseCheckPeriodInHours = 24;
     @JsonProperty(value = "op_host")
     private String opHost;
+
+    public String getKeyStorePassword() {
+        return keyStorePassword;
+    }
+
+    public void setKeyStorePassword(String keyStorePassword) {
+        this.keyStorePassword = keyStorePassword;
+    }
 
     public String getOpHost() {
         return opHost;
@@ -195,10 +205,22 @@ public class Configuration {
         sb.append("Configuration");
         sb.append("{port=").append(port);
         sb.append(", timeOutInSeconds=").append(timeOutInSeconds);
-        sb.append(", opHost=").append(opHost);
+        sb.append(", jettyPort=").append(jettyPort);
+        sb.append(", startJetty=").append(startJetty);
+        sb.append(", registerClientAppType='").append(registerClientAppType).append('\'');
+        sb.append(", registerClientResponesType='").append(registerClientResponesType).append('\'');
         sb.append(", localhostOnly=").append(localhostOnly);
-        sb.append(", licenseServerEndpoint=").append(licenseServerEndpoint);
-        sb.append(", licenseId=").append(licenseId);
+        sb.append(", useClientAuthenticationForPat=").append(useClientAuthenticationForPat);
+        sb.append(", trustAllCerts=").append(trustAllCerts);
+        sb.append(", keyStorePath='").append(keyStorePath).append('\'');
+        sb.append(", keyStorePassword='").append(keyStorePassword).append('\'');
+        sb.append(", licenseServerEndpoint='").append(licenseServerEndpoint).append('\'');
+        sb.append(", licenseId='").append(licenseId).append('\'');
+        sb.append(", publicKey='").append(publicKey).append('\'');
+        sb.append(", publicPassword='").append(publicPassword).append('\'');
+        sb.append(", licensePassword='").append(licensePassword).append('\'');
+        sb.append(", licenseCheckPeriodInHours=").append(licenseCheckPeriodInHours);
+        sb.append(", opHost='").append(opHost).append('\'');
         sb.append('}');
         return sb.toString();
     }

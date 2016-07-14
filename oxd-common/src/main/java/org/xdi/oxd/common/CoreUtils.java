@@ -219,11 +219,11 @@ public class CoreUtils {
      * @return http client
      * @throws Exception
      */
-    public static HttpClient createHttpClientWithKeyStore(File pathToKeyStore) throws Exception {
+    public static HttpClient createHttpClientWithKeyStore(File pathToKeyStore, String password) throws Exception {
         KeyStore keyStore = KeyStore.getInstance(KeyStore.getDefaultType());
         FileInputStream instream = new FileInputStream(pathToKeyStore);
         try {
-            keyStore.load(instream, "test".toCharArray());
+            keyStore.load(instream, password.toCharArray());
         } finally {
             instream.close();
         }
