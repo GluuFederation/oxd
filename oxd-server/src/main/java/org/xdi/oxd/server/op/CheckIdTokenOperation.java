@@ -101,7 +101,7 @@ public class CheckIdTokenOperation extends BaseOperation {
             }
 
             // 2. validate signature
-            final SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.fromString(algorithm);
+            final SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.fromName(algorithm);
 
             final RSAPublicKey publicKey = getRSAPublicKey(jwkUrl, kid);
             final RSASigner rsaSigner = new RSASigner(signatureAlgorithm, publicKey);
