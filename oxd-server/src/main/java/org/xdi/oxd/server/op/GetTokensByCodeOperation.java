@@ -71,22 +71,26 @@ public class GetTokensByCodeOperation extends BaseOperation<GetTokensByCodeParam
                 opResponse.setExpiresIn(response.getExpiresIn());
 
                 final Jwt jwt = Jwt.parse(response.getIdToken());
-                final String nonceFromToken = jwt.getClaims().getClaimAsString(JwtClaimName.NONCE);
-                if (!getStateService().isNonceValid(nonceFromToken)) {
-                    throw new ErrorResponseException(ErrorResponseCode.INVALID_NONCE);
-                }
+                if(jwt != null) {
+                    final String nonceFromToken = jwt.getClaims().getClaimAsString(JwtClaimName.NONCE);
+                    if (!getStateService().isNonceValid(nonceFromToken)) {
+                        throw new ErrorResponseException(ErrorResponseCode.INVALID_NONCE);
+                    }
 
-                if (CheckIdTokenOperation.isValid(jwt, getDiscoveryService().getConnectDiscoveryResponse(site.getOpHost()), nonceFromToken, site.getClientId())) {
-                    final Map<String, List<String>> claims = jwt.getClaims() != null ? jwt.getClaims().toMap() : new HashMap<String, List<String>>();
-                    opResponse.setIdTokenClaims(claims);
+                    if (CheckIdTokenOperation.isValid(jwt, getDiscoveryService().getConnectDiscoveryResponse(site.getOpHost()), nonceFromToken, site.getClientId())) {
+                        final Map<String, List<String>> claims = jwt.getClaims() != null ? jwt.getClaims().toMap() : new HashMap<String, List<String>>();
+                        opResponse.setIdTokenClaims(claims);
 
-                    // persist tokens
-                    site.setIdToken(response.getIdToken());
-                    site.setAccessToken(response.getAccessToken());
-                    getSiteService().update(site);
-                    getStateService().invalidateState(params.getState());
+                        // persist tokens
+                        site.setIdToken(response.getIdToken());
+                        site.setAccessToken(response.getAccessToken());
+                        getSiteService().update(site);
+                        getStateService().invalidateState(params.getState());
 
-                    return okResponse(opResponse);
+                        return okResponse(opResponse);
+                    } else {
+                        LOG.error("ID Token is not valid, token: " + response.getIdToken());
+                    }
                 } else {
                     LOG.error("ID Token is not valid, token: " + response.getIdToken());
                 }
