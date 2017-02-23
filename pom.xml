@@ -423,6 +423,9 @@
                             </goals>
                         </execution>
                     </executions>
+                    <configuration>
+                        <aggregate>true</aggregate>
+                    </configuration>
                 </plugin>
             </plugins>
         </pluginManagement>
