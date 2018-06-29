@@ -31,7 +31,7 @@ override_dh_auto_install:
 		cp oxd-https-extension/oxd-https.keystore debian/oxd-server/opt/oxd-https-extension/lib/
 		cp oxd-https-extension/oxd-https.yml debian/oxd-server/opt/oxd-https-extension/lib/
 		cp bcprov-jdk15on-1.54.jar debian/oxd-server/opt/oxd-server/lib/
- 		mkdir -p debian/oxd-server/var/log/
+		mkdir -p debian/oxd-server/var/log/
 		mkdir -p debian/oxd-server/etc/oxd/oxd-server/
 		mkdir -p debian/oxd-server/etc/default/
 		cp -a debian/oxd-server/opt/oxd-server/conf/* debian/oxd-server/etc/oxd/oxd-server/.
