@@ -247,7 +247,7 @@ public class RestResource {
         CommandClient client = pool.checkOut();
         if (client == null) {
             LOG.error("Failed to initialize command client.");
-            throw new ServerErrorException(Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Command client is not able to connect to oxd-server.").build());
+            throw new WebApplicationException(Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Command client is not able to connect to oxd-server.").build());
         }
         return client;
     }
