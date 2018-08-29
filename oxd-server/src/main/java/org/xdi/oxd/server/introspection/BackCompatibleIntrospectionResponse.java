@@ -6,6 +6,7 @@ package org.xdi.oxd.server.introspection;
  * Copyright (c) 2014, Gluu
  */
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.annotate.JsonPropertyOrder;
 import org.jboss.resteasy.annotations.providers.jaxb.IgnoreMediaTypes;
@@ -22,6 +23,7 @@ import java.util.List;
 @JsonPropertyOrder({"active", "scopes", "client_id", "username", "token_type", "exp", "iat", "sub", "aud", "iss", "jti", "acr_values"})
 // ignore jettison as it's recommended here: http://docs.jboss.org/resteasy/docs/2.3.4.Final/userguide/html/json.html
 @IgnoreMediaTypes("application/*+json")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class BackCompatibleIntrospectionResponse {
 
     @JsonProperty(value = "active")
