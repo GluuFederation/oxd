@@ -104,7 +104,9 @@ paths:
                   - refresh_token
                 properties:
                   scope:
-                    type: string
+                    type: array
+                    items:
+                      type: string
                     example: ["openid"]
                   access_token:
                     type: string
