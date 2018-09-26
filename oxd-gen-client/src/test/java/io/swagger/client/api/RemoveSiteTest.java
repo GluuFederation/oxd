@@ -7,11 +7,12 @@ import io.swagger.client.model.RemoveSiteResponse;
 import org.apache.commons.lang.StringUtils;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import org.xdi.oxd.common.ErrorResponseCode;
 
 import java.util.UUID;
 
 import static org.junit.Assert.*;
+import static org.xdi.oxd.common.ErrorResponseCode.INACTIVE_PROTECTION_ACCESS_TOKEN;
+import static org.xdi.oxd.common.ErrorResponseCode.INVALID_OXD_ID;
 
 public class RemoveSiteTest {
 
@@ -43,9 +44,29 @@ public class RemoveSiteTest {
         assertTrue("error".equalsIgnoreCase(apiResponse.getData().getStatus()));
         assertNotNull(apiResponse.getData());
         assertNotNull(apiResponse.getData().getData());
-        assertEquals(apiResponse.getData().getData().getError(), ErrorResponseCode.INVALID_OXD_ID.getCode());
+        assertEquals(apiResponse.getData().getData().getError(), INVALID_OXD_ID.getCode());
 
     }
 
+    /**
+     * Method to test functionality using an ID token other than the one associated with registered site
+     */
+    @ProtectionAccessTokenRequired
+    @Test
+    @Parameters({"opHost", "redirectUrl"})
+    public void testRemoveSiteWithInvalidToken(String opHost, String redirectUrl) throws Exception {
+        final DevelopersApi api = Tester.api();
+        RegisterSiteResponseData response = RegisterSiteTest.registerSite(api, opHost, redirectUrl); // new site registration
+
+        RemoveSiteParams params = new RemoveSiteParams();
+        params.setOxdId(response.getOxdId());
+
+        final String authTokenForDifferentSite = Tester.getAuthorization(); //token from previous site registration
+        ApiResponse<RemoveSiteResponse> apiResponse = api.removeSiteWithHttpInfo(authTokenForDifferentSite, params);
+        assertEquals(apiResponse.getStatusCode() , 200); // todo 401
+        assertNotNull(apiResponse.getData().getData());
+        assertTrue("error".equalsIgnoreCase(apiResponse.getData().getStatus()));
+        assertEquals(apiResponse.getData().getData().getError(), INACTIVE_PROTECTION_ACCESS_TOKEN.getCode());
+    }
 
 }
