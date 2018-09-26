@@ -62,4 +62,8 @@ public class Tester {
         HOST = host;
         OP_HOST = opHost;
     }
+
+    public static RegisterSiteResponse getSetupData() {
+        return SETUP_CLIENT;
+    }
 }
