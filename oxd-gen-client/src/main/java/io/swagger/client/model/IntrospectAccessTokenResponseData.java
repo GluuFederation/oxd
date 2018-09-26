@@ -28,7 +28,7 @@ import java.util.List;
 /**
  * IntrospectAccessTokenResponseData
  */
-
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2018-09-25T11:06:36.041Z")
 public class IntrospectAccessTokenResponseData {
   @SerializedName("active")
   private Boolean active = null;
@@ -71,6 +71,15 @@ public class IntrospectAccessTokenResponseData {
 
   @SerializedName("extension_field")
   private String extensionField = null;
+
+  @SerializedName("error")
+  private String error = null;
+
+  @SerializedName("errorDescription")
+  private String errorDescription = null;
+
+  @SerializedName("details")
+  private Object details = null;
 
   public IntrospectAccessTokenResponseData active(Boolean active) {
     this.active = active;
@@ -334,6 +343,60 @@ public class IntrospectAccessTokenResponseData {
     this.extensionField = extensionField;
   }
 
+  public IntrospectAccessTokenResponseData error(String error) {
+    this.error = error;
+    return this;
+  }
+
+   /**
+   * Get error
+   * @return error
+  **/
+  @ApiModelProperty(value = "")
+  public String getError() {
+    return error;
+  }
+
+  public void setError(String error) {
+    this.error = error;
+  }
+
+  public IntrospectAccessTokenResponseData errorDescription(String errorDescription) {
+    this.errorDescription = errorDescription;
+    return this;
+  }
+
+   /**
+   * Get errorDescription
+   * @return errorDescription
+  **/
+  @ApiModelProperty(value = "")
+  public String getErrorDescription() {
+    return errorDescription;
+  }
+
+  public void setErrorDescription(String errorDescription) {
+    this.errorDescription = errorDescription;
+  }
+
+  public IntrospectAccessTokenResponseData details(Object details) {
+    this.details = details;
+    return this;
+  }
+
+   /**
+   * Get details
+   * @return details
+  **/
+  @ApiModelProperty(value = "")
+  public Object getDetails() {
+    return details;
+  }
+
+  public void setDetails(Object details) {
+    this.details = details;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -357,12 +420,15 @@ public class IntrospectAccessTokenResponseData {
         Objects.equals(this.nbf, introspectAccessTokenResponseData.nbf) &&
         Objects.equals(this.jti, introspectAccessTokenResponseData.jti) &&
         Objects.equals(this.acrValues, introspectAccessTokenResponseData.acrValues) &&
-        Objects.equals(this.extensionField, introspectAccessTokenResponseData.extensionField);
+        Objects.equals(this.extensionField, introspectAccessTokenResponseData.extensionField) &&
+        Objects.equals(this.error, introspectAccessTokenResponseData.error) &&
+        Objects.equals(this.errorDescription, introspectAccessTokenResponseData.errorDescription) &&
+        Objects.equals(this.details, introspectAccessTokenResponseData.details);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(active, clientId, username, scope, tokenType, sub, aud, iss, exp, iat, nbf, jti, acrValues, extensionField);
+    return Objects.hash(active, clientId, username, scope, tokenType, sub, aud, iss, exp, iat, nbf, jti, acrValues, extensionField, error, errorDescription, details);
   }
 
 
@@ -385,6 +451,9 @@ public class IntrospectAccessTokenResponseData {
     sb.append("    jti: ").append(toIndentedString(jti)).append("\n");
     sb.append("    acrValues: ").append(toIndentedString(acrValues)).append("\n");
     sb.append("    extensionField: ").append(toIndentedString(extensionField)).append("\n");
+    sb.append("    error: ").append(toIndentedString(error)).append("\n");
+    sb.append("    errorDescription: ").append(toIndentedString(errorDescription)).append("\n");
+    sb.append("    details: ").append(toIndentedString(details)).append("\n");
     sb.append("}");
     return sb.toString();
   }

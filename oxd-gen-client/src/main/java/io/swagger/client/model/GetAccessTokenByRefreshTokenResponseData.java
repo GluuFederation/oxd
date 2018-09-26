@@ -26,7 +26,7 @@ import java.io.IOException;
 /**
  * GetAccessTokenByRefreshTokenResponseData
  */
-
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2018-09-25T11:06:36.041Z")
 public class GetAccessTokenByRefreshTokenResponseData {
   @SerializedName("scope")
   private String scope = null;

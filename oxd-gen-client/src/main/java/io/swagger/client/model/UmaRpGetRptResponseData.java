@@ -26,7 +26,7 @@ import java.io.IOException;
 /**
  * UmaRpGetRptResponseData
  */
-
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2018-09-25T11:06:36.041Z")
 public class UmaRpGetRptResponseData {
   @SerializedName("pct")
   private String pct = null;

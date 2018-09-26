@@ -28,7 +28,7 @@ import java.util.List;
 /**
  * GetClientTokenResponseData
  */
-
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2018-09-25T11:06:36.041Z")
 public class GetClientTokenResponseData {
   @SerializedName("scope")
   private List<String> scope = new ArrayList<>();
@@ -56,7 +56,7 @@ public class GetClientTokenResponseData {
    * Get scope
    * @return scope
   **/
-  @ApiModelProperty(example = "[\"openid\",\"blah\"]", required = true, value = "")
+  @ApiModelProperty(example = "[\"openid\",\"oxd\"]", required = true, value = "")
   public List<String> getScope() {
     return scope;
   }

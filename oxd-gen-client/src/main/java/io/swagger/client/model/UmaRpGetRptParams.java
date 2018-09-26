@@ -28,7 +28,7 @@ import java.util.List;
 /**
  * UmaRpGetRptParams
  */
-
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2018-09-25T11:06:36.041Z")
 public class UmaRpGetRptParams {
   @SerializedName("oxd_id")
   private String oxdId = null;

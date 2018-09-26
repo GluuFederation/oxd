@@ -28,7 +28,7 @@ import java.util.List;
 /**
  * IntrospectRptResponseData
  */
-
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2018-09-25T11:06:36.041Z")
 public class IntrospectRptResponseData {
   @SerializedName("active")
   private Boolean active = null;
