@@ -166,74 +166,7 @@ paths:
                 type: string
                 example: ok
               data:
-                type: object
-                required:
-                  - active
-                  - client_id
-                  - username
-                  - scope
-                  - token_type
-                  - sub
-                  - aud
-                  - iss
-                  - exp
-                  - iat
-                  - acr_values
-                  - extension_field
-                  - nbf
-                  - jti
-                properties:
-                  active:
-                    type: boolean
-                    example: true
-                  client_id:
-                    type: string
-                    example: '@!1736.179E.AA60.16B2!0001!8F7C.B9AB!0008!A2BB.9AE6.5F14.B387'
-                  username:
-                    type: string
-                    example: John Black
-                  scope:
-                    type: array
-                    items:
-                      type: string
-                  token_type:
-                    type: string
-                    example: bearer
-                  sub:
-                    type: string
-                    example: jblack
-                  aud:
-                    type: string
-                    example: l238j323ds-23ij4
-                  iss:
-                    type: string
-                    example: https://as.gluu.org/
-                  exp:
-                    type: integer
-                    format: int64
-                    description: number of seconds since January 1 1970 UTC, indicating when this token will expire
-                    example: 1535709072
-                  iat:
-                    type: integer
-                    format: int64
-                    description: number of seconds since January 1 1970 UTC, indicating when the token was issued at
-                    example: 1535709072
-                  nbf:
-                    type: integer
-                    format: int64
-                    description: number of seconds since January 1 1970 UTC, indicating when the token not to be used before
-                    example: 1535709072
-                  jti:
-                    type: string
-                    description: a unique identifier for the JWT
-                  acr_values:
-                    type: array
-                    items:
-                      type: string
-                    example: ["basic"]
-                  extension_field:
-                    type: string
-                    example: twenty-seven
+                $ref: "#/definitions/IntrospectAccessTokenResponseData"
         400:
           description: Invalid parameters are provided to endpoint.
         403:
@@ -1365,7 +1298,7 @@ definitions:
   # List of reusable properties
   oxd_id:
     type: string
-    example: bcad760f-91ba-46e1-a020-05e4281d91b6
+    example: 'bcad760f-91ba-46e1-a020-05e4281d91b6'
 
   # Schemas
   UpdateSiteResponseData:
@@ -1395,4 +1328,81 @@ definitions:
         type: string
       details:
         type: object
+
+  IntrospectAccessTokenResponseData:
+    type: object
+    required:
+    - active
+    - client_id
+    - username
+    - scope
+    - token_type
+    - sub
+    - aud
+    - iss
+    - exp
+    - iat
+    - acr_values
+    - extension_field
+    - nbf
+    - jti
+    properties:
+      active:
+        type: boolean
+        example: true
+      client_id:
+        type: string
+        example: '@!1736.179E.AA60.16B2!0001!8F7C.B9AB!0008!A2BB.9AE6.5F14.B387'
+      username:
+        type: string
+        example: John Black
+      scope:
+        type: array
+        items:
+          type: string
+      token_type:
+        type: string
+        example: bearer
+      sub:
+        type: string
+        example: jblack
+      aud:
+        type: string
+        example: l238j323ds-23ij4
+      iss:
+        type: string
+        example: https://as.gluu.org/
+      exp:
+        type: integer
+        format: int64
+        description: number of seconds since January 1 1970 UTC, indicating when this token will expire
+        example: 1535709072
+      iat:
+        type: integer
+        format: int64
+        description: number of seconds since January 1 1970 UTC, indicating when the token was issued at
+        example: 1535709072
+      nbf:
+        type: integer
+        format: int64
+        description: number of seconds since January 1 1970 UTC, indicating when the token not to be used before
+        example: 1535709072
+      jti:
+        type: string
+        description: a unique identifier for the JWT
+      acr_values:
+        type: array
+        items:
+          type: string
+        example: ["basic"]
+      extension_field:
+        type: string
+        example: twenty-seven
+      error:
+        type: string
+      errorDescription:
+        type: string
+      details:
+        type: object
+
 
