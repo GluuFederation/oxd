@@ -121,10 +121,10 @@ public class ValidationService {
             throw new ErrorResponseException(ErrorResponseCode.PROTECTION_ACCESS_TOKEN_INSUFFICIENT_SCOPE);
         }
 
-        if (introspectionResponse.getClientId().equals(rp.getClientId())) {
-            return true;
+        if (!introspectionResponse.getClientId().equals(rp.getClientId())) {
+            throw new ErrorResponseException(ErrorResponseCode.INVALID_ID_TOKEN_MISMATCHED_CLIENT_ID);
         }
-        throw new ErrorResponseException(ErrorResponseCode.INVALID_PROTECTION_ACCESS_TOKEN);
+        return true;
     }
 
     public IntrospectionResponse introspect(String accessToken, String oxdId) {
