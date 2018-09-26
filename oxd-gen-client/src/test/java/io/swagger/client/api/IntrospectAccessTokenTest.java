@@ -12,6 +12,7 @@ import io.swagger.client.model.IntrospectAccessTokenResponseData;
 import io.swagger.client.model.RegisterSiteResponseData;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import org.xdi.oxd.common.ErrorResponseCode;
 
 import static junit.framework.Assert.*;
 
@@ -103,6 +104,31 @@ public class IntrospectAccessTokenTest extends BaseTestCase {
         assertNotNull(responseData);
         assertNull(responseData.getClientId());
 
+    }
+
+    @ProtectionAccessTokenRequired
+    @Parameters({"opHost", "redirectUrl"})
+    @Test
+    public void testWithValidTokenDifferentClient(String opHost, String redirectUrl) throws Exception {
+        DevelopersApi client = Tester.api();
+        RegisterSiteResponseData siteUnderTest = RegisterSiteTest.registerSite(client, opHost, redirectUrl);
+
+        final RegisterSiteResponseData differentSite = Tester.getSetupData();
+        GetClientTokenResponseData tokenResponse = getGetClientTokenResponseData(opHost, client, differentSite);
+        assertNotNull(tokenResponse);
+        final String validHeader = Tester.getAuthorization(differentSite);
+
+        IntrospectAccessTokenParams iatParams = new IntrospectAccessTokenParams();
+        iatParams.setAccessToken(tokenResponse.getAccessToken());
+        iatParams.setOxdId(siteUnderTest.getOxdId());
+
+        ApiResponse<IntrospectAccessTokenResponse> apiIatResponse = client.introspectAccessTokenWithHttpInfo(validHeader, iatParams);
+        assertEquals(apiIatResponse.getStatusCode(), 200);
+        assertNotNull(apiIatResponse.getData());
+        assertTrue("error".equalsIgnoreCase(apiIatResponse.getData().getStatus()));
+        IntrospectAccessTokenResponseData responseData = apiIatResponse.getData().getData();
+        assertNotNull(responseData);
+        assertTrue(responseData.getError().equals(ErrorResponseCode.INVALID_ID_TOKEN_MISMATCHED_CLIENT_ID.getCode()));
     }
 
     private static GetClientTokenResponseData getGetClientTokenResponseData(String opHost, DevelopersApi client,
