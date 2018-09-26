@@ -33,6 +33,7 @@ public enum ErrorResponseCode {
     INVALID_ID_TOKEN_BAD_NONCE("invalid_id_token_bad_nonce", "Invalid id_token. Nonce value from token does not match nonce from request."),
     INVALID_ID_TOKEN_BAD_AUDIENCE("invalid_id_token_bad_audience", "Invalid id_token. Audience value from token does not match audience from request."),
     INVALID_ID_TOKEN_EXPIRED("invalid_id_token_expired", "Invalid id_token. id_token expired."),
+    INVALID_ID_TOKEN_MISMATCHED_CLIENT_ID("invalid_id_token_mismatch_client_id", "Invalid id_token. Client id linked with id_token doesn't match with client id for site."),
     INVALID_ID_TOKEN_BAD_ISSUER("invalid_id_token_bad_issuer", "Invalid id_token. Bad issuer."),
     INVALID_ID_TOKEN_BAD_SIGNATURE("invalid_id_token_bad_signature", "Invalid id_token. Bad signature."),
     INVALID_ID_TOKEN_UNKNOWN("invalid_id_token_unknown", "Invalid id_token, validation fail due to exception, please check oxd-server.log for details."),
