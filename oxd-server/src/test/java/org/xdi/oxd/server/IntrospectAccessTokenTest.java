@@ -1,18 +1,19 @@
 package org.xdi.oxd.server;
 
 import com.google.common.collect.Lists;
-import junit.framework.Assert;
+import io.swagger.client.api.ProtectionAccessTokenRequired;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import org.xdi.oxauth.model.common.IntrospectionResponse;
 import org.xdi.oxd.client.ClientInterface;
+import org.xdi.oxd.common.ErrorResponse;
 import org.xdi.oxd.common.params.GetClientTokenParams;
 import org.xdi.oxd.common.params.IntrospectAccessTokenParams;
 import org.xdi.oxd.common.response.GetClientTokenResponse;
 import org.xdi.oxd.common.response.RegisterSiteResponse;
 
-import static junit.framework.Assert.assertNotNull;
-import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.*;
+import static org.xdi.oxd.common.ErrorResponseCode.INVALID_ID_TOKEN_MISMATCHED_CLIENT_ID;
 import static org.xdi.oxd.server.TestUtils.notEmpty;
 
 /**
@@ -53,6 +54,33 @@ public class IntrospectAccessTokenTest {
         assertNotNull(expiresAt);
         assertTrue(expiresAt >= issuedAt);
         //todo : add check for nbf when ready
+
+    }
+
+    @Parameters({"host", "opHost", "redirectUrl"})
+    @Test
+    @ProtectionAccessTokenRequired
+    public void testWithValidTokenDifferentClient(String host, String opHost, String redirectUrl) {
+
+        ClientInterface client = Tester.newClient(host);
+        RegisterSiteResponse setupResponse = SetupClientTest.setupClient(client, opHost, redirectUrl);
+
+        final RegisterSiteResponse differentSiteSetup = Tester.getSetupData();
+
+        final GetClientTokenParams params = new GetClientTokenParams();
+        params.setOpHost(opHost);
+        params.setScope(Lists.newArrayList("openid", "oxd"));
+        params.setClientId(differentSiteSetup.getClientId());
+        params.setClientSecret(differentSiteSetup.getClientSecret());
+
+        GetClientTokenResponse tokenResponse = client.getClientToken(params).dataAsResponse(GetClientTokenResponse.class);
+        IntrospectAccessTokenParams iatParams = new IntrospectAccessTokenParams();
+        iatParams.setAccessToken(tokenResponse.getAccessToken());
+        iatParams.setOxdId(setupResponse.getOxdId());
+
+        ErrorResponse introspectionResponse = client.introspectAccessToken("Bearer " + tokenResponse.getAccessToken(), iatParams).dataAsResponse(ErrorResponse.class);
+        assertNotNull(introspectionResponse);
+        assertEquals(introspectionResponse.getError(), INVALID_ID_TOKEN_MISMATCHED_CLIENT_ID.getCode());
 
     }
 }
