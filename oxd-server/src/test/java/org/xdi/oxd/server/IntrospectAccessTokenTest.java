@@ -13,7 +13,7 @@ import org.xdi.oxd.common.response.GetClientTokenResponse;
 import org.xdi.oxd.common.response.RegisterSiteResponse;
 
 import static junit.framework.Assert.*;
-import static org.xdi.oxd.common.ErrorResponseCode.INVALID_ID_TOKEN_MISMATCHED_CLIENT_ID;
+import static org.xdi.oxd.common.ErrorResponseCode.INVALID_ACCESS_TOKEN_MISMATCHED_CLIENT_ID;
 import static org.xdi.oxd.server.TestUtils.notEmpty;
 
 /**
@@ -80,7 +80,7 @@ public class IntrospectAccessTokenTest {
 
         ErrorResponse introspectionResponse = client.introspectAccessToken("Bearer " + tokenResponse.getAccessToken(), iatParams).dataAsResponse(ErrorResponse.class);
         assertNotNull(introspectionResponse);
-        assertEquals(introspectionResponse.getError(), INVALID_ID_TOKEN_MISMATCHED_CLIENT_ID.getCode());
+        assertEquals(introspectionResponse.getError(), INVALID_ACCESS_TOKEN_MISMATCHED_CLIENT_ID.getCode());
 
     }
 }

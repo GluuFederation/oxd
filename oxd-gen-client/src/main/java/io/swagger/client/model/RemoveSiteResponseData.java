@@ -26,7 +26,7 @@ import java.io.IOException;
 /**
  * RemoveSiteResponseData
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2018-09-25T11:06:36.041Z")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2018-09-28T04:42:49.936Z")
 public class RemoveSiteResponseData {
   @SerializedName("oxd_id")
   private String oxdId = null;
@@ -49,7 +49,7 @@ public class RemoveSiteResponseData {
    * Get oxdId
    * @return oxdId
   **/
-  @ApiModelProperty(required = true, value = "")
+  @ApiModelProperty(example = "bcad760f-91ba-46e1-a020-05e4281d91b6", required = true, value = "")
   public String getOxdId() {
     return oxdId;
   }

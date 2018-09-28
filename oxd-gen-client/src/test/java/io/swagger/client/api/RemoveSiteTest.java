@@ -49,7 +49,7 @@ public class RemoveSiteTest {
     }
 
     /**
-     * Method to test functionality using an ID token other than the one associated with registered site
+     * Method to test functionality using an access token other than the one associated with registered site
      */
     @ProtectionAccessTokenRequired
     @Test

@@ -122,7 +122,7 @@ public class ValidationService {
         }
 
         if (!introspectionResponse.getClientId().equals(rp.getClientId())) {
-            throw new ErrorResponseException(ErrorResponseCode.INVALID_ID_TOKEN_MISMATCHED_CLIENT_ID);
+            throw new ErrorResponseException(ErrorResponseCode.INVALID_ACCESS_TOKEN_MISMATCHED_CLIENT_ID);
         }
         return true;
     }

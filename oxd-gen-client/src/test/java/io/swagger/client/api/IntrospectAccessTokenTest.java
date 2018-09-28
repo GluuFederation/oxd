@@ -126,9 +126,8 @@ public class IntrospectAccessTokenTest extends BaseTestCase {
         assertEquals(apiIatResponse.getStatusCode(), 200);
         assertNotNull(apiIatResponse.getData());
         assertTrue("error".equalsIgnoreCase(apiIatResponse.getData().getStatus()));
-        IntrospectAccessTokenResponseData responseData = apiIatResponse.getData().getData();
-        assertNotNull(responseData);
-        assertTrue(responseData.getError().equals(ErrorResponseCode.INVALID_ID_TOKEN_MISMATCHED_CLIENT_ID.getCode()));
+        assertNotNull(apiIatResponse.getData().getData());
+        assertTrue(apiIatResponse.getData().getData().getError().equals(ErrorResponseCode.INVALID_ACCESS_TOKEN_MISMATCHED_CLIENT_ID.getCode()));
     }
 
     private static GetClientTokenResponseData getGetClientTokenResponseData(String opHost, DevelopersApi client,

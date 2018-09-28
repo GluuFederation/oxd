@@ -1295,10 +1295,6 @@ paths:
           description: Internal error occured. Please check oxd-server.log file for details (usually located in /var/log/oxd-server/oxd-server.log).
 
 definitions:
-  # List of reusable properties
-  oxd_id:
-    type: string
-    example: 'bcad760f-91ba-46e1-a020-05e4281d91b6'
 
   # Schemas
   UpdateSiteResponseData:
@@ -1307,7 +1303,8 @@ definitions:
     - oxd_id
     properties:
       oxd_id:
-        $ref: "#/definitions/oxd_id"
+        type: string
+        example: bcad760f-91ba-46e1-a020-05e4281d91b6
       error:
         type: string
       errorDescription:
@@ -1321,7 +1318,8 @@ definitions:
     - oxd_id
     properties:
       oxd_id:
-        $ref: "#/definitions/oxd_id"
+        type: string
+        example: bcad760f-91ba-46e1-a020-05e4281d91b6
       error:
         type: string
       errorDescription:
