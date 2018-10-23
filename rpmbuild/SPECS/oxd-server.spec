@@ -84,6 +84,10 @@ if [ -x /etc/init.d/oxd-server-3.1.5 ] || [ -e /etc/init/oxd-server.conf ]; then
 service oxd-server-3.1.5 stop || exit $?
 fi
 chkconfig --del oxd-server-3.1.5
+if [ -x /etc/init.d/oxd-https-extension ]; then
+service oxd-https-extension stop || exit $?
+fi
+chkconfig --del oxd-https-extension
 
 %files
 %defattr(-,root,root,-)
