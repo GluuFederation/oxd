@@ -1,5 +1,4 @@
 #!/bin/sh -e
-mkdir -p /opt
 
 # Stopping oxd-server
 # This will stop oxd-server if its have been removed by purge 
@@ -25,4 +24,5 @@ if [ "$1" = purge ]; then
     rm -rf /opt/oxd-https-extension > /dev/null 2>&1
 fi
 
+mkdir -p /opt > /dev/null 2>&1
 exit 0
