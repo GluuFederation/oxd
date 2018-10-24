@@ -430,7 +430,6 @@ do_start () {
 					rm -f  $OXD_PID_FILE
                                 	echo "Some errors encountered..."
                                 	echo ""
-                                	echo "For details please check $OXD_INIT_LOG ."
                                 	echo "Exiting..."
                                 	exit 1				   
                         	fi
@@ -475,7 +474,6 @@ do_start () {
 						rm -f  $OXD_PID_FILE
 	                                	echo "Some errors encountered..."
 	                                	echo ""
-	                                	echo "For details please check $OXD_INIT_LOG ."
 	                                	echo "Exiting..."
 	                                	exit 1				   
 	                        	fi	
