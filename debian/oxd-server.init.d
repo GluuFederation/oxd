@@ -298,7 +298,6 @@ fi
 
 if [[ "$JAVA" ]]; then
     version=$("$JAVA" -version 2>&1 | awk -F '"' '/version/ {print $2}')
-    echo version "$version"
     if [[ "$version" < "1.8" ]]; then
         echo "JAVA version is $version. Please set java (>=1.8)." >&2
         exit 1
