@@ -409,7 +409,7 @@ do_start () {
       			start-stop-daemon -S -p"$OXD_PID_FILE" $CH_USER -d"$OXD_BASE" -b -m -a "$JAVA" -- "${RUN_ARGS[@]}" start-log-file="$OXD_LOGS/start.log" >> "$OXD_LOGS/start.log" 2>&1
 
 			#dip_in_logs
-			sleep 2
+			sleep 5
                 	START_STATUS=`tail -n 10 $OXD_INIT_LOG|grep -i 'Start listening for notifications'` > /dev/null 2>&1
                 	ERROR_STATUS=`tail -n 10 $OXD_INIT_LOG|egrep -i "Failed to start oxd server|Error"` > /dev/null 2>&1
                 	if [ "x$START_STATUS" = "x" ]; then
@@ -453,7 +453,7 @@ do_start () {
           			disown \$!
           			echo \$! > '$OXD_PID_FILE'"
 				#dip_in_logs
-				sleep 2
+				sleep 5
                 		START_STATUS=`tail -n 10 $OXD_LOGS/start.log|grep -i 'Start listening for notifications'` > /dev/null 2>&1
                 		ERROR_STATUS=`tail -n 10 $OXD_LOGS/start.log|egrep -i "Failed to start oxd server|Error"` > /dev/null 2>&1
                 		if [ "x$START_STATUS" = "x" ]; then
