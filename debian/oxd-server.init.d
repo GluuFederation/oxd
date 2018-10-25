@@ -431,6 +431,7 @@ do_start () {
                         	###If by chance log file doesn't provide necessary string, sleep another 10 seconds and check again PID of process
                         	if [ "x$ERROR_STATUS" != "x" ]; then
                                 	### Since error occurred, we should remove the PID file at this point itself.
+					kill -9 `cat $OXD_PID_FILE` > /dev/null 2>&1
 					rm -f  $OXD_PID_FILE
                                 	echo "Some errors encountered..."
                                 	echo "See log below: "
@@ -483,6 +484,7 @@ do_start () {
 	                        	###If by chance log file doesn't provide necessary string, sleep another 10 seconds and check again PID of process
 	                        	if [ "x$ERROR_STATUS" != "x" ]; then
 	                                	### Since error occurred, we should remove the PID file at this point itself.
+						kill -9 `cat $OXD_PID_FILE` > /dev/null 2>&1
 						rm -f  $OXD_PID_FILE
 	                                	echo "Some errors encountered..."
 	                                	echo "See log below: "
