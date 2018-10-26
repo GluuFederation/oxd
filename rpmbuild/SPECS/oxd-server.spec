@@ -60,6 +60,20 @@ cp -a debian/oxd-server-default %{buildroot}/etc/default/oxd-server
 %clean
 rm -rf $RPM_BUILD_ROOT
 
+%pre
+# Stopping oxd-server
+# This will stop oxd-server before upgrade|install 
+if [ -e /var/run/oxd-server.pid ]; then
+    kill -9 `cat /var/run/oxd-server.pid` > /dev/null 2>&1
+    rm -rf /var/run/oxd-server.pid > /dev/null 2>&1
+fi
+# Stopping oxd-https-extension
+# This will stop oxd-https-extension before upgrade|install
+if [ -e /var/run/oxd-https-extension.pid ]; then
+    kill -9 `cat /var/run/oxd-https-extension.pid` > /dev/null 2>&1
+    rm -rf /var/run/oxd-https-extension.pid > /dev/null 2>&1
+fi
+
 %post
 chkconfig --add oxd-server
 getent passwd jetty > /dev/null 2>&1
