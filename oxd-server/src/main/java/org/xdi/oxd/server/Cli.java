@@ -127,6 +127,11 @@ public class Cli {
                 command.setParamsObject(params);
 
                 GetRpResponse resp = client.send(new Command(CommandType.GET_RP).setParamsObject(params)).dataAsResponse(GetRpResponse.class);
+                if (resp == null) {
+                    System.out.println("Failed to fetch entries from database. Please check oxd-server.log file for details.");
+                    return;
+                }
+
                 if (resp.getNode() instanceof ArrayNode) {
                     final ArrayNode arrayNode = (ArrayNode) resp.getNode();
                     if (arrayNode.size() == 0) {
