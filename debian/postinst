@@ -23,4 +23,8 @@ chmod 644 /etc/default/oxd-server 2>&1
 mkdir -p /var/log/oxd-server 2>&1
 touch /var/log/oxd-server/oxd-server.log 2>&1
 chown -R jetty:jetty /var/log/oxd-server 2>&1
-mv /etc/init.d/oxd-https-extension.init.d /etc/init.d/oxd-https-extension 2>&1
+if [ -e /etc/init.d/oxd-https-extension.init.d ]; then
+    rm -rf /etc/init.d/oxd-https-extension > /dev/null 2>&1
+    mv /etc/init.d/oxd-https-extension.init.d /etc/init.d/oxd-https-extension > /dev/null 2>&1
+fi
+exit 0
