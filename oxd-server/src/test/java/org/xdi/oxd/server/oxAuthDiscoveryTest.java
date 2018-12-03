@@ -4,6 +4,9 @@
 package org.xdi.oxd.server;
 
 import junit.framework.Assert;
+
+import java.io.IOException;
+
 import org.testng.annotations.Test;
 import org.xdi.oxauth.client.OpenIdConfigurationClient;
 import org.xdi.oxauth.client.OpenIdConfigurationResponse;
@@ -16,7 +19,7 @@ import org.xdi.oxauth.client.OpenIdConfigurationResponse;
 public class oxAuthDiscoveryTest {
 
     @Test
-    public void discoveryCallByOxAuthClient() {
+    public void discoveryCallByOxAuthClient() throws IOException {
         String url = "https://ce-dev.gluu.org/.well-known/openid-configuration";
         OpenIdConfigurationClient client = new OpenIdConfigurationClient(url);
         OpenIdConfigurationResponse response = client.execOpenIdConfiguration();
