@@ -62,7 +62,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %pre
 # Stopping oxd-server
-# This will stop oxd-server before upgrade|install 
+# This will stop oxd-server before upgrade|install
 if [ -e /var/run/oxd-server.pid ]; then
     kill -9 `cat /var/run/oxd-server.pid` > /dev/null 2>&1
     rm -rf /var/run/oxd-server.pid > /dev/null 2>&1

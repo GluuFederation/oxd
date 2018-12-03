@@ -17,9 +17,11 @@ import org.xdi.oxd.common.response.GetRpResponse;
 import org.xdi.oxd.common.response.RemoveSiteResponse;
 import org.xdi.oxd.server.persistence.PersistenceService;
 import org.xdi.oxd.server.service.ConfigurationService;
+import org.xdi.oxd.server.service.Rp;
 import org.xdi.oxd.server.service.RpService;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -49,8 +51,15 @@ public class Cli {
 
             // list
             if (cmd.hasOption("l")) {
-                for (String oxdIdKey : rpService.getRps().keySet()) {
-                    System.out.println(oxdIdKey);
+                final Collection<Rp> values = rpService.getRps().values();
+                if (values.isEmpty()) {
+                    System.out.println("There are no any entries yet in database.");
+                    return;
+                }
+
+                System.out.println("oxd_id                                client_name");
+                for (Rp rp : values) {
+                    System.out.println(String.format("%s  %s", rp.getOxdId(), rp.getClientName() != null ? rp.getClientName() : ""));
                 }
                 return;
             }
@@ -118,10 +127,25 @@ public class Cli {
                 command.setParamsObject(params);
 
                 GetRpResponse resp = client.send(new Command(CommandType.GET_RP).setParamsObject(params)).dataAsResponse(GetRpResponse.class);
+                if (resp == null) {
+                    System.out.println("Failed to fetch entries from database. Please check oxd-server.log file for details.");
+                    return;
+                }
+
                 if (resp.getNode() instanceof ArrayNode) {
-                    Iterator<JsonNode> elements = ((ArrayNode) resp.getNode()).getElements();
+                    final ArrayNode arrayNode = (ArrayNode) resp.getNode();
+                    if (arrayNode.size() == 0) {
+                        System.out.println("There are no any entries yet in database.");
+                        return;
+                    }
+
+                    Iterator<JsonNode> elements = arrayNode.getElements();
+                    System.out.println("oxd_id                                client_name");
                     while (elements.hasNext()) {
-                        System.out.println(sanitizeOutput(elements.next().toString()));
+                        final JsonNode element = elements.next();
+                        final JsonNode oxdIdNode = element.get("oxd_id");
+                        final JsonNode clientNameNode = element.get("client_name");
+                        System.out.println(String.format("%s  %s", oxdIdNode != null ? oxdIdNode.asText() : "", clientNameNode != null ? clientNameNode.asText() : "null"));
                     }
                 } else {
                     System.out.println(resp.getNode());
@@ -135,21 +159,25 @@ public class Cli {
                 command.setParamsObject(new GetRpParams(oxdId));
 
                 GetRpResponse resp = client.send(command).dataAsResponse(GetRpResponse.class);
-                print(oxdId, resp.getNode());
+                if (resp != null) {
+                    print(oxdId, resp.getNode());
+                } else {
+                    System.out.println("Failed to fetch entry from database, please check oxd_id really exist and is not malformed (more details at oxd-server.log file).");
+                }
                 return;
             }
 
             if (cmd.hasOption("d")) {
                 final Command command = new Command(CommandType.REMOVE_SITE).setParamsObject(new RemoveSiteParams(cmd.getOptionValue("d")));
                 RemoveSiteResponse resp = client.send(command).dataAsResponse(RemoveSiteResponse.class);
-                if (StringUtils.isNotBlank(resp.getOxdId())) {
+                if (resp != null && StringUtils.isNotBlank(resp.getOxdId())) {
                     System.out.println("Entry removed successfully.");
                 } else {
-                    System.out.println("Failed to remove entry from database, please check oxd-server.log file.");
+                    System.out.println("Failed to remove entry from database, please check oxd_id really exists and is not malformed (more details in oxd-server.log file).");
                 }
                 return;
             }
-
+            printHelpAndExit();
         } catch (IOException e) {
             System.out.println("Failed to execute command against oxd-server on port " + port + ", error: " + e.getMessage());
             e.printStackTrace();
