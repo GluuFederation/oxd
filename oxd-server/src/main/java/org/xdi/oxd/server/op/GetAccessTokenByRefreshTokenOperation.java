@@ -6,8 +6,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xdi.oxauth.client.TokenClient;
 import org.xdi.oxauth.client.TokenResponse;
+import org.xdi.oxauth.model.token.TokenErrorResponseType;
 import org.xdi.oxauth.model.util.Util;
 import org.xdi.oxd.common.Command;
+import org.xdi.oxd.common.ErrorResponseCode;
 import org.xdi.oxd.common.params.GetAccessTokenByRefreshTokenParams;
 import org.xdi.oxd.common.response.GetClientTokenResponse;
 import org.xdi.oxd.common.response.IOpResponse;
@@ -17,6 +19,10 @@ import org.xdi.oxd.server.service.Rp;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Set;
+
+import static org.xdi.oxauth.model.token.TokenErrorResponseType.*;
+import static org.xdi.oxd.common.ErrorResponseCode.INTERNAL_ERROR_NO_PARAMS;
+import static org.xdi.oxd.common.ErrorResponseCode.INVALID_REFRESH_TOKEN;
 
 /**
  * @author yuriyz
@@ -43,6 +49,9 @@ public class GetAccessTokenByRefreshTokenOperation extends BaseOperation<GetAcce
             tokenClient.setExecutor(getHttpService().getClientExecutor());
             final TokenResponse tokenResponse = tokenClient.execRefreshToken(scopeAsString(params), params.getRefreshToken(), rp.getClientId(), rp.getClientSecret());
             if (tokenResponse != null) {
+                if (tokenResponse.getStatus() == 401) {
+                    handleInvalidRefreshToken(tokenResponse);
+                }
                 if (Util.allNotBlank(tokenResponse.getAccessToken())) {
                     GetClientTokenResponse response = new GetClientTokenResponse();
                     response.setAccessToken(tokenResponse.getAccessToken());
@@ -64,6 +73,22 @@ public class GetAccessTokenByRefreshTokenOperation extends BaseOperation<GetAcce
             LOG.error(e.getMessage(), e);
         }
         throw HttpException.internalError();
+    }
+
+    private void handleInvalidRefreshToken(TokenResponse tokenResponse) {
+
+        final TokenErrorResponseType errorType = tokenResponse.getErrorType();
+        final ErrorResponseCode errorCode;
+
+        if (errorType == INVALID_GRANT) {
+            errorCode = INVALID_REFRESH_TOKEN;
+
+        } else {
+            errorCode = INTERNAL_ERROR_NO_PARAMS;
+        }
+
+        throw new HttpException(errorCode);
+
     }
 
     private String scopeAsString(GetAccessTokenByRefreshTokenParams params) throws UnsupportedEncodingException {
