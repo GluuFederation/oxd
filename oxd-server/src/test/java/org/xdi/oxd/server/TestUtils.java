@@ -4,6 +4,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.xdi.oxd.common.CoreUtils;
 import org.xdi.oxd.common.ErrorResponse;
+import org.xdi.oxd.common.ErrorResponseCode;
 
 import javax.ws.rs.WebApplicationException;
 import java.io.IOException;
@@ -11,6 +12,7 @@ import java.io.InputStream;
 import java.util.List;
 
 import static junit.framework.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author Yuriy Zabrovarnyy
@@ -42,5 +44,23 @@ public class TestUtils {
         }
         System.out.println(entityAsString);
         return CoreUtils.createJsonMapper().readValue(entityAsString, ErrorResponse.class);
+    }
+
+    public static void assertErrorResponse(int statusCode, ErrorResponseCode errResponse, Exception responseException) throws Exception {
+
+        if (responseException instanceof WebApplicationException) {
+
+            final WebApplicationException webEx = (WebApplicationException) responseException;
+            assertEquals(statusCode, webEx.getResponse().getStatus());
+
+            final ErrorResponse response = asError(webEx);
+            assertEquals(errResponse.getDescription(), response.getErrorDescription());
+
+            return;
+
+        }
+
+        // unknown exception
+        throw responseException;
     }
 }
