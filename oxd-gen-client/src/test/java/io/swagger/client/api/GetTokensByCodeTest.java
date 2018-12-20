@@ -7,13 +7,23 @@ import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
-import io.swagger.client.model.*;
+import io.swagger.client.ApiException;
+import io.swagger.client.model.GetAccessTokenByRefreshTokenParams;
+import io.swagger.client.model.GetAccessTokenByRefreshTokenResponse;
+import io.swagger.client.model.GetTokensByCodeParams;
+import io.swagger.client.model.GetTokensByCodeResponse;
+import io.swagger.client.model.RegisterSiteResponse;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import org.xdi.oxd.common.CoreUtils;
+import org.xdi.oxd.common.ErrorResponseCode;
 
 import static io.swagger.client.api.Tester.notEmpty;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.xdi.oxd.common.ErrorResponseCode.BAD_REQUEST_STATE_NOT_VALID;
+import static org.xdi.oxd.common.ErrorResponseCode.INVALID_AUTHORIZATION_CODE_BAD_CODE;
+import static org.xdi.oxd.common.ErrorResponseCode.INVALID_REFRESH_TOKEN;
 
 /**
  * Test class to test refresh token and related end points
@@ -37,6 +47,86 @@ public class GetTokensByCodeTest {
         GetTokensByCodeResponse tokensResponse = tokenByCode(client, site, userId, userSecret, CoreUtils.secureRandomString());
 
         refreshToken(tokensResponse, client, site);
+    }
+
+    @Parameters({"opHost", "redirectUrl", "userId", "userSecret"})
+    @Test
+    public void testWithInvalidAuthorizationCode(String opHost, String redirectUrl, String userId, String userSecret) throws Exception{
+
+        final DevelopersApi client = Tester.api();
+
+        final RegisterSiteResponse site = RegisterSiteTest.registerSite(client, opHost, redirectUrl);
+
+        final String state = CoreUtils.secureRandomString();
+
+        final String authorizationStr = Tester.getAuthorization(site);
+
+        final String code = codeRequest(client, site.getOxdId(), userId, userSecret, state, CoreUtils.secureRandomString(), authorizationStr);
+
+        final String invalidCode = code.concat("blah");
+
+        final GetTokensByCodeParams params = new GetTokensByCodeParams();
+        params.setOxdId(site.getOxdId());
+        params.setCode(invalidCode);
+        params.setState(state);
+
+        try {
+            client.getTokensByCode(authorizationStr, params);
+        } catch (ApiException ex) {
+            assertEquals(400, ex.getCode());
+        }
+    }
+
+
+    @Parameters({"opHost", "redirectUrl"})
+    @Test
+    public void testGetTokenWithInvalidState(String opHost, String redirectUrl) throws Exception {
+
+        final DevelopersApi client = Tester.api();
+
+        final RegisterSiteResponse site = RegisterSiteTest.registerSite(client, opHost, redirectUrl);
+
+        final String invalidState = CoreUtils.secureRandomString(); // not being registered, so invalid
+
+        final String authorizationStr = Tester.getAuthorization(site);
+
+        final String code = CoreUtils.secureRandomString();
+
+        final GetTokensByCodeParams params = new GetTokensByCodeParams();
+        params.setOxdId(site.getOxdId());
+        params.setCode(code);
+        params.setState(invalidState);
+
+        try {
+            client.getTokensByCode(authorizationStr, params);
+        } catch (ApiException ex) {
+            assertEquals(400, ex.getCode());
+        }
+
+    }
+
+    @Test
+    @Parameters({"opHost", "redirectUrl"})
+    public void testInvalidRefreshToken(String opHost, String redirectUrl) throws Exception {
+
+        final DevelopersApi client = Tester.api();
+
+        final RegisterSiteResponse site = RegisterSiteTest.registerSite(client, opHost, redirectUrl);
+
+        final String authorizationStr = Tester.getAuthorization(site);
+
+        final String invalidCode = CoreUtils.secureRandomString();
+
+        final GetAccessTokenByRefreshTokenParams params = new GetAccessTokenByRefreshTokenParams();
+        params.setOxdId(site.getOxdId());
+        params.setRefreshToken(invalidCode);
+
+        try {
+            client.getAccessTokenByRefreshToken(authorizationStr, params);
+        } catch (ApiException ex) {
+            assertEquals(401, ex.getCode());
+        }
+
     }
 
     private static void refreshToken(GetTokensByCodeResponse resp, DevelopersApi client, RegisterSiteResponse site) throws Exception {
