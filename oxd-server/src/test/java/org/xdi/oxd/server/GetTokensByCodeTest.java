@@ -14,7 +14,9 @@ import org.xdi.oxd.common.response.RegisterSiteResponse;
 
 import java.io.IOException;
 
-import static junit.framework.Assert.assertNotNull;
+import static org.junit.Assert.assertNotNull;
+import static org.xdi.oxd.common.ErrorResponseCode.*;
+import static org.xdi.oxd.server.TestUtils.assertErrorResponse;
 import static org.xdi.oxd.server.TestUtils.notEmpty;
 
 /**
@@ -72,6 +74,84 @@ public class GetTokensByCodeTest {
         return resp;
     }
 
+    @Parameters({"host", "opHost", "redirectUrl", "userId", "userSecret"})
+    @Test
+    public void testWithInvalidAuthorizationCode(String host, String opHost, String redirectUrl, String userId, String userSecret) throws Exception {
+
+        final ClientInterface client = Tester.newClient(host);
+
+        final RegisterSiteResponse site = RegisterSiteTest.registerSite(client, opHost, redirectUrl);
+
+        final String state = CoreUtils.secureRandomString();
+
+        final String authorizationStr = Tester.getAuthorization();
+
+        final String code = codeRequest(client, site.getOxdId(), userId, userSecret, state, CoreUtils.secureRandomString());
+
+        final String invalidCode = code.concat("blah");
+
+        final GetTokensByCodeParams params = new GetTokensByCodeParams();
+        params.setOxdId(site.getOxdId());
+        params.setCode(invalidCode);
+        params.setState(state);
+
+        try {
+            client.getTokenByCode(authorizationStr, params);
+        } catch (Exception e) {
+            assertErrorResponse(400, INVALID_AUTHORIZATION_CODE_BAD_CODE, e);
+        }
+    }
+
+    @Parameters({"host", "opHost", "redirectUrl"})
+    @Test
+    public void testGetTokenWithInvalidState(String host, String opHost, String redirectUrl) throws Exception {
+
+        final ClientInterface client = Tester.newClient(host);
+
+        final RegisterSiteResponse site = RegisterSiteTest.registerSite(client, opHost, redirectUrl);
+
+        final String invalidState = CoreUtils.secureRandomString(); // not being registered, so invalid
+
+        final String authorizationStr = Tester.getAuthorization();
+
+        final String code = CoreUtils.secureRandomString();
+
+        final GetTokensByCodeParams params = new GetTokensByCodeParams();
+        params.setOxdId(site.getOxdId());
+        params.setCode(code);
+        params.setState(invalidState);
+
+        try {
+            client.getTokenByCode(authorizationStr, params);
+        } catch (Exception e) {
+            assertErrorResponse(400, BAD_REQUEST_STATE_NOT_VALID, e);
+        }
+    }
+
+    @Test
+    @Parameters({"host", "opHost", "redirectUrl"})
+    public void testInvalidRefreshToken(String host, String opHost, String redirectUrl) throws Exception {
+
+        final ClientInterface client = Tester.newClient(host);
+
+        final RegisterSiteResponse site = RegisterSiteTest.registerSite(client, opHost, redirectUrl);
+
+        final String authorizationStr = Tester.getAuthorization();
+
+        final String invalidCode = CoreUtils.secureRandomString();
+
+        final GetAccessTokenByRefreshTokenParams params = new GetAccessTokenByRefreshTokenParams();
+        params.setOxdId(site.getOxdId());
+        params.setRefreshToken(invalidCode);
+
+        try {
+            client.getAccessTokenByRefreshToken(authorizationStr, params);
+        } catch (Exception ex) {
+            assertErrorResponse(401, INVALID_REFRESH_TOKEN, ex);
+        }
+
+    }
+
     public static String codeRequest(ClientInterface client, String siteId, String userId, String userSecret, String state, String nonce) {
         GetAuthorizationCodeParams params = new GetAuthorizationCodeParams();
         params.setOxdId(siteId);
@@ -82,4 +162,5 @@ public class GetTokensByCodeTest {
 
         return client.getAuthorizationCode(Tester.getAuthorization(), params).getCode();
     }
+
 }
