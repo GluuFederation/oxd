@@ -86,7 +86,7 @@ public class GetAccessTokenByRefreshTokenOperation extends BaseOperation<GetAcce
         } else {
             errorCode = INTERNAL_ERROR_NO_PARAMS;
         }
-
+        LOG.error(errorCode.getDescription());
         throw new HttpException(errorCode);
 
     }
