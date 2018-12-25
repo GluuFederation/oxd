@@ -70,17 +70,22 @@ public class GetTokensByCodeOperation extends BaseOperation<GetTokensByCodeParam
         final TokenResponse response = tokenClient.exec();
         ClientUtils.showClient(tokenClient);
 
+        return validateResponse(params, site, discoveryResponse, response);
+    }
+
+    public IOpResponse validateResponse(GetTokensByCodeParams params, Rp site, OpenIdConfigurationResponse discoveryResponse, TokenResponse response) throws InvalidJwtException, IOException {
         if (response.getStatus() == 200 || response.getStatus() == 302) { // success or redirect
 
             return handleSuccess(params, site, discoveryResponse, response);
 
-        } else if (response.getStatus() == 400 ){
+        } else if (response.getStatus() == 400) {
 
             return handleBadRequest(response);
 
-        } else {
-            LOG.error("Failed to get tokens because response code is: " + response.getScope());
         }
+
+        LOG.error("Failed to get tokens because response code is: " + response.getScope());
+
         return null;
     }
 
