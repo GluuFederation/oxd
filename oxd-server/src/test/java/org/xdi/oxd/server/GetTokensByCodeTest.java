@@ -15,6 +15,7 @@ import org.xdi.oxd.common.response.RegisterSiteResponse;
 import java.io.IOException;
 
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 import static org.xdi.oxd.common.ErrorResponseCode.*;
 import static org.xdi.oxd.server.TestUtils.assertErrorResponse;
 import static org.xdi.oxd.server.TestUtils.notEmpty;
@@ -97,9 +98,11 @@ public class GetTokensByCodeTest {
 
         try {
             client.getTokenByCode(authorizationStr, params);
+            fail("Test should throw an exception");
         } catch (Exception e) {
             assertErrorResponse(400, INVALID_AUTHORIZATION_CODE_BAD_CODE, e);
         }
+
     }
 
     @Parameters({"host", "opHost", "redirectUrl"})
@@ -123,9 +126,12 @@ public class GetTokensByCodeTest {
 
         try {
             client.getTokenByCode(authorizationStr, params);
+            fail("Test should throw an exception");
+
         } catch (Exception e) {
             assertErrorResponse(400, BAD_REQUEST_STATE_NOT_VALID, e);
         }
+
     }
 
     @Test
@@ -146,9 +152,11 @@ public class GetTokensByCodeTest {
 
         try {
             client.getAccessTokenByRefreshToken(authorizationStr, params);
+            fail("Test should throw an exception");
         } catch (Exception ex) {
             assertErrorResponse(401, INVALID_REFRESH_TOKEN, ex);
         }
+
 
     }
 
