@@ -16,14 +16,9 @@ import io.swagger.client.model.RegisterSiteResponse;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import org.xdi.oxd.common.CoreUtils;
-import org.xdi.oxd.common.ErrorResponseCode;
 
 import static io.swagger.client.api.Tester.notEmpty;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.xdi.oxd.common.ErrorResponseCode.BAD_REQUEST_STATE_NOT_VALID;
-import static org.xdi.oxd.common.ErrorResponseCode.INVALID_AUTHORIZATION_CODE_BAD_CODE;
-import static org.xdi.oxd.common.ErrorResponseCode.INVALID_REFRESH_TOKEN;
+import static org.junit.Assert.*;
 
 /**
  * Test class to test refresh token and related end points
@@ -72,9 +67,11 @@ public class GetTokensByCodeTest {
 
         try {
             client.getTokensByCode(authorizationStr, params);
+            fail("Test should throw an exception");
         } catch (ApiException ex) {
             assertEquals(400, ex.getCode());
         }
+
     }
 
 
@@ -99,6 +96,7 @@ public class GetTokensByCodeTest {
 
         try {
             client.getTokensByCode(authorizationStr, params);
+            fail("Test should throw an exception");
         } catch (ApiException ex) {
             assertEquals(400, ex.getCode());
         }
@@ -123,6 +121,7 @@ public class GetTokensByCodeTest {
 
         try {
             client.getAccessTokenByRefreshToken(authorizationStr, params);
+            fail("Test should throw an exception");
         } catch (ApiException ex) {
             assertEquals(401, ex.getCode());
         }
