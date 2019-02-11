@@ -23,7 +23,7 @@ import static org.xdi.oxd.client.TestUtils.notEmpty;
 public class IntrospectAccessTokenTest {
 
     @Parameters({"host", "port", "opHost", "redirectUrl"})
-    @Test
+    @Test(enabled = false)
     public void introspectAccessToken(String host, int port, String opHost, String redirectUrl) throws IOException {
         CommandClient client = null;
         try {
