@@ -97,8 +97,9 @@ public class GetTokensByCodeOperation extends BaseOperation<GetTokensByCodeParam
             return opResponse;
         } else {
             LOG.error("Failed to get tokens because response code is: " + response.getScope());
+            throw new HttpException(ErrorResponseCode.BAD_REQUEST_INVALID_CODE);
         }
-        return null;
+   
     }
 
     private void validate(GetTokensByCodeParams params) {
