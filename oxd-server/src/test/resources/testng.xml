@@ -1,234 +1,245 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 
-<suite name="oxD Suite" parallel="false">
+<suite name="oxD Suite" parallel="true">
 
-    <parameter name="host" value="http://localhost"/>
-    <parameter name="opHost" value="https://${test.server.name}"/>
-    <parameter name="redirectUrl" value="https://client.example.com/cb"/>
-    <parameter name="postLogoutRedirectUrl" value="https://client.example.com/cb/logout"/>
-    <parameter name="logoutUrl" value="https://client.example.com/logout"/>
-    <parameter name="userId" value="${auth.user.uid}"/>
-    <parameter name="userSecret" value="${auth.user.password}"/>
-    <parameter name="clientId" value="${auth.client.id}"/>
-    <parameter name="clientSecret" value="${auth.client.secret}"/>
-    <parameter name="rsProtect"
-               value="{'resources':[{'path':'/ws/phone','conditions':[{'httpMethods':['GET'],'scopes':['http://photoz.example.com/dev/actions/all','http://photoz.example.com/dev/actions/view'],'ticketScopes':['http://photoz.example.com/dev/actions/view']},{'httpMethods':['PUT', 'POST'],'scopes':['http://photoz.example.com/dev/actions/all','http://photoz.example.com/dev/actions/add'],'ticketScopes':['http://photoz.example.com/dev/actions/add']},{'httpMethods':['DELETE'],'scopes':['http://photoz.example.com/dev/actions/all','http://photoz.example.com/dev/actions/remove'],'ticketScopes':['http://photoz.example.com/dev/actions/remove']}]}]}"/>
-    <parameter name="rsProtectScopeExpression"
-               value="{'resources':[{'path':'/ws/phone','conditions':[{'httpMethods':['GET'],'scopes':['http://photoz.example.com/dev/actions/all','http://photoz.example.com/dev/actions/view'],'scope_expression':{'rule':{'and':[{'or':[{'var':0},{'var':1}]},{'var':2}]},'data':['http://photoz.example.com/dev/actions/all','http://photoz.example.com/dev/actions/add','http://photoz.example.com/dev/actions/view']}},{'httpMethods':['PUT','POST'],'scope_expression':{'rule':{'and':[{'or':[{'var':0},{'var':1}]},{'var':2}]},'data':['http://photoz.example.com/dev/actions/all','http://photoz.example.com/dev/actions/add','http://photoz.example.com/dev/actions/view']},'ticketScopes':['http://photoz.example.com/dev/actions/add']},{'httpMethods':['DELETE'],'scopes':['http://photoz.example.com/dev/actions/all','http://photoz.example.com/dev/actions/remove'],'ticketScopes':['http://photoz.example.com/dev/actions/remove']}]}]}"/>
-    <parameter name="rsProtectScopeExpressionSecond"
-               value="{'resources':[{'path':'/GetAll','conditions':[{'httpMethods':['GET'],'scopes':['http://photoz.example.com/dev/actions/a1','http://photoz.example.com/dev/actions/a2','http://photoz.example.com/dev/actions/a3'],'ticketScopes':['http://photoz.example.com/dev/actions/a1','http://photoz.example.com/dev/actions/a2','http://photoz.example.com/dev/actions/a3'],'scope_expression':{'rule':{'and':[{'or':[{'var':0},{'var':1}]},{'var':2}]},'data':['http://photoz.example.com/dev/actions/a1','http://photoz.example.com/dev/actions/a2','http://photoz.example.com/dev/actions/a3']}}]}]}"/>
-    <parameter name="clientJwksUri" value="${clientJwksUri}"/>
-    <parameter name="accessTokenSigningAlg" value="${accessTokenSigningAlg}"/>
-    <!-- main class to set up and tear down suite -->
-    <test name="SetUp" enabled="true">
-        <classes>
-            <class name="org.xdi.oxd.server.SetUpTest"/>
-        </classes>
-    </test>
+	<parameter name="host" value="http://localhost" />
+	<parameter name="opHost" value="https://${test.server.name}" />
+	<parameter name="redirectUrl"
+		value="https://client.example.com/cb" />
+	<parameter name="postLogoutRedirectUrl"
+		value="https://client.example.com/cb/logout" />
+	<parameter name="logoutUrl"
+		value="https://client.example.com/logout" />
+	<parameter name="userId" value="${auth.user.uid}" />
+	<parameter name="userSecret" value="${auth.user.password}" />
+	<parameter name="clientId" value="${auth.client.id}" />
+	<parameter name="clientSecret" value="${auth.client.secret}" />
+	<parameter name="rsProtect"
+		value="{'resources':[{'path':'/ws/phone','conditions':[{'httpMethods':['GET'],'scopes':['http://photoz.example.com/dev/actions/all','http://photoz.example.com/dev/actions/view'],'ticketScopes':['http://photoz.example.com/dev/actions/view']},{'httpMethods':['PUT', 'POST'],'scopes':['http://photoz.example.com/dev/actions/all','http://photoz.example.com/dev/actions/add'],'ticketScopes':['http://photoz.example.com/dev/actions/add']},{'httpMethods':['DELETE'],'scopes':['http://photoz.example.com/dev/actions/all','http://photoz.example.com/dev/actions/remove'],'ticketScopes':['http://photoz.example.com/dev/actions/remove']}]}]}" />
+	<parameter name="rsProtectScopeExpression"
+		value="{'resources':[{'path':'/ws/phone','conditions':[{'httpMethods':['GET'],'scopes':['http://photoz.example.com/dev/actions/all','http://photoz.example.com/dev/actions/view'],'scope_expression':{'rule':{'and':[{'or':[{'var':0},{'var':1}]},{'var':2}]},'data':['http://photoz.example.com/dev/actions/all','http://photoz.example.com/dev/actions/add','http://photoz.example.com/dev/actions/view']}},{'httpMethods':['PUT','POST'],'scope_expression':{'rule':{'and':[{'or':[{'var':0},{'var':1}]},{'var':2}]},'data':['http://photoz.example.com/dev/actions/all','http://photoz.example.com/dev/actions/add','http://photoz.example.com/dev/actions/view']},'ticketScopes':['http://photoz.example.com/dev/actions/add']},{'httpMethods':['DELETE'],'scopes':['http://photoz.example.com/dev/actions/all','http://photoz.example.com/dev/actions/remove'],'ticketScopes':['http://photoz.example.com/dev/actions/remove']}]}]}" />
+	<parameter name="rsProtectScopeExpressionSecond"
+		value="{'resources':[{'path':'/GetAll','conditions':[{'httpMethods':['GET'],'scopes':['http://photoz.example.com/dev/actions/a1','http://photoz.example.com/dev/actions/a2','http://photoz.example.com/dev/actions/a3'],'ticketScopes':['http://photoz.example.com/dev/actions/a1','http://photoz.example.com/dev/actions/a2','http://photoz.example.com/dev/actions/a3'],'scope_expression':{'rule':{'and':[{'or':[{'var':0},{'var':1}]},{'var':2}]},'data':['http://photoz.example.com/dev/actions/a1','http://photoz.example.com/dev/actions/a2','http://photoz.example.com/dev/actions/a3']}}]}]}" />
+	<parameter name="clientJwksUri" value="${clientJwksUri}" />
+	<parameter name="accessTokenSigningAlg"
+		value="${accessTokenSigningAlg}" />
+	<!-- main class to set up and tear down suite -->
+	<test name="SetUp" enabled="true">
+		<classes>
+			<class name="org.xdi.oxd.server.SetUpTest" />
+		</classes>
+	</test>
 
-    <!-- Connect -->
-    <test name="Register site" enabled="true">
-        <classes>
-            <class name="org.xdi.oxd.server.RegisterSiteTest"/>
-        </classes>
-    </test>
-    <test name="Remove site" enabled="true">
-        <classes>
-            <class name="org.xdi.oxd.server.RemoveSiteTest"/>
-        </classes>
-    </test>
-    <test name="Get authorization url" enabled="true">
-        <classes>
-            <class name="org.xdi.oxd.server.GetAuthorizationUrlTest"/>
-        </classes>
-    </test>
-    <test name="Get tokens by code" enabled="true">
-        <classes>
-            <class name="org.xdi.oxd.server.GetTokensByCodeTest"/>
-        </classes>
-    </test>
-    <test name="Get user info" enabled="true">
-        <classes>
-            <class name="org.xdi.oxd.server.GetUserInfoTest"/>
-        </classes>
-    </test>
-    <test name="Log out" enabled="true">
-        <classes>
-            <class name="org.xdi.oxd.server.GetLogoutUrlTest"/>
-        </classes>
-    </test>
-    <test name="Check IdToken" enabled="true">
-        <classes>
-            <class name="org.xdi.oxd.server.CheckIdTokenTest"/>
-        </classes>
-    </test>
-    <test name="Check AccessToken" enabled="true">
-        <classes>
-            <class name="org.xdi.oxd.server.CheckAccessTokenTest"/>
-        </classes>
-    </test>
-    <test name="Authorization code flow prompt=none" enabled="false">
-        <classes>
-            <class name="org.xdi.oxd.server.AuthorizationCodeFlowTest"/>
-        </classes>
-    </test>
-    <test name="Migration Service Test" enabled="false">
-        <classes>
-            <class name="org.xdi.oxd.server.service.MigrationServiceTest"/>
-        </classes>
-    </test>
-    <test name="Access Token as JWT Test" enabled="true">
-        <classes>
-            <class name="org.xdi.oxd.server.AccessTokenAsJwtTest"/>
-        </classes>
-    </test>
+	<!-- Connect -->
+	<test name="HealthCheckTest" enabled="true">
+		<classes>
+			<class name="org.xdi.oxd.server.HealthCheckTest"></class>
+		</classes>
+	</test>
 
-    <!-- UMA Tests -->
-    <test name="UMA - Full Flow Test" enabled="true">
-        <classes>
-            <class name="org.xdi.oxd.server.UmaFullTest"/>
-        </classes>
-    </test>
-    <test name="RS - Protect" enabled="true">
-        <classes>
-            <class name="org.xdi.oxd.server.RsProtectTest"/>
-        </classes>
-    </test>
-    <test name="RS - Check Access" enabled="true">
-        <classes>
-            <class name="org.xdi.oxd.server.RsCheckAccessTest"/>
-        </classes>
-    </test>
-    <test name="RP - Get RPT" enabled="true">
-        <classes>
-            <class name="org.xdi.oxd.server.RpGetRptTest"/>
-        </classes>
-    </test>
-    <test name="RP - Get Claims-Gathering Url" enabled="true">
-        <classes>
-            <class name="org.xdi.oxd.server.UmaGetClaimsGatheringUrlTest"/>
-        </classes>
-    </test>
-    <test name="Introspect RPT" enabled="true">
-        <classes>
-            <class name="org.xdi.oxd.server.IntrospectRptTest"/>
-        </classes>
-    </test>
+	<test name="Register site" enabled="true">
+		<classes>
+			<class name="org.xdi.oxd.server.RegisterSiteTest" />
+		</classes>
+	</test>
+	<test name="Remove site" enabled="true">
+		<classes>
+			<class name="org.xdi.oxd.server.RemoveSiteTest" />
+		</classes>
+	</test>
+	<test name="Get authorization url" enabled="true">
+		<classes>
+			<class name="org.xdi.oxd.server.GetAuthorizationUrlTest" />
+		</classes>
+	</test>
+	<test name="Get tokens by code" enabled="true">
+		<classes>
+			<class name="org.xdi.oxd.server.GetTokensByCodeTest" />
+		</classes>
+	</test>
+	<test name="Get user info" enabled="true">
+		<classes>
+			<class name="org.xdi.oxd.server.GetUserInfoTest" />
+		</classes>
+	</test>
+	<test name="Log out" enabled="true">
+		<classes>
+			<class name="org.xdi.oxd.server.GetLogoutUrlTest" />
+		</classes>
+	</test>
+	<test name="Check IdToken" enabled="true">
+		<classes>
+			<class name="org.xdi.oxd.server.CheckIdTokenTest" />
+		</classes>
+	</test>
+	<test name="Check AccessToken" enabled="true">
+		<classes>
+			<class name="org.xdi.oxd.server.CheckAccessTokenTest" />
+		</classes>
+	</test>
+	<test name="Authorization code flow prompt=none" enabled="true">
+		<classes>
+			<class name="org.xdi.oxd.server.AuthorizationCodeFlowTest" />
+		</classes>
+	</test>
+	<test name="Migration Service Test" enabled="true">
+		<classes>
+			<class name="org.xdi.oxd.server.service.MigrationServiceTest" />
+		</classes>
+	</test>
+	<test name="Access Token as JWT Test" enabled="true">
+		<classes>
+			<class name="org.xdi.oxd.server.AccessTokenAsJwtTest" />
+		</classes>
+	</test>
 
-    <!-- Custom -->
-    <test name="Setup client" enabled="true">
-        <classes>
-            <class name="org.xdi.oxd.server.SetupClientTest"/>
-        </classes>
-    </test>
-    <test name="Get client token" enabled="true">
-        <classes>
-            <class name="org.xdi.oxd.server.GetClientTokenTest"/>
-        </classes>
-    </test>
-    <test name="Introspect access token" enabled="true">
-        <classes>
-            <class name="org.xdi.oxd.server.IntrospectAccessTokenTest"/>
-        </classes>
-    </test>
-    <test name="JWKS Test" enabled="true">
-        <classes>
-            <class name="org.xdi.oxd.server.GetJwksTest"/>
-        </classes>
-    </test>
+	<!-- UMA Tests -->
+	<test name="UMA - Full Flow Test" enabled="true">
+		<classes>
+			<class name="org.xdi.oxd.server.UmaFullTest" />
+		</classes>
+	</test>
+	<test name="RS - Protect" enabled="true">
+		<classes>
+			<class name="org.xdi.oxd.server.RsProtectTest" />
+		</classes>
+	</test>
+	<test name="RS - Check Access" enabled="true">
+		<classes>
+			<class name="org.xdi.oxd.server.RsCheckAccessTest" />
+		</classes>
+	</test>
+	<test name="RP - Get RPT" enabled="true">
+		<classes>
+			<class name="org.xdi.oxd.server.RpGetRptTest" />
+		</classes>
+	</test>
+	<test name="RP - Get Claims-Gathering Url" enabled="true">
+		<classes>
+			<class name="org.xdi.oxd.server.UmaGetClaimsGatheringUrlTest" />
+		</classes>
+	</test>
+	<test name="Introspect RPT" enabled="true">
+		<classes>
+			<class name="org.xdi.oxd.server.IntrospectRptTest" />
+		</classes>
+	</test>
+
+	<!-- Custom -->
+	<test name="Setup client" enabled="true">
+		<classes>
+			<class name="org.xdi.oxd.server.SetupClientTest" />
+		</classes>
+	</test>
+	<test name="Get client token" enabled="true">
+		<classes>
+			<class name="org.xdi.oxd.server.GetClientTokenTest" />
+		</classes>
+	</test>
+	<test name="Introspect access token" enabled="true">
+		<classes>
+			<class name="org.xdi.oxd.server.IntrospectAccessTokenTest" />
+		</classes>
+	</test>
+	<test name="JWKS Test" enabled="true">
+		<classes>
+			<class name="org.xdi.oxd.server.GetJwksTest" />
+		</classes>
+	</test>
 
 
-    <!-- SWAGGER TESTS -->
+	<!-- SWAGGER TESTS -->
 
-    <test name="Register site swagger" enabled="true">
-        <classes>
-            <class name="io.swagger.client.api.RegisterSiteTest"/>
-        </classes>
-    </test>
+	<test name="Register site swagger" enabled="true">
+		<classes>
+			<class name="io.swagger.client.api.RegisterSiteTest" />
+		</classes>
+	</test>
 
-    <test name="Remove site swagger" enabled="true">
-        <classes>
-            <class name="io.swagger.client.api.RemoveSiteTest"/>
-        </classes>
-    </test>
+	<test name="Remove site swagger" enabled="true">
+		<classes>
+			<class name="io.swagger.client.api.RemoveSiteTest" />
+		</classes>
+	</test>
 
-    <test name="Get client token swagger" enabled="true">
-        <classes>
-            <class name="io.swagger.client.api.GetClientTokenTest"/>
-        </classes>
-    </test>
+	<test name="Get client token swagger" enabled="true">
+		<classes>
+			<class name="io.swagger.client.api.GetClientTokenTest" />
+		</classes>
+	</test>
 
-    <test name="Introspect access token swagger" enabled="true">
-        <classes>
-            <class name="io.swagger.client.api.IntrospectAccessTokenTest"/>
-        </classes>
-    </test>
+	<test name="Introspect access token swagger" enabled="true">
+		<classes>
+			<class name="io.swagger.client.api.IntrospectAccessTokenTest" />
+		</classes>
+	</test>
 
-    <test name="Get authorization url swagger" enabled="true">
-        <classes>
-            <class name="io.swagger.client.api.GetAuthorizationUrlTest"/>
-        </classes>
-    </test>
+	<test name="Get authorization url swagger" enabled="true">
+		<classes>
+			<class name="io.swagger.client.api.GetAuthorizationUrlTest" />
+		</classes>
+	</test>
 
-    <test name="Get tokens by code swagger" enabled="true">
-        <classes>
-            <class name="io.swagger.client.api.GetTokensByCodeTest"/>
-        </classes>
-    </test>
+	<test name="Get tokens by code swagger" enabled="true">
+		<classes>
+			<class name="io.swagger.client.api.GetTokensByCodeTest" />
+		</classes>
+	</test>
 
-    <test name="Get User Info swagger" enabled="true">
-        <classes>
-            <class name="io.swagger.client.api.GetUserInfoTest"/>
-        </classes>
-    </test>
+	<test name="Get User Info swagger" enabled="true">
+		<classes>
+			<class name="io.swagger.client.api.GetUserInfoTest" />
+		</classes>
+	</test>
 
-    <test name="Get Logout Url swagger" enabled="true">
-        <classes>
-            <class name="io.swagger.client.api.GetLogoutUrlTest"/>
-        </classes>
-    </test>
+	<test name="Get Logout Url swagger" enabled="true">
+		<classes>
+			<class name="io.swagger.client.api.GetLogoutUrlTest" />
+		</classes>
+	</test>
 
-    <test name="Uma Full swagger" enabled="true">
-        <classes>
-            <class name="io.swagger.client.api.UmaFullTest"/>
-        </classes>
-    </test>
+	<test name="Uma Full swagger" enabled="true">
+		<classes>
+			<class name="io.swagger.client.api.UmaFullTest" />
+		</classes>
+	</test>
 
-    <test name="RS - Check Access swagger" enabled="true">
-        <classes>
-            <class name="io.swagger.client.api.RsCheckAccessTest"/>
-        </classes>
-    </test>
+	<test name="RS - Check Access swagger" enabled="true">
+		<classes>
+			<class name="io.swagger.client.api.RsCheckAccessTest" />
+		</classes>
+	</test>
 
-    <test name="RP - Get RPT swagger" enabled="true">
-        <classes>
-            <class name="io.swagger.client.api.RpGetRptTest"/>
-        </classes>
-    </test>
+	<test name="RP - Get RPT swagger" enabled="true">
+		<classes>
+			<class name="io.swagger.client.api.RpGetRptTest" />
+		</classes>
+	</test>
 
-    <test name="RS - Protect  Swagger" enabled="true">
-        <classes>
-            <class name="io.swagger.client.api.RsProtectTest"/>
-        </classes>
-    </test>
+	<test name="RS - Protect  Swagger" enabled="true">
+		<classes>
+			<class name="io.swagger.client.api.RsProtectTest" />
+		</classes>
+	</test>
 
-    <test name="Access Token as JWT Test Swagger" enabled="true">
-        <classes>
-            <class name="io.swagger.client.api.AccessTokenAsJwtTest"/>
-        </classes>
-    </test>
+	<test name="Access Token as JWT Test Swagger" enabled="true">
+		<classes>
+			<class name="io.swagger.client.api.AccessTokenAsJwtTest" />
+		</classes>
+	</test>
 
-    <test name="JWKS Test Swagger" enabled="true">
-        <classes>
-            <class name="io.swagger.client.api.GetJwksTest"/>
-        </classes>
-    </test>
+	<test name="JWKS Test Swagger" enabled="true">
+		<classes>
+			<class name="io.swagger.client.api.GetJwksTest" />
+		</classes>
+	</test>
 
-    <test name="RP - Get Claims-Gathering Url Swagger" enabled="true">
-        <classes>
-            <class name="io.swagger.client.api.UmaGetClaimsGatheringUrlTest"/>
-        </classes>
-    </test>
+	<test name="RP - Get Claims-Gathering Url Swagger" enabled="true">
+		<classes>
+			<class
+				name="io.swagger.client.api.UmaGetClaimsGatheringUrlTest" />
+		</classes>
+	</test>
 
 
 </suite>
