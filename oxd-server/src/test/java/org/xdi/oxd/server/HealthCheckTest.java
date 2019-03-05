@@ -11,14 +11,14 @@ import static junit.framework.Assert.assertNotNull;
 
 public class HealthCheckTest {
 
-	private static final Logger LOG = LoggerFactory.getLogger(HealthCheckTest.class);
+    private static final Logger LOG = LoggerFactory.getLogger(HealthCheckTest.class);
 
-	@Parameters({ "host", "opHost" })
-	@Test
-	public void testHealthCheck(String host, String opHost) {
-		String resp = Tester.newClient(host).healthCheck();
-		assertNotNull(resp);
-		assertEquals("{\"status\" : \"running\"}", resp);
+    @Parameters({ "host", "opHost" })
+    @Test
+    public void testHealthCheck(String host, String opHost) {
+        String resp = Tester.newClient(host).healthCheck();
+        assertNotNull(resp);
+        assertEquals("{\"status\" : \"running\"}", resp);
 
-	}
+    }
 }
