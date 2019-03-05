@@ -39,11 +39,13 @@ public class GetAccessTokenByRefreshTokenOperation extends BaseOperation<GetAcce
     @Override
     public IOpResponse execute(GetAccessTokenByRefreshTokenParams params) throws Exception {
         try {
-        	validate(params);
+            validate(params);
             final Rp rp = getRp();
-            final TokenClient tokenClient = new TokenClient(getDiscoveryService().getConnectDiscoveryResponse(rp).getTokenEndpoint());
+            final TokenClient tokenClient = new TokenClient(
+                    getDiscoveryService().getConnectDiscoveryResponse(rp).getTokenEndpoint());
             tokenClient.setExecutor(getHttpService().getClientExecutor());
-            final TokenResponse tokenResponse = tokenClient.execRefreshToken(scopeAsString(params), params.getRefreshToken(), rp.getClientId(), rp.getClientSecret());
+            final TokenResponse tokenResponse = tokenClient.execRefreshToken(scopeAsString(params),
+                    params.getRefreshToken(), rp.getClientId(), rp.getClientSecret());
             if (tokenResponse != null) {
                 if (Util.allNotBlank(tokenResponse.getAccessToken())) {
                     GetClientTokenResponse response = new GetClientTokenResponse();
@@ -77,11 +79,11 @@ public class GetAccessTokenByRefreshTokenOperation extends BaseOperation<GetAcce
         }
         return Utils.joinAndUrlEncode(scope);
     }
-    
-    private void validate(GetAccessTokenByRefreshTokenParams params) {
-		if (Strings.isNullOrEmpty(params.getRefreshToken())) {
-			throw new HttpException(ErrorResponseCode.BAD_REQUEST_NO_REFRESH_TOKEN);
-		}
 
-	}
+    private void validate(GetAccessTokenByRefreshTokenParams params) {
+        if (Strings.isNullOrEmpty(params.getRefreshToken())) {
+            throw new HttpException(ErrorResponseCode.BAD_REQUEST_NO_REFRESH_TOKEN);
+        }
+
+    }
 }

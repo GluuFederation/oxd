@@ -25,18 +25,21 @@ import static org.xdi.oxd.server.TestUtils.notEmpty;
 
 public class GetTokensByCodeTest {
 
-    @Parameters({"host", "opHost", "redirectUrl", "userId", "userSecret"})
+    @Parameters({ "host", "opHost", "redirectUrl", "userId", "userSecret" })
     @Test
-    public void test(String host, String opHost, String redirectUrl, String userId, String userSecret) throws IOException {
+    public void test(String host, String opHost, String redirectUrl, String userId, String userSecret)
+            throws IOException {
         ClientInterface client = Tester.newClient(host);
         final RegisterSiteResponse site = RegisterSiteTest.registerSite(client, opHost, redirectUrl);
-        GetTokensByCodeResponse tokensResponse = tokenByCode(client, site, userId, userSecret, CoreUtils.secureRandomString());
+        GetTokensByCodeResponse tokensResponse = tokenByCode(client, site, userId, userSecret,
+                CoreUtils.secureRandomString());
         refreshToken(tokensResponse, client, site.getOxdId());
         tokenByInvalidCode(client, site, userId, userSecret, CoreUtils.secureRandomString());
-        
+
     }
 
-    public static GetClientTokenResponse refreshToken(GetTokensByCodeResponse resp, ClientInterface client, String oxdId) {
+    public static GetClientTokenResponse refreshToken(GetTokensByCodeResponse resp, ClientInterface client,
+            String oxdId) {
         notEmpty(resp.getRefreshToken());
 
         // refresh token
@@ -46,7 +49,8 @@ public class GetTokensByCodeTest {
         refreshParams.setRefreshToken(resp.getRefreshToken());
         refreshParams.setProtectionAccessToken(Tester.getAuthorization());
 
-        GetClientTokenResponse refreshResponse = client.getAccessTokenByRefreshToken(Tester.getAuthorization(), refreshParams);
+        GetClientTokenResponse refreshResponse = client.getAccessTokenByRefreshToken(Tester.getAuthorization(),
+                refreshParams);
 
         assertNotNull(refreshResponse);
         notEmpty(refreshResponse.getAccessToken());
@@ -54,7 +58,8 @@ public class GetTokensByCodeTest {
         return refreshResponse;
     }
 
-    public static GetTokensByCodeResponse tokenByCode(ClientInterface client, RegisterSiteResponse site, String userId, String userSecret, String nonce) {
+    public static GetTokensByCodeResponse tokenByCode(ClientInterface client, RegisterSiteResponse site, String userId,
+            String userSecret, String nonce) {
 
         final String state = CoreUtils.secureRandomString();
 
@@ -75,7 +80,8 @@ public class GetTokensByCodeTest {
         return resp;
     }
 
-    public static String codeRequest(ClientInterface client, String siteId, String userId, String userSecret, String state, String nonce) {
+    public static String codeRequest(ClientInterface client, String siteId, String userId, String userSecret,
+            String state, String nonce) {
         GetAuthorizationCodeParams params = new GetAuthorizationCodeParams();
         params.setOxdId(siteId);
         params.setUsername(userId);
@@ -85,29 +91,29 @@ public class GetTokensByCodeTest {
 
         return client.getAuthorizationCode(Tester.getAuthorization(), params).getCode();
     }
-    
-	public static GetTokensByCodeResponse tokenByInvalidCode(ClientInterface client, RegisterSiteResponse site,
-			String userId, String userSecret, String nonce) {
 
-		final String state = CoreUtils.secureRandomString();
-		final String code = CoreUtils.secureRandomString();
+    public static GetTokensByCodeResponse tokenByInvalidCode(ClientInterface client, RegisterSiteResponse site,
+            String userId, String userSecret, String nonce) {
 
-		String testOxdId = site.getOxdId();
+        final String state = CoreUtils.secureRandomString();
+        final String code = CoreUtils.secureRandomString();
 
-		final GetTokensByCodeParams params = new GetTokensByCodeParams();
-		params.setOxdId(testOxdId);
-		params.setCode(code);
-		params.setState(state);
+        String testOxdId = site.getOxdId();
 
-		GetTokensByCodeResponse resp = null;
+        final GetTokensByCodeParams params = new GetTokensByCodeParams();
+        params.setOxdId(testOxdId);
+        params.setCode(code);
+        params.setState(state);
 
-		try {
-			resp = client.getTokenByCode(Tester.getAuthorization(), params);
-			assertTrue(false);
-		} catch (Exception ex) {
-			assertTrue(true);
-		}
+        GetTokensByCodeResponse resp = null;
 
-		return resp;
-	}
+        try {
+            resp = client.getTokenByCode(Tester.getAuthorization(), params);
+            assertTrue(false);
+        } catch (Exception ex) {
+            assertTrue(true);
+        }
+
+        return resp;
+    }
 }
