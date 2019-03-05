@@ -9,109 +9,106 @@ import org.codehaus.jackson.annotate.JsonProperty;
 
 public class RegisterSiteResponse implements IOpResponse {
 
-    @JsonProperty(value = "oxd_id")
-    @com.fasterxml.jackson.annotation.JsonProperty(value = "oxd_id")
-    private String oxdId;
-    @JsonProperty(value = "op_host")
-    @com.fasterxml.jackson.annotation.JsonProperty(value = "op_host")
-    private String opHost;
-    @JsonProperty(value = "client_id")
-    @com.fasterxml.jackson.annotation.JsonProperty(value = "client_id")
-    private String clientId;
-    @JsonProperty(value = "client_secret")
-    @com.fasterxml.jackson.annotation.JsonProperty(value = "client_secret")
-    private String clientSecret;
-    @JsonProperty(value = "client_registration_access_token")
-    @com.fasterxml.jackson.annotation.JsonProperty(value = "client_registration_access_token")
-    private String clientRegistrationAccessToken;
-    @JsonProperty(value = "client_registration_client_uri")
-    @com.fasterxml.jackson.annotation.JsonProperty(value = "client_registration_client_uri")
-    private String clientRegistrationClientUri;
-    @JsonProperty(value = "client_id_issued_at")
-    @com.fasterxml.jackson.annotation.JsonProperty(value = "client_id_issued_at")
-    private long clientIdIssuedAt;
-    @JsonProperty(value = "client_secret_expires_at")
-    @com.fasterxml.jackson.annotation.JsonProperty(value = "client_secret_expires_at")
-    private long clientSecretExpiresAt;
+	@JsonProperty(value = "oxd_id")
+	@com.fasterxml.jackson.annotation.JsonProperty(value = "oxd_id")
+	private String oxdId;
+	@JsonProperty(value = "op_host")
+	@com.fasterxml.jackson.annotation.JsonProperty(value = "op_host")
+	private String opHost;
+	@JsonProperty(value = "client_id")
+	@com.fasterxml.jackson.annotation.JsonProperty(value = "client_id")
+	private String clientId;
 
-    public RegisterSiteResponse() {
-    }
+	private String clientName;
+	@JsonProperty(value = "client_secret")
+	@com.fasterxml.jackson.annotation.JsonProperty(value = "client_secret")
+	private String clientSecret;
+	@JsonProperty(value = "client_registration_access_token")
+	@com.fasterxml.jackson.annotation.JsonProperty(value = "client_registration_access_token")
+	private String clientRegistrationAccessToken;
+	@JsonProperty(value = "client_registration_client_uri")
+	@com.fasterxml.jackson.annotation.JsonProperty(value = "client_registration_client_uri")
+	private String clientRegistrationClientUri;
+	@JsonProperty(value = "client_id_issued_at")
+	@com.fasterxml.jackson.annotation.JsonProperty(value = "client_id_issued_at")
+	private long clientIdIssuedAt;
+	@JsonProperty(value = "client_secret_expires_at")
+	@com.fasterxml.jackson.annotation.JsonProperty(value = "client_secret_expires_at")
+	private long clientSecretExpiresAt;
 
-    public String getOxdId() {
-        return oxdId;
-    }
+	public RegisterSiteResponse() {
+	}
 
-    public void setOxdId(String oxdId) {
-        this.oxdId = oxdId;
-    }
+	public String getOxdId() {
+		return oxdId;
+	}
 
-    public String getOpHost() {
-        return opHost;
-    }
+	public void setOxdId(String oxdId) {
+		this.oxdId = oxdId;
+	}
 
-    public void setOpHost(String opHost) {
-        this.opHost = opHost;
-    }
+	public String getOpHost() {
+		return opHost;
+	}
 
-    public String getClientId() {
-        return clientId;
-    }
+	public void setOpHost(String opHost) {
+		this.opHost = opHost;
+	}
 
-    public void setClientId(String clientId) {
-        this.clientId = clientId;
-    }
+	public String getClientId() {
+		return clientId;
+	}
 
-    public String getClientSecret() {
-        return clientSecret;
-    }
+	public void setClientId(String clientId) {
+		this.clientId = clientId;
+	}
 
-    public void setClientSecret(String clientSecret) {
-        this.clientSecret = clientSecret;
-    }
+	public String getClientSecret() {
+		return clientSecret;
+	}
 
-    public String getClientRegistrationAccessToken() {
-        return clientRegistrationAccessToken;
-    }
+	public void setClientSecret(String clientSecret) {
+		this.clientSecret = clientSecret;
+	}
 
-    public void setClientRegistrationAccessToken(String clientRegistrationAccessToken) {
-        this.clientRegistrationAccessToken = clientRegistrationAccessToken;
-    }
+	public String getClientRegistrationAccessToken() {
+		return clientRegistrationAccessToken;
+	}
 
-    public String getClientRegistrationClientUri() {
-        return clientRegistrationClientUri;
-    }
+	public void setClientRegistrationAccessToken(String clientRegistrationAccessToken) {
+		this.clientRegistrationAccessToken = clientRegistrationAccessToken;
+	}
 
-    public void setClientRegistrationClientUri(String clientRegistrationClientUri) {
-        this.clientRegistrationClientUri = clientRegistrationClientUri;
-    }
+	public String getClientRegistrationClientUri() {
+		return clientRegistrationClientUri;
+	}
 
-    public long getClientIdIssuedAt() {
-        return clientIdIssuedAt;
-    }
+	public void setClientRegistrationClientUri(String clientRegistrationClientUri) {
+		this.clientRegistrationClientUri = clientRegistrationClientUri;
+	}
 
-    public void setClientIdIssuedAt(long clientIdIssuedAt) {
-        this.clientIdIssuedAt = clientIdIssuedAt;
-    }
+	public long getClientIdIssuedAt() {
+		return clientIdIssuedAt;
+	}
 
-    public long getClientSecretExpiresAt() {
-        return clientSecretExpiresAt;
-    }
+	public void setClientIdIssuedAt(long clientIdIssuedAt) {
+		this.clientIdIssuedAt = clientIdIssuedAt;
+	}
 
-    public void setClientSecretExpiresAt(long clientSecretExpiresAt) {
-        this.clientSecretExpiresAt = clientSecretExpiresAt;
-    }
+	public long getClientSecretExpiresAt() {
+		return clientSecretExpiresAt;
+	}
 
-    @Override
-    public String toString() {
-        return "RegisterSiteResponse{" +
-                "oxdId='" + oxdId + '\'' +
-                ", opHost='" + opHost + '\'' +
-                ", clientId='" + clientId + '\'' +
-                ", clientSecret='" + clientSecret + '\'' +
-                ", clientRegistrationAccessToken='" + clientRegistrationAccessToken + '\'' +
-                ", clientRegistrationClientUri='" + clientRegistrationClientUri + '\'' +
-                ", clientIdIssuedAt=" + clientIdIssuedAt +
-                ", clientSecretExpiresAt=" + clientSecretExpiresAt +
-                '}';
-    }
+	public void setClientSecretExpiresAt(long clientSecretExpiresAt) {
+		this.clientSecretExpiresAt = clientSecretExpiresAt;
+	}
+
+	@Override
+	public String toString() {
+		return "RegisterSiteResponse [oxdId=" + oxdId + ", opHost=" + opHost + ", clientId=" + clientId
+				+ ", clientName=" + clientName + ", clientSecret=" + clientSecret + ", clientRegistrationAccessToken="
+				+ clientRegistrationAccessToken + ", clientRegistrationClientUri=" + clientRegistrationClientUri
+				+ ", clientIdIssuedAt=" + clientIdIssuedAt + ", clientSecretExpiresAt=" + clientSecretExpiresAt + "]";
+	}
+
 }
