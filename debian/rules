@@ -40,7 +40,8 @@ override_dh_auto_install:
 		cp -a debian/oxd-server-default debian/oxd-server/etc/default/oxd-server
 		cp -a debian/oxd-https-extension-default debian/oxd-server/etc/default/oxd-https-extension
 		rm -rf debian/oxd-server/opt/oxd-server/conf
-
+		
+override_dh_strip_nondeterminism:
 override_dh_fixperms:
 		dh_fixperms
 		chmod 755 debian/oxd-server/opt/oxd-server/bin/oxd-start.sh
