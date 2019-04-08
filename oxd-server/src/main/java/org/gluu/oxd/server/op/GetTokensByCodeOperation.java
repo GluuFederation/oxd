@@ -15,7 +15,7 @@ import org.gluu.oxd.common.response.GetTokensByCodeResponse;
 import org.gluu.oxd.common.response.IOpResponse;
 import org.gluu.oxd.server.HttpException;
 import org.gluu.oxd.server.service.Rp;
-
+import org.gluu.oxd.common.CoreUtils;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -86,7 +86,7 @@ public class GetTokensByCodeOperation extends BaseOperation<GetTokensByCodeParam
 
             LOG.trace("Scope: " + response.getScope());
 
-            final Map<String, List<String>> claims = idToken.getClaims() != null ? idToken.getClaims().toMap() : new HashMap<String, List<String>>();
+            final Map<String, Object> claims = idToken.getClaims() != null ? CoreUtils.toMap(idToken.getClaims().toJsonObject()):new HashMap<String, Object>();
 
             final GetTokensByCodeResponse opResponse = new GetTokensByCodeResponse();
             opResponse.setAccessToken(response.getAccessToken());

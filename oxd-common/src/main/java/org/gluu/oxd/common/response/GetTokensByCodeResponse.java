@@ -2,6 +2,7 @@ package org.gluu.oxd.common.response;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 
+
 import java.util.List;
 import java.util.Map;
 
@@ -10,7 +11,7 @@ import java.util.Map;
  * @version 0.9, 06/10/2015
  */
 
-public class GetTokensByCodeResponse implements IOpResponse {
+public class GetTokensByCodeResponse  implements IOpResponse {
 
     @JsonProperty(value = "access_token")
     @com.fasterxml.jackson.annotation.JsonProperty(value = "access_token")
@@ -26,7 +27,7 @@ public class GetTokensByCodeResponse implements IOpResponse {
     private String refreshToken;
     @JsonProperty("id_token_claims")
     @com.fasterxml.jackson.annotation.JsonProperty("id_token_claims")
-    private Map<String, List<String>> idTokenClaims;
+    private Map<String, Object> idTokenClaims;
 
     public GetTokensByCodeResponse() {
     }
@@ -63,11 +64,11 @@ public class GetTokensByCodeResponse implements IOpResponse {
         this.idToken = idToken;
     }
 
-    public Map<String, List<String>> getIdTokenClaims() {
+    public Map<String, Object> getIdTokenClaims() {
         return idTokenClaims;
     }
 
-    public void setIdTokenClaims(Map<String, List<String>> idTokenClaims) {
+    public void setIdTokenClaims(Map<String, Object> idTokenClaims) {
         this.idTokenClaims = idTokenClaims;
     }
 
