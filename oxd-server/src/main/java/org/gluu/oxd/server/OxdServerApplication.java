@@ -17,7 +17,7 @@ public class OxdServerApplication extends Application<OxdServerConfiguration> {
     public static void main(String[] args) {
         try {
             String mode = args[0];
-            if ("stop".equals(mode)){
+            if ("stop".equals(mode)) {
                 ServerLauncher.shutdown(true);
             } else {
                 new OxdServerApplication().run(args);
