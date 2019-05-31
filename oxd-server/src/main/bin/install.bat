@@ -1,0 +1,3 @@
+oxdServer //IS//oxd-server-4.0 --DisplayName="OXD Service" --Install=%OXD_HOME%\bin\oxdServer.exe --Jvm=%OXD_HOME%\jre\bin\server\jvm.dll --StartMode=jvm --StopMode=jvm --Startup=auto --StartClass=org.gluu.oxd.server.OxdServerApplication --StartParams=server#../conf/oxd-server.yml --StartMethod=main --StopClass=org.gluu.oxd.server.OxdServerApplication --StopParams=stop --StopMethod=main --Classpath=%OXD_HOME%\lib\oxd-server.jar;%OXD_HOME%\lib\bcprov-jdk15on-1.55.jar --LogLevel=DEBUG --LogPath=%OXD_HOME%\log --LogPrefix=oxd-installer --StdOutput=%OXD_HOME%\log\stdout.log --StdError=%OXD_HOME%\log\stderr.log
+
+oxdServer //ES//oxd-server-4.0
