@@ -203,9 +203,6 @@
                         </goals>
                         <configuration>
                             <target>
-                                <copy todir="${installer.dir}/jre">
-                                    <fileset dir="${project.basedir}/jre" />
-                                </copy>
                                 <copy todir="${installer.dir}/bin">
                                     <fileset dir="${project.basedir}/src/main/bin" />
                                 </copy>
