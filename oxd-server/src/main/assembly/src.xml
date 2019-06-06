@@ -4,6 +4,7 @@
     <id>distribution</id>
     <formats>
         <format>zip</format>
+        <format>dir</format>
     </formats>
     <includeBaseDirectory>false</includeBaseDirectory>
     <dependencySets>
@@ -18,8 +19,9 @@
     </dependencySets>
     <files>
         <file>
-            <source>${project.basedir}/src/main/resources/oxd-server.yml</source>
+            <source>${project.basedir}/src/main/resources/oxd-server.yml.win</source>
             <outputDirectory>/conf</outputDirectory>
+            <destName>oxd-server.yml</destName>
         </file>
         <file>
             <source>${project.basedir}/src/main/resources/oxd-server.keystore</source>
