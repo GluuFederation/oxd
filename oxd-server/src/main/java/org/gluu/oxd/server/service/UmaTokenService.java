@@ -187,12 +187,6 @@ public class UmaTokenService {
         final TokenResponse response = tokenClient.execClientCredentialsGrant(scopesAsString(scopeType), site.getClientId(), site.getClientSecret());
         if (response != null) {
             if (Util.allNotBlank(response.getAccessToken())) {
-                if (!response.getScope().contains(scopeType.getValue())) {
-                    LOG.error("oxd requested scope " + scopeType + " but AS returned access_token without that scope, token scopes :" + response.getScope());
-                    LOG.error("Please check AS(oxauth) configuration and make sure UMA scope (uma_protection) is enabled.");
-                    throw new RuntimeException("oxd requested scope " + scopeType + " but AS returned access_token without that scope, token scopes :" + response.getScope());
-                }
-
                 final UmaToken opResponse = UmaTokenFactory.newToken(scopeType);
                 opResponse.setToken(response.getAccessToken());
                 opResponse.setRefreshToken(response.getRefreshToken());
