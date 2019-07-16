@@ -1,22 +1,14 @@
 package org.gluu.oxd.server.model;
 
-/**
- * UmaToken used for both AAT and PAT
- *
- * @author Yuriy Zabrovarnyy
- * @version 0.9, 31/05/2016
- */
-
-public abstract class UmaToken {
-
+public class Token {
     private String token;
     private String refreshToken;
     private int expiresIn;
 
-    public UmaToken() {
+    public Token() {
     }
 
-    public UmaToken(String token, String refreshToken, int expiresIn) {
+    public Token(String token, String refreshToken, int expiresIn) {
         this.token = token;
         this.refreshToken = refreshToken;
         this.expiresIn = expiresIn;
@@ -51,9 +43,9 @@ public abstract class UmaToken {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        UmaToken umaToken = (UmaToken) o;
+        Token tokenObj = (Token) o;
 
-        return token != null ? token.equals(umaToken.token) : umaToken.token == null;
+        return token != null ? token.equals(tokenObj.token) : tokenObj.token == null;
     }
 
     @Override
@@ -64,7 +56,7 @@ public abstract class UmaToken {
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder();
-        sb.append("UmaToken");
+        sb.append("Token");
         sb.append("{token='").append(token).append('\'');
         sb.append(", refreshToken='").append(refreshToken).append('\'');
         sb.append(", expiresIn=").append(expiresIn);

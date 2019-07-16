@@ -11,7 +11,7 @@ public class UmaTokenFactory {
     private UmaTokenFactory() {
     }
 
-    public static UmaToken newToken(UmaScopeType scopeType) {
+    public static Token newToken(UmaScopeType scopeType) {
         if (scopeType == UmaScopeType.PROTECTION) {
             return new Pat();
         }
