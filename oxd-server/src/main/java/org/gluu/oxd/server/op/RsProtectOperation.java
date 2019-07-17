@@ -8,6 +8,7 @@ import org.apache.commons.lang.StringUtils;
 import org.gluu.oxauth.model.uma.JsonLogic;
 import org.gluu.oxauth.model.uma.JsonLogicNode;
 import org.gluu.oxauth.model.util.Util;
+import org.gluu.oxd.common.ScopeType;
 import org.jboss.resteasy.client.ClientResponseFailure;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,7 +58,7 @@ public class RsProtectOperation extends BaseOperation<RsProtectParams> {
         PatProvider patProvider = new PatProvider() {
             @Override
             public String getPatToken() {
-                return getUmaTokenService().getPat(params.getOxdId()).getToken();
+                return getTokenService().getPat(params.getOxdId(), ScopeType.UMA_PROTECTION).getToken();
             }
 
             @Override
@@ -73,7 +74,7 @@ public class RsProtectOperation extends BaseOperation<RsProtectParams> {
             LOG.debug("Failed to register resource. Entity: " + e.getResponse().getEntity(String.class) + ", status: " + e.getResponse().getStatus(), e);
             if (e.getResponse().getStatus() == 400 || e.getResponse().getStatus() == 401) {
                 LOG.debug("Try maybe PAT is lost on AS, force refresh PAT and re-try ...");
-                getUmaTokenService().obtainPat(params.getOxdId()); // force to refresh PAT
+                getTokenService().obtainPat(params.getOxdId(), ScopeType.UMA_PROTECTION); // force to refresh PAT
                 registrar.register(params.getResources());
             } else {
                 throw e;
@@ -160,7 +161,7 @@ public class RsProtectOperation extends BaseOperation<RsProtectParams> {
                 // remove existing resources, overwrite=true
                 UmaMetadata discovery = getDiscoveryService().getUmaDiscoveryByOxdId(params.getOxdId());
                 UmaResourceService resourceService = UmaClientFactory.instance().createResourceService(discovery, getHttpService().getClientExecutor());
-                String pat = getUmaTokenService().getPat(params.getOxdId()).getToken();
+                String pat = getTokenService().getPat(params.getOxdId(), ScopeType.UMA_PROTECTION).getToken();
 
                 for (UmaResource resource : existingUmaResources) {
                     LOG.trace("Removing existing resource " + resource.getId() + " ...");

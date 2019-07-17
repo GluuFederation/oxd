@@ -66,7 +66,7 @@ public class RsCheckAccessOperation extends BaseOperation<RsCheckAccessParams> {
         PatProvider patProvider = new PatProvider() {
             @Override
             public String getPatToken() {
-                return getUmaTokenService().getPat(params.getOxdId()).getToken();
+                return getTokenService().getPat(params.getOxdId(), ScopeType.UMA_PROTECTION).getToken();
             }
 
             @Override
@@ -118,7 +118,7 @@ public class RsCheckAccessOperation extends BaseOperation<RsCheckAccessParams> {
             LOG.debug("Failed to register ticket. Entity: " + e.getResponse().getEntity(String.class) + ", status: " + e.getResponse().getStatus(), e);
             if (e.getResponse().getStatus() == 400 || e.getResponse().getStatus() == 401) {
                 LOG.debug("Try maybe PAT is lost on AS, force refresh PAT and request ticket again ...");
-                getUmaTokenService().obtainPat(params.getOxdId()); // force to refresh PAT
+                getTokenService().obtainPat(params.getOxdId(), ScopeType.UMA_PROTECTION); // force to refresh PAT
                 response = rptInterceptor.registerTicketResponse(scopes, resource.getId());
             } else {
                 throw e;

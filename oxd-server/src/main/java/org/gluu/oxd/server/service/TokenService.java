@@ -1,25 +1,36 @@
 package org.gluu.oxd.server.service;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
+import org.apache.commons.lang.StringUtils;
 import org.gluu.oxauth.client.*;
+import org.gluu.oxauth.client.uma.UmaClientFactory;
 import org.gluu.oxauth.model.common.AuthenticationMethod;
 import org.gluu.oxauth.model.common.GrantType;
 import org.gluu.oxauth.model.common.Prompt;
 import org.gluu.oxauth.model.common.ResponseType;
-import org.gluu.oxauth.model.uma.UmaScopeType;
+import org.gluu.oxauth.model.uma.UmaMetadata;
+import org.gluu.oxauth.model.uma.UmaTokenResponse;
 import org.gluu.oxauth.model.util.Util;
 import org.gluu.oxd.common.CoreUtils;
 import org.gluu.oxd.common.ErrorResponseCode;
+import org.gluu.oxd.common.ScopeType;
+import org.gluu.oxd.common.introspection.CorrectRptIntrospectionResponse;
+import org.gluu.oxd.common.params.RpGetRptParams;
+import org.gluu.oxd.common.response.RpGetRptResponse;
 import org.gluu.oxd.server.HttpException;
 import org.gluu.oxd.server.OxdServerConfiguration;
+import org.gluu.oxd.server.ServerLauncher;
+import org.gluu.oxd.server.Utils;
 import org.gluu.oxd.server.model.Pat;
 import org.gluu.oxd.server.model.Token;
 import org.gluu.oxd.server.model.TokenFactory;
-import org.gluu.oxd.server.model.UmaTokenFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -51,21 +62,65 @@ public class TokenService {
         this.stateService = stateService;
     }
 
-    private Pat obtainPat(String oxdId) {
-        Rp site = rpService.getRp(oxdId);
-        Token token = obtainToken(oxdId, site);
+    public RpGetRptResponse getRpt(RpGetRptParams params) throws UnsupportedEncodingException {
+        Rp rp = rpService.getRp(params.getOxdId());
+        UmaMetadata discovery = discoveryService.getUmaDiscoveryByOxdId(params.getOxdId());
 
-        site.setPat(token.getToken());
-        site.setPatCreatedAt(new Date());
-        site.setPatExpiresIn(token.getExpiresIn());
-        site.setPatRefreshToken(token.getRefreshToken());
+        if (!Strings.isNullOrEmpty(rp.getRpt()) && rp.getRptExpiresAt() != null) {
+            if (!CoreUtils.isExpired(rp.getRptExpiresAt())) {
+                LOG.debug("RPT from rp, RPT: " + rp.getRpt() + ", rp: " + rp);
 
-        rpService.updateSilently(site);
+                RpGetRptResponse result = new RpGetRptResponse();
+                result.setRpt(rp.getRpt());
+                result.setTokenType(rp.getRptTokenType());
+                result.setPct(rp.getRptPct());
+                result.setUpdated(rp.getRptUpgraded());
+                return result;
+            }
+        }
 
-        return (Pat) token;
+        final org.gluu.oxauth.client.uma.UmaTokenService tokenService = UmaClientFactory.instance().createTokenService(discovery, httpService.getClientExecutor());
+        final UmaTokenResponse tokenResponse = tokenService.requestRpt(
+                "Basic " + Utils.encodeCredentials(rp.getClientId(), rp.getClientSecret()),
+                GrantType.OXAUTH_UMA_TICKET.getValue(),
+                params.getTicket(),
+                params.getClaimToken(),
+                params.getClaimTokenFormat(),
+                params.getPct(),
+                params.getRpt(),
+                params.getScope() != null ? Utils.joinAndUrlEncode(params.getScope()) : null
+        );
+
+        if (tokenResponse != null && StringUtils.isNotBlank(tokenResponse.getAccessToken())) {
+            final IntrospectionService introspectionService = ServerLauncher.getInjector().getInstance(IntrospectionService.class);
+            CorrectRptIntrospectionResponse status = introspectionService.introspectRpt(params.getOxdId(), tokenResponse.getAccessToken());
+
+            LOG.debug("RPT " + tokenResponse.getAccessToken() + ", status: " + status);
+            if (status.getActive()) {
+                LOG.debug("RPT is successfully obtained from AS. RPT: {}", tokenResponse.getAccessToken());
+
+                rp.setRpt(tokenResponse.getAccessToken());
+                rp.setRptTokenType(tokenResponse.getTokenType());
+                rp.setRptPct(tokenResponse.getPct());
+                rp.setRptUpgraded(tokenResponse.getUpgraded());
+                rp.setRptCreatedAt(new Date(status.getIssuedAt() * 1000));
+                rp.setRptExpiresAt(new Date(status.getExpiresAt() * 1000));
+                rpService.updateSilently(rp);
+
+                RpGetRptResponse result = new RpGetRptResponse();
+                result.setRpt(rp.getRpt());
+                result.setTokenType(rp.getRptTokenType());
+                result.setPct(rp.getRptPct());
+                result.setUpdated(rp.getRptUpgraded());
+                return result;
+            }
+        }
+
+        LOG.error("Failed to get RPT for rp: " + rp);
+        throw new HttpException(ErrorResponseCode.FAILED_TO_GET_RPT);
     }
 
-    public Pat getToken(String oxdId) {
+    public Pat getPat(String oxdId, ScopeType scopeType) {
         validationService.notBlankOxdId(oxdId);
 
         Rp site = rpService.getRp(oxdId);
@@ -81,35 +136,54 @@ public class TokenService {
             }
         }
 
-        return obtainPat(oxdId);
+        return obtainPat(oxdId, scopeType);
     }
 
-    public boolean useClientAuthentication() {
-        return configuration.getUseClientAuthenticationForPat() != null && configuration.getUseClientAuthenticationForPat();
+    public Pat obtainPat(String oxdId, ScopeType scopeType) {
+        Rp site = rpService.getRp(oxdId);
+        Token token = obtainToken(oxdId, scopeType, site);
+
+        site.setPat(token.getToken());
+        site.setPatCreatedAt(new Date());
+        site.setPatExpiresIn(token.getExpiresIn());
+        site.setPatRefreshToken(token.getRefreshToken());
+
+        rpService.updateSilently(site);
+
+        return (Pat) token;
     }
 
-    private Token obtainToken(String oxdId, Rp site) {
+    private Token obtainToken(String oxdId, ScopeType scopeType, Rp site) {
 
         OpenIdConfigurationResponse discovery = discoveryService.getConnectDiscoveryResponseByOxdId(oxdId);
 
         final Token token;
-        if (useClientAuthentication()) {
-            token = obtainTokenWithClientCredentials(discovery, site);
+        if (useClientAuthentication(scopeType)) {
+            token = obtainTokenWithClientCredentials(discovery, site, scopeType);
             LOG.trace("Obtained token with client authentication: " + token);
         } else {
-            token = obtainTokenWithUserCredentials(discovery, site);
+            token = obtainTokenWithUserCredentials(discovery, site, scopeType);
             LOG.trace("Obtained token with user credentials: " + token);
         }
 
         return token;
     }
 
-    private Token obtainTokenWithClientCredentials(OpenIdConfigurationResponse discovery, Rp site) {
+    public boolean useClientAuthentication(ScopeType scopeType) {
+        return configuration.getUseClientAuthenticationForPat() != null && configuration.getUseClientAuthenticationForPat();
+    }
+
+    private Token obtainTokenWithClientCredentials(OpenIdConfigurationResponse discovery, Rp site, ScopeType scopeType) {
         final TokenClient tokenClient = new TokenClient(discovery.getTokenEndpoint());
         tokenClient.setExecutor(httpService.getClientExecutor());
-        final TokenResponse response = tokenClient.execClientCredentialsGrant("openid", site.getClientId(), site.getClientSecret());
+        final TokenResponse response = tokenClient.execClientCredentialsGrant(scopesAsString(scopeType), site.getClientId(), site.getClientSecret());
         if (response != null) {
             if (Util.allNotBlank(response.getAccessToken())) {
+                if (!response.getScope().contains(scopeType.getValue())) {
+                    LOG.error("oxd requested scope : " + scopeType.getValue() + " but AS returned access_token without that scope, token scopes :" + response.getScope());
+                    LOG.error("Please check AS(oxauth) configuration and make sure scope is enabled.");
+                    throw new RuntimeException("oxd requested scope " + scopeType.getValue() + " but AS returned access_token without that scope, token scopes :" + response.getScope());
+                }
 
                 final Token opResponse = TokenFactory.newToken();
                 opResponse.setToken(response.getAccessToken());
@@ -125,7 +199,22 @@ public class TokenService {
         throw new RuntimeException("Failed to obtain PAT.");
     }
 
-    private Token obtainTokenWithUserCredentials(OpenIdConfigurationResponse discovery, Rp site) {
+    private List<String> scopes(ScopeType scopeType) {
+        final List<String> scopes = new ArrayList<String>();
+        scopes.add(scopeType.getValue());
+        scopes.add("openid");
+        return scopes;
+    }
+
+    private String scopesAsString(ScopeType scopeType) {
+        String scopesAsString = "";
+        for (String scope : scopes(scopeType)) {
+            scopesAsString += scope + " ";
+        }
+        return scopesAsString.trim();
+    }
+
+    private Token obtainTokenWithUserCredentials(OpenIdConfigurationResponse discovery, Rp site, ScopeType scopeType) {
 
         // 1. Request authorization and receive the authorization code.
         final List<ResponseType> responseTypes = Lists.newArrayList();
@@ -134,7 +223,7 @@ public class TokenService {
 
         final String state = stateService.generateState();
 
-        final AuthorizationRequest request = new AuthorizationRequest(responseTypes, site.getClientId(), Lists.newArrayList("openid"), site.getRedirectUri(), null);
+        final AuthorizationRequest request = new AuthorizationRequest(responseTypes, site.getClientId(), scopes(scopeType), site.getRedirectUri(), null);
         request.setState(state);
         request.setAuthUsername(site.getUserId());
         request.setAuthPassword(site.getUserSecret());
@@ -182,7 +271,6 @@ public class TokenService {
         } else {
             LOG.debug("Authorization code is blank.");
         }
-        throw new RuntimeException("Failed to obtain Token, scopeType: openid, site: " + site);
+        throw new RuntimeException("Failed to obtain Token, scopeType: " + scopeType + ", site: " + site);
     }
-
 }

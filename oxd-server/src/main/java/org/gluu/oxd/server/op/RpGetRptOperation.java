@@ -35,7 +35,7 @@ public class RpGetRptOperation extends BaseOperation<RpGetRptParams> {
     @Override
     public IOpResponse execute(RpGetRptParams params) throws Exception {
         try {
-            return getUmaTokenService().getRpt(params);
+            return getTokenService().getRpt(params);
         } catch (ClientResponseFailure ex) {
             LOG.trace(ex.getMessage(), ex);
             String entity = (String) ex.getResponse().getEntity(String.class);

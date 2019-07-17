@@ -82,8 +82,8 @@ public abstract class BaseOperation<T extends IParams> implements IOperation<T> 
         return getInstance(DiscoveryService.class);
     }
 
-    public UmaTokenService getUmaTokenService() {
-        return getInstance(UmaTokenService.class);
+    public TokenService getTokenService() {
+        return getInstance(TokenService.class);
     }
 
     public RpService getRpService() {
