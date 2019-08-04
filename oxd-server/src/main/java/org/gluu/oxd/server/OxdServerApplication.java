@@ -23,7 +23,6 @@ public class OxdServerApplication extends Application<OxdServerConfiguration> {
                 new OxdServerApplication().run(args);
             }
         } catch (Throwable e) {
-            LOG.error("Failed to start oxd-server.", e);
             if (args.length > 0 && "stop".equalsIgnoreCase(args[0])) {
                 LOG.error("Failed to stop oxd-server.", e);
             } else {
