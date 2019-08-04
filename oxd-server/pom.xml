@@ -13,6 +13,9 @@
         <h2.version>1.4.194</h2.version>
         <jedis.version>2.9.0</jedis.version>
         <dropwizard.version>1.3.1</dropwizard.version>
+        <skip.exe.generation>true</skip.exe.generation>
+        <oxd.server.yml.path>${project.basedir}/src/main/resources/oxd-server.yml</oxd.server.yml.path>
+        <inno.setup.path>/path/to/inno_setup/home/ISCC.exe</inno.setup.path>
     </properties>
 
     <parent>
@@ -185,6 +188,28 @@
                             <descriptors>
                                 <descriptor>src/main/assembly/src.xml</descriptor>
                             </descriptors>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.6.0</version>
+                <executions>
+                    <execution>
+                        <id>generate-oxd-installer</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <skip>${skip.exe.generation}</skip>
+                            <executable>${inno.setup.path}</executable>
+                            <workingDirectory>${project.build.directory}</workingDirectory>
+                            <arguments>
+                                <argument>${project.basedir}/src/main/bin/generate-oxd-exe.iss</argument>
+                            </arguments>
                         </configuration>
                     </execution>
                 </executions>

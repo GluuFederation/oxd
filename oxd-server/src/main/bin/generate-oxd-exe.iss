@@ -7,11 +7,11 @@
 #define MyAppURL "https://www.gluu.org/"
 #define MyAppExeName "oxd-server.exe"
 ;set path of the instructions to run oxd server
-#define OXDInstructionFile "D:\Projects\java\oxd\oxd-server\doc\oxd-instructions-doc.txt"
+#define OXDInstructionFile "D:\Projects\java\oxd1\oxd-server\doc\oxd-instructions-doc.txt"
 ;set path to output directory of the exe file
-#define OXDExeOutputDir "D:\Projects\java\oxd\oxd-server\target"
+#define OXDExeOutputDir "D:\Projects\java\oxd1\oxd-server\target"
 ;set path to oxd-server project.build.directory
-#define OXDTargetDir "D:\Projects\java\oxd\oxd-server\target"
+#define OXDTargetDir "D:\Projects\java\oxd1\oxd-server\target"
 ;set path to jre home
 #define JREHome "D:\software\jdk1.8.0_161\jre"
 
@@ -53,10 +53,10 @@ Source: "{#JREHome}\*"; DestDir: "{app}\jre"; Flags: ignoreversion recursesubdir
 Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
 
 [Run]
-Filename: "{app}\bin\oxd-install.bat"; Check: InstallAsServiceFile;
+Filename: "{app}\bin\oxd-service-install.bat"; Check: InstallAsServiceFile;
 
 [UninstallRun]
-Filename: "{app}\bin\oxd-uninstall.bat"; Flags: runhidden
+Filename: "{app}\bin\oxd-service-uninstall.bat"; Flags: runhidden
 
 [Registry]
 Root: HKCU; Subkey: "Environment"; ValueType:string; ValueName: "OXD_HOME"; ValueData: {app}; Flags: preservestringtype
