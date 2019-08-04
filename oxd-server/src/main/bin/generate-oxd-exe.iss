@@ -6,14 +6,15 @@
 #define MyAppPublisher "Gluu, Inc."
 #define MyAppURL "https://www.gluu.org/"
 #define MyAppExeName "oxd-server.exe"
-;set path of the instructions to run oxd server
-#define OXDInstructionFile "D:\Projects\java\oxd1\oxd-server\doc\oxd-instructions-doc.txt"
-;set path to output directory of the exe file
-#define OXDExeOutputDir "D:\Projects\java\oxd1\oxd-server\target"
-;set path to oxd-server project.build.directory
-#define OXDTargetDir "D:\Projects\java\oxd1\oxd-server\target"
 ;set path to jre home
 #define JREHome "D:\software\jdk1.8.0_161\jre"
+;set path of the instructions to run oxd server
+#define OXDInstructionFile "..\..\..\doc\oxd-instructions-doc.txt"
+;set path to output directory of the exe file
+#define OXDExeOutputDir "..\..\..\target"
+;set path to oxd-server project.build.directory
+#define OXDTargetDir "..\..\..\target"
+
 
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application.
