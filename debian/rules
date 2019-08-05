@@ -18,10 +18,10 @@
 #               mvn clean package -Dmaven.test.skip=true
 #               mvn clean install -U -Dmaven.test.skip=true
 override_dh_auto_install:
-		mkdir -p debian/oxd-server-3.1.6/opt/oxd-server/conf/
-		mkdir -p debian/oxd-server-3.1.6/opt/oxd-server/bin/
-		mkdir -p debian/oxd-server-3.1.6/opt/oxd-server/lib/
-		mkdir -p debian/oxd-server-3.1.6/opt/oxd-https-extension/lib/
+		mkdir -p debian/oxd-server-3.1.7/opt/oxd-server/conf/
+		mkdir -p debian/oxd-server-3.1.7/opt/oxd-server/bin/
+		mkdir -p debian/oxd-server-3.1.7/opt/oxd-server/lib/
+		mkdir -p debian/oxd-server-3.1.7/opt/oxd-https-extension/lib/
 		cp oxd-server/src/main/resources/oxd-conf.json debian/oxd-server-3.1.6/opt/oxd-server/conf/
 		cp oxd-server/src/main/resources/oxd-default-site-config.json debian/oxd-server-3.1.6/opt/oxd-server/conf/
 		cp oxd-server/src/main/resources/log4j.xml debian/oxd-server-3.1.6/opt/oxd-server/conf/
