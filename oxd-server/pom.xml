@@ -14,8 +14,8 @@
         <jedis.version>2.9.0</jedis.version>
         <dropwizard.version>1.3.1</dropwizard.version>
         <skip.exe.generation>true</skip.exe.generation>
-        <oxd.server.yml.path>${project.basedir}/src/main/resources/oxd-server.yml</oxd.server.yml.path>
         <inno.setup.path>/path/to/inno_setup/home/ISCC.exe</inno.setup.path>
+        <commons-daemon.bin.version>1.2.0</commons-daemon.bin.version>
     </properties>
 
     <parent>
@@ -168,7 +168,25 @@
                     <failOnNoGitDirectory>false</failOnNoGitDirectory>
                 </configuration>
             </plugin>
-
+            <plugin>
+                <groupId>com.googlecode.maven-download-plugin</groupId>
+                <artifactId>download-maven-plugin</artifactId>
+                <version>1.4.2</version>
+                <executions>
+                    <execution>
+                        <id>download-procrun-bin</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>wget</goal>
+                        </goals>
+                        <configuration>
+                            <url>https://www-us.apache.org/dist/commons/daemon/binaries/windows/commons-daemon-${commons-daemon.bin.version}-bin-windows.zip</url>
+                            <unpack>true</unpack>
+                            <outputDirectory>${project.build.directory}/commons-daemon-${commons-daemon.bin.version}-bin-windows</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
@@ -193,6 +211,25 @@
                 </executions>
             </plugin>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.7</version>
+                <executions>
+                    <execution>
+                        <id>delete-commons-daemon-dir</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <delete dir="${project.build.directory}/commons-daemon-${commons-daemon.bin.version}-bin-windows"/>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>1.6.0</version>
@@ -208,7 +245,7 @@
                             <executable>${inno.setup.path}</executable>
                             <workingDirectory>${project.build.directory}</workingDirectory>
                             <arguments>
-                                <argument>${project.basedir}/src/main/bin/generate-oxd-exe.iss</argument>
+                                <argument>${project.basedir}/src/main/resources/generate-exe-using-maven.iss</argument>
                             </arguments>
                         </configuration>
                     </execution>

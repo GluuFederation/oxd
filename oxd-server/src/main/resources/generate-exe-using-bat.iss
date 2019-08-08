@@ -7,13 +7,13 @@
 #define MyAppURL "https://www.gluu.org/"
 #define MyAppExeName "oxd-server.exe"
 ;set path to jre home
-#define JREHome "D:\software\jdk1.8.0_161\jre"
+#define JREHome GetEnv('JRE_HOME')
 ;set path of the instructions to run oxd server
-#define OXDInstructionFile "..\..\..\doc\oxd-instructions-doc.txt"
+#define OXDInstructionFile "..\license\license.txt"
 ;set path to output directory of the exe file
-#define OXDExeOutputDir "..\..\..\target"
+#define OXDExeOutputDir "..\"
 ;set path to oxd-server project.build.directory
-#define OXDTargetDir "..\..\..\target"
+#define OXDTargetDir "..\"
 
 
 [Setup]
@@ -31,7 +31,8 @@ AppUpdatesURL={#MyAppURL}
 DefaultDirName={pf}\{#MyAppName}
 ;DefaultGroupName={#MyAppName}
 DisableProgramGroupPage=yes
-InfoBeforeFile={#OXDInstructionFile}
+;InfoBeforeFile={#OXDInstructionFile}
+LicenseFile={#OXDInstructionFile}
 OutputDir={#OXDExeOutputDir}
 OutputBaseFilename=oxd-server
 Compression=lzma
@@ -43,10 +44,11 @@ ChangesEnvironment=yes
 Name: "english"; MessagesFile: "compiler:Default.isl"
 
 [Files]
-;Source: "{#OXDTargetDir}\oxd-server.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#OXDTargetDir}\oxd-server-distribution\bin\*"; DestDir: "{app}\bin"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "{#OXDTargetDir}\oxd-server-distribution\conf\*"; DestDir: "{app}\conf"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "{#OXDTargetDir}\oxd-server-distribution\lib\*"; DestDir: "{app}\lib"; Flags: ignoreversion recursesubdirs createallsubdirs
+;Source: "{#OXDTargetDir}oxd-server.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#OXDTargetDir}bin\*"; DestDir: "{app}\bin"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "{#OXDTargetDir}conf\*"; DestDir: "{app}\conf"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "{#OXDTargetDir}lib\*"; DestDir: "{app}\lib"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "{#OXDTargetDir}license\*"; DestDir: "{app}\license"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "{#JREHome}\*"; DestDir: "{app}\jre"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
