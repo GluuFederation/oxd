@@ -1,5 +1,6 @@
 package org.gluu.oxd.server;
 
+import com.google.inject.Inject;
 import org.apache.commons.lang.StringUtils;
 import org.gluu.oxd.common.Command;
 import org.gluu.oxd.common.CommandType;
@@ -7,6 +8,7 @@ import org.gluu.oxd.common.Jackson2;
 import org.gluu.oxd.common.params.*;
 import org.gluu.oxd.common.response.IOpResponse;
 import org.gluu.oxd.common.response.POJOResponse;
+import org.gluu.oxd.server.op.OpClientFactory;
 import org.gluu.oxd.server.service.ConfigurationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +23,12 @@ public class RestResource {
 
     private static final Logger LOG = LoggerFactory.getLogger(RestResource.class);
 
-    public RestResource() {
+
+    private static OpClientFactory opClientFactory;
+
+    @Inject
+    public RestResource(OpClientFactory opClientFactory) {
+        this.opClientFactory = opClientFactory;
     }
 
     @GET
@@ -231,7 +238,7 @@ public class RestResource {
             ((HasAccessTokenParams) params).setToken(validateAccessToken(authorization));
         }
         Command command = new Command(commandType, params);
-        final IOpResponse response = ServerLauncher.getInjector().getInstance(Processor.class).process(command);
+        final IOpResponse response = ServerLauncher.getInjector().getInstance(Processor.class).process(command, opClientFactory);
         Object forJsonConversion = response;
         if (response instanceof POJOResponse) {
             forJsonConversion = ((POJOResponse) response).getNode();
@@ -254,5 +261,9 @@ public class RestResource {
         }
         LOG.debug("No access token provided in Authorization header. Forbidden.");
         throw new WebApplicationException(Response.status(Response.Status.FORBIDDEN).build());
+    }
+
+    public void setOpClientFactory(OpClientFactory opClientFactory) {
+        this.opClientFactory = opClientFactory;
     }
 }

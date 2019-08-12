@@ -20,6 +20,7 @@ import org.gluu.oxauth.model.crypto.signature.SignatureAlgorithm;
 import org.gluu.oxauth.model.register.ApplicationType;
 import org.gluu.oxauth.model.uma.UmaMetadata;
 import org.gluu.oxd.common.Command;
+import org.gluu.oxd.common.CommandType;
 import org.gluu.oxd.common.ErrorResponseCode;
 import org.gluu.oxd.common.params.RegisterSiteParams;
 import org.gluu.oxd.common.response.IOpResponse;
@@ -39,20 +40,22 @@ import java.util.UUID;
 /**
  * @author Yuriy Zabrovarnyy
  */
-
 public class RegisterSiteOperation extends BaseOperation<RegisterSiteParams> {
 
     private static final Logger LOG = LoggerFactory.getLogger(RegisterSiteOperation.class);
 
     private Rp rp;
 
+    private OpClientFactory opClientFactory;
+
     /**
      * Base constructor
      *
      * @param command command
      */
-    protected RegisterSiteOperation(Command command, final Injector injector) {
+    protected RegisterSiteOperation(Command command, final Injector injector, OpClientFactory opClientFactory) {
         super(command, injector, RegisterSiteParams.class);
+        this.opClientFactory = opClientFactory;
     }
 
     public RegisterSiteResponse execute_(RegisterSiteParams params) {
@@ -245,7 +248,8 @@ public class RegisterSiteOperation extends BaseOperation<RegisterSiteParams> {
             throw new HttpException(ErrorResponseCode.NO_REGISTRATION_ENDPOINT);
         }
 
-        final RegisterClient registerClient = new RegisterClient(registrationEndpoint);
+        //final RegisterClient registerClient = new RegisterClient(registrationEndpoint);
+        final RegisterClient registerClient = opClientFactory.createRegisterClient(registrationEndpoint);
         registerClient.setRequest(createRegisterClientRequest(params));
         registerClient.setExecutor(getHttpService().getClientExecutor());
         final RegisterResponse response = registerClient.exec();

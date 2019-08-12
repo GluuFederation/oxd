@@ -4,6 +4,7 @@
 package org.gluu.oxd.server;
 
 import com.google.inject.Inject;
+import org.gluu.oxd.server.op.OpClientFactory;
 import org.jboss.resteasy.client.ClientResponseFailure;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,10 +37,10 @@ public class Processor {
         this.validationService = validationService;
     }
 
-    public IOpResponse process(Command command) {
+    public IOpResponse process(Command command, OpClientFactory opClientFactory) {
         if (command != null) {
             try {
-                final IOperation<IParams> operation = (IOperation<IParams>) OperationFactory.create(command, ServerLauncher.getInjector());
+                final IOperation<IParams> operation = (IOperation<IParams>) OperationFactory.create(command, ServerLauncher.getInjector(), opClientFactory);
                 if (operation != null) {
                     IParams iParams = Convertor.asParams(operation.getParameterClass(), command);
                     validationService.validate(iParams);

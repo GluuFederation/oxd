@@ -31,13 +31,15 @@ public class GetClientTokenOperation extends BaseOperation<GetClientTokenParams>
 
     private static final Logger LOG = LoggerFactory.getLogger(GetClientTokenOperation.class);
 
+    private OpClientFactory opClientFactory;
     /**
      * Base constructor
      *
      * @param command command
      */
-    protected GetClientTokenOperation(Command command, final Injector injector) {
+    protected GetClientTokenOperation(Command command, final Injector injector, OpClientFactory opClientFactory) {
         super(command, injector, GetClientTokenParams.class);
+        this.opClientFactory = opClientFactory;
     }
 
     @Override
@@ -45,7 +47,8 @@ public class GetClientTokenOperation extends BaseOperation<GetClientTokenParams>
         try {
             final AuthenticationMethod authenticationMethod = AuthenticationMethod.fromString(params.getAuthenticationMethod());
             final String tokenEndpoint = getDiscoveryService().getConnectDiscoveryResponse(params.getOpHost(), params.getOpDiscoveryPath()).getTokenEndpoint();
-            final TokenClient tokenClient = new TokenClient(tokenEndpoint);
+            //final TokenClient tokenClient = new TokenClient(tokenEndpoint);
+            final TokenClient tokenClient = opClientFactory.createTokenClient(tokenEndpoint);
             tokenClient.setExecutor(getHttpService().getClientExecutor());
 
             final TokenResponse tokenResponse;

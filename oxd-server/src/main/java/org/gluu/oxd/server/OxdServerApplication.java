@@ -39,6 +39,6 @@ public class OxdServerApplication extends Application<OxdServerConfiguration> {
             }
         });
         environment.jersey().register(RolesAllowedDynamicFeature.class);
-        environment.jersey().register(new RestResource());
+        environment.jersey().register(ServerLauncher.getInjector().getInstance(RestResource.class));
     }
 }

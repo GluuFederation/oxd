@@ -5,7 +5,11 @@ package org.gluu.oxd.server.guice;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
+import com.google.inject.name.Names;
 import org.gluu.oxd.server.OxdServerConfiguration;
+import org.gluu.oxd.server.op.OpClientFactory;
+import org.gluu.oxd.server.op.OpClientFactoryImpl;
+import org.gluu.oxd.server.op.RegisterSiteOperation;
 import org.gluu.oxd.server.persistence.H2PersistenceProvider;
 import org.gluu.oxd.server.persistence.PersistenceService;
 import org.gluu.oxd.server.persistence.PersistenceServiceImpl;
@@ -34,5 +38,6 @@ public class GuiceModule extends AbstractModule {
         bind(DiscoveryService.class).in(Singleton.class);
         bind(ValidationService.class).in(Singleton.class);
         bind(StateService.class).in(Singleton.class);
+        bind(OpClientFactory.class).to(OpClientFactoryImpl.class).in(Singleton.class);
     }
 }

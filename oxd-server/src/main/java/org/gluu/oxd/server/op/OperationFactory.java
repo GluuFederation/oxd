@@ -4,6 +4,7 @@
 package org.gluu.oxd.server.op;
 
 import com.google.inject.Injector;
+import org.gluu.oxd.server.ServerLauncher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.gluu.oxd.common.Command;
@@ -21,7 +22,7 @@ public class OperationFactory {
     private OperationFactory() {
     }
 
-    public static IOperation<? extends IParams> create(Command command, final Injector injector) {
+    public static IOperation<? extends IParams> create(Command command, final Injector injector, OpClientFactory opClientFactory) {
         if (command != null && command.getCommandType() != null) {
             switch (command.getCommandType()) {
                 case AUTHORIZATION_CODE_FLOW:
@@ -43,7 +44,7 @@ public class OperationFactory {
                 case GET_ACCESS_TOKEN_BY_REFRESH_TOKEN:
                     return new GetAccessTokenByRefreshTokenOperation(command, injector);
                 case REGISTER_SITE:
-                    return new RegisterSiteOperation(command, injector);
+                    return new RegisterSiteOperation(command, injector, opClientFactory);
                 case GET_AUTHORIZATION_CODE:
                     return new GetAuthorizationCodeOperation(command, injector);
                 case GET_LOGOUT_URI:
@@ -59,7 +60,7 @@ public class OperationFactory {
                 case RP_GET_CLAIMS_GATHERING_URL:
                     return new RpGetGetClaimsGatheringUrlOperation(command, injector);
                 case GET_CLIENT_TOKEN:
-                    return new GetClientTokenOperation(command, injector);
+                    return new GetClientTokenOperation(command, injector, opClientFactory);
                 case INTROSPECT_ACCESS_TOKEN:
                     return new IntrospectAccessTokenOperation(command, injector);
                 case INTROSPECT_RPT:
