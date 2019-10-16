@@ -335,6 +335,10 @@ if update_required:
 
     sub_vars = re.findall('\{\{(.*?)\}\}', yaml_temp)
 
+    default_types = {
+            'defaultSiteConfig:custom_attributes': {}
+        }
+
     for sv in sub_vars:
         sv_pattern = sv.split(':')
         m = oxd4_server_yaml
@@ -349,7 +353,11 @@ if update_required:
             m = str(m).lower()
         
         if (type(m) != type([]) and not m):
-            m="''"
+            if sv in default_types:
+                m = '{}'
+            else:
+                m="''"
+
         k = '{{'+sv+'}}'
         #print sv, m
         yaml_temp = yaml_temp.replace(k,str(m))

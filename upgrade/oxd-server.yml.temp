@@ -65,7 +65,7 @@ defaultSiteConfig:
   op_host: {{defaultSiteConfig:op_host}}
   op_discovery_path: {{defaultSiteConfig:op_discovery_path}}
   response_types: {{defaultSiteConfig:response_types}}
-  grant_type: {{defaultSiteConfig:response_types}}
+  grant_type: {{defaultSiteConfig:grant_type}}
   acr_values: {{defaultSiteConfig:acr_values}}
   scope: {{defaultSiteConfig:scope}}
   ui_locales: {{defaultSiteConfig:ui_locales}}
