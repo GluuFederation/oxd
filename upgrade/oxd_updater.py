@@ -353,10 +353,7 @@ if update_required:
             m = str(m).lower()
         
         if (type(m) != type([]) and not m):
-            if sv in default_types:
-                m = '{}'
-            else:
-                m="''"
+            m = default_types.get(sv, "''")
 
         k = '{{'+sv+'}}'
         #print sv, m
