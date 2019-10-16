@@ -92,6 +92,7 @@ stop_gluu_command = {
         'ubuntu14': 'service {0} stop',
         'centos6': 'service {0} stop',
         'centos7': 'service {0} stop',
+        'debian9': 'service {0} stop',
     }
 
 
