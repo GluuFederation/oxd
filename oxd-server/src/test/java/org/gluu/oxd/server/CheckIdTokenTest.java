@@ -29,7 +29,7 @@ public class CheckIdTokenTest {
         ClientInterface client = Tester.newClient(host);
 
         RegisterSiteResponse site = RegisterSiteTest.registerSite(client, opHost, redirectUrls);
-        SeleniumTester.authenticateGluuServer(opHost, userId, userSecret, site.getClientId(), site.getClientSecret());
+        SeleniumTester.enableTrustedClientOnGluuServer(opHost, userId, userSecret, site.getClientId(), site.getClientSecret());
         String nonce = CoreUtils.secureRandomString();
         GetTokensByCodeResponse2 response = GetTokensByCodeTest.tokenByCode(client, site, userId, userSecret, nonce);
 

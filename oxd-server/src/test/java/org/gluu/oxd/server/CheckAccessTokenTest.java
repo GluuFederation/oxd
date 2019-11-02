@@ -26,7 +26,7 @@ public class CheckAccessTokenTest {
         ClientInterface client = Tester.newClient(host);
         String nonce = CoreUtils.secureRandomString();
         RegisterSiteResponse site = RegisterSiteTest.registerSite(client, opHost, redirectUrls);
-        SeleniumTester.authenticateGluuServer(opHost, userId, userSecret, site.getClientId(), site.getClientSecret());
+        SeleniumTester.enableTrustedClientOnGluuServer(opHost, userId, userSecret, site.getClientId(), site.getClientSecret());
         GetTokensByCodeResponse2 response = GetTokensByCodeTest.tokenByCode(client, site, userId, userSecret, nonce);
 
         final CheckAccessTokenParams params = new CheckAccessTokenParams();

@@ -27,7 +27,7 @@ public class GetUserInfoTest {
         ClientInterface client = Tester.newClient(host);
 
         final RegisterSiteResponse site = RegisterSiteTest.registerSite(client, opHost, redirectUrls);
-        SeleniumTester.authenticateGluuServer(opHost, userId, userSecret, site.getClientId(), site.getClientSecret());
+        SeleniumTester.enableTrustedClientOnGluuServer(opHost, userId, userSecret, site.getClientId(), site.getClientSecret());
         final GetTokensByCodeResponse2 tokens = requestTokens(client, site, userId, userSecret);
 
         GetUserInfoParams params = new GetUserInfoParams();
