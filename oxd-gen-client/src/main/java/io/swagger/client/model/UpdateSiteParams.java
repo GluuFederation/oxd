@@ -13,25 +13,15 @@
 
 package io.swagger.client.model;
 
-import java.util.Objects;
-import java.util.Arrays;
-import com.google.gson.TypeAdapter;
-import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+
+import java.util.*;
 
 /**
  * UpdateSiteParams
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2019-07-28T10:55:36.443Z")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2019-10-25T06:02:32.727Z")
 public class UpdateSiteParams {
   @SerializedName("oxd_id")
   private String oxdId = null;
@@ -89,9 +79,6 @@ public class UpdateSiteParams {
 
   @SerializedName("client_token_endpoint_auth_signing_alg")
   private String clientTokenEndpointAuthSigningAlg = null;
-
-  @SerializedName("trusted_client")
-  private Boolean trustedClient = null;
 
   @SerializedName("client_name")
   private String clientName = null;
@@ -605,24 +592,6 @@ public class UpdateSiteParams {
 
   public void setClientTokenEndpointAuthSigningAlg(String clientTokenEndpointAuthSigningAlg) {
     this.clientTokenEndpointAuthSigningAlg = clientTokenEndpointAuthSigningAlg;
-  }
-
-  public UpdateSiteParams trustedClient(Boolean trustedClient) {
-    this.trustedClient = trustedClient;
-    return this;
-  }
-
-   /**
-   * specifies whether client is trusted. Default value is false.
-   * @return trustedClient
-  **/
-  @ApiModelProperty(value = "specifies whether client is trusted. Default value is false.")
-  public Boolean isTrustedClient() {
-    return trustedClient;
-  }
-
-  public void setTrustedClient(Boolean trustedClient) {
-    this.trustedClient = trustedClient;
   }
 
   public UpdateSiteParams clientName(String clientName) {
@@ -1174,7 +1143,6 @@ public class UpdateSiteParams {
         Objects.equals(this.rptAsJwt, updateSiteParams.rptAsJwt) &&
         Objects.equals(this.claimsRedirectUri, updateSiteParams.claimsRedirectUri) &&
         Objects.equals(this.clientTokenEndpointAuthSigningAlg, updateSiteParams.clientTokenEndpointAuthSigningAlg) &&
-        Objects.equals(this.trustedClient, updateSiteParams.trustedClient) &&
         Objects.equals(this.clientName, updateSiteParams.clientName) &&
         Objects.equals(this.logoUri, updateSiteParams.logoUri) &&
         Objects.equals(this.clientUri, updateSiteParams.clientUri) &&
@@ -1207,7 +1175,7 @@ public class UpdateSiteParams {
 
   @Override
   public int hashCode() {
-    return Objects.hash(oxdId, redirectUris, postLogoutRedirectUris, responseTypes, grantTypes, scope, acrValues, clientJwksUri, clientTokenEndpointAuthMethod, clientRequestUris, clientSectorIdentifierUri, contacts, uiLocales, claimsLocales, accessTokenAsJwt, accessTokenSigningAlg, rptAsJwt, claimsRedirectUri, clientTokenEndpointAuthSigningAlg, trustedClient, clientName, logoUri, clientUri, policyUri, frontChannelLogoutSessionRequired, tosUri, jwks, idTokenBindingCnf, tlsClientAuthSubjectDn, runIntrospectionScriptBeforeaccessTokenAsJwtCreationAndIncludeClaims, idTokenSignedResponseAlg, idTokenEncryptedResponseAlg, idTokenEncryptedResponseEnc, userInfoSignedResponseAlg, userInfoEncryptedResponseAlg, userInfoEncryptedResponseEnc, requestObjectSigningAlg, requestObjectEncryptionAlg, requestObjectEncryptionEnc, defaultMaxAge, requireAuthTime, initiateLoginUri, authorizedOrigins, accessTokenLifetime, softwareId, softwareVersion, softwareStatement, customAttributes);
+    return Objects.hash(oxdId, redirectUris, postLogoutRedirectUris, responseTypes, grantTypes, scope, acrValues, clientJwksUri, clientTokenEndpointAuthMethod, clientRequestUris, clientSectorIdentifierUri, contacts, uiLocales, claimsLocales, accessTokenAsJwt, accessTokenSigningAlg, rptAsJwt, claimsRedirectUri, clientTokenEndpointAuthSigningAlg, clientName, logoUri, clientUri, policyUri, frontChannelLogoutSessionRequired, tosUri, jwks, idTokenBindingCnf, tlsClientAuthSubjectDn, runIntrospectionScriptBeforeaccessTokenAsJwtCreationAndIncludeClaims, idTokenSignedResponseAlg, idTokenEncryptedResponseAlg, idTokenEncryptedResponseEnc, userInfoSignedResponseAlg, userInfoEncryptedResponseAlg, userInfoEncryptedResponseEnc, requestObjectSigningAlg, requestObjectEncryptionAlg, requestObjectEncryptionEnc, defaultMaxAge, requireAuthTime, initiateLoginUri, authorizedOrigins, accessTokenLifetime, softwareId, softwareVersion, softwareStatement, customAttributes);
   }
 
 
@@ -1235,7 +1203,6 @@ public class UpdateSiteParams {
     sb.append("    rptAsJwt: ").append(toIndentedString(rptAsJwt)).append("\n");
     sb.append("    claimsRedirectUri: ").append(toIndentedString(claimsRedirectUri)).append("\n");
     sb.append("    clientTokenEndpointAuthSigningAlg: ").append(toIndentedString(clientTokenEndpointAuthSigningAlg)).append("\n");
-    sb.append("    trustedClient: ").append(toIndentedString(trustedClient)).append("\n");
     sb.append("    clientName: ").append(toIndentedString(clientName)).append("\n");
     sb.append("    logoUri: ").append(toIndentedString(logoUri)).append("\n");
     sb.append("    clientUri: ").append(toIndentedString(clientUri)).append("\n");

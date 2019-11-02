@@ -386,11 +386,6 @@ public class RegisterSiteOperation extends BaseOperation<RegisterSiteParams> {
             params.setCustomAttributes(fallback.getCustomAttributes());
         }
 
-        //trusted_client
-        if (params.getTrustedClient() == null) {
-            params.setTrustedClient(fallback.getTrustedClient());
-        }
-
         //access_token_as_jwt
         if (params.getAccessTokenAsJwt() == null) {
             params.setAccessTokenAsJwt(fallback.getAccessTokenAsJwt());
@@ -510,10 +505,6 @@ public class RegisterSiteOperation extends BaseOperation<RegisterSiteParams> {
                 throw new HttpException(ErrorResponseCode.INVALID_SIGNATURE_ALGORITHM);
             }
             request.setTokenEndpointAuthSigningAlg(signatureAlgorithms);
-        }
-
-        if (params.getTrustedClient() != null && params.getTrustedClient()) {
-            request.addCustomAttribute("oxAuthTrustedClient", "true");
         }
 
         if (StringUtils.isNotBlank(oxdId)) {
@@ -708,11 +699,11 @@ public class RegisterSiteOperation extends BaseOperation<RegisterSiteParams> {
         }
 
         if (params.getCustomAttributes() != null && !params.getCustomAttributes().isEmpty()) {
+            params.getCustomAttributes().entrySet().removeIf(entry -> entry.getKey().contains("oxAuthTrustedClient"));
             params.getCustomAttributes().entrySet().stream().forEach(e -> {
                 request.addCustomAttribute(e.getKey(), e.getValue());
             });
         }
-
         return request;
     }
 

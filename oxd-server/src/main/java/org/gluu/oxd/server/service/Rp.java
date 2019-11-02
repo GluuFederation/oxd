@@ -125,8 +125,6 @@ public class Rp implements Serializable {
     private Boolean runIntrospectionScriptBeforeAccessTokenAsJwtCreationAndIncludeClaims = false;
     @JsonProperty(value = "require_auth_time")
     private Boolean requireAuthTime = false;
-    @JsonProperty(value = "trusted_client")
-    private Boolean trustedClient = false;
     @JsonProperty(value = "logo_uri")
     private String logoUri;
     @JsonProperty(value = "client_uri")
@@ -251,7 +249,6 @@ public class Rp implements Serializable {
         this.frontChannelLogoutSessionRequired = conf.frontChannelLogoutSessionRequired;
         this.runIntrospectionScriptBeforeAccessTokenAsJwtCreationAndIncludeClaims = conf.runIntrospectionScriptBeforeAccessTokenAsJwtCreationAndIncludeClaims;
         this.requireAuthTime = conf.requireAuthTime;
-        this.trustedClient = conf.trustedClient;
 
         this.logoUri = conf.logoUri;
         this.clientUri = conf.clientUri;
@@ -754,14 +751,6 @@ public class Rp implements Serializable {
         this.requireAuthTime = requireAuthTime;
     }
 
-    public Boolean getTrustedClient() {
-        return trustedClient;
-    }
-
-    public void setTrustedClient(Boolean trustedClient) {
-        this.trustedClient = trustedClient;
-    }
-
     public UmaResource umaResource(String path, String httpMethod) {
         List<UmaResource> copy = Lists.newArrayList(umaProtectedResources);
         Collections.reverse(copy);
@@ -1045,7 +1034,6 @@ public class Rp implements Serializable {
                 ", oxdRpProgrammingLanguage='" + oxdRpProgrammingLanguage + '\'' +
                 ", accessTokenAsJwt='" + accessTokenAsJwt + '\'' +
                 ", accessTokenSigningAlg='" + accessTokenSigningAlg + '\'' +
-                ", trusted_client='" + trustedClient + '\'' +
                 ", frontChannelLogoutSessionRequired='" + frontChannelLogoutSessionRequired + '\'' +
                 ", runIntrospectionScriptBeforeAccessTokenAsJwtCreationAndIncludeClaims='" + runIntrospectionScriptBeforeAccessTokenAsJwtCreationAndIncludeClaims + '\'' +
                 ", requireAuthTime='" + requireAuthTime + '\'' +

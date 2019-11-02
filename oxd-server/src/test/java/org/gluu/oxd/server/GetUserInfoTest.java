@@ -1,6 +1,7 @@
 package org.gluu.oxd.server;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import io.swagger.client.api.SeleniumTester;
 import org.gluu.oxd.client.ClientInterface;
 import org.gluu.oxd.client.GetTokensByCodeResponse2;
 import org.gluu.oxd.common.CoreUtils;
@@ -26,6 +27,7 @@ public class GetUserInfoTest {
         ClientInterface client = Tester.newClient(host);
 
         final RegisterSiteResponse site = RegisterSiteTest.registerSite(client, opHost, redirectUrls);
+        SeleniumTester.authenticateGluuServer(opHost, userId, userSecret, site.getClientId(), site.getClientSecret());
         final GetTokensByCodeResponse2 tokens = requestTokens(client, site, userId, userSecret);
 
         GetUserInfoParams params = new GetUserInfoParams();

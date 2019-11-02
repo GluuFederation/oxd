@@ -13,25 +13,15 @@
 
 package io.swagger.client.model;
 
-import java.util.Objects;
-import java.util.Arrays;
-import com.google.gson.TypeAdapter;
-import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+
+import java.util.*;
 
 /**
  * RegisterSiteParams
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2019-07-28T10:55:36.443Z")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2019-10-25T06:02:32.727Z")
 public class RegisterSiteParams {
   @SerializedName("redirect_uris")
   private List<String> redirectUris = new ArrayList<String>();
@@ -92,9 +82,6 @@ public class RegisterSiteParams {
 
   @SerializedName("client_secret")
   private String clientSecret = null;
-
-  @SerializedName("trusted_client")
-  private Boolean trustedClient = null;
 
   @SerializedName("access_token_as_jwt")
   private Boolean accessTokenAsJwt = null;
@@ -637,24 +624,6 @@ public class RegisterSiteParams {
 
   public void setClientSecret(String clientSecret) {
     this.clientSecret = clientSecret;
-  }
-
-  public RegisterSiteParams trustedClient(Boolean trustedClient) {
-    this.trustedClient = trustedClient;
-    return this;
-  }
-
-   /**
-   * specifies whether client is trusted. Default value is false.
-   * @return trustedClient
-  **/
-  @ApiModelProperty(value = "specifies whether client is trusted. Default value is false.")
-  public Boolean isTrustedClient() {
-    return trustedClient;
-  }
-
-  public void setTrustedClient(Boolean trustedClient) {
-    this.trustedClient = trustedClient;
   }
 
   public RegisterSiteParams accessTokenAsJwt(Boolean accessTokenAsJwt) {
@@ -1243,7 +1212,6 @@ public class RegisterSiteParams {
         Objects.equals(this.claimsRedirectUri, registerSiteParams.claimsRedirectUri) &&
         Objects.equals(this.clientId, registerSiteParams.clientId) &&
         Objects.equals(this.clientSecret, registerSiteParams.clientSecret) &&
-        Objects.equals(this.trustedClient, registerSiteParams.trustedClient) &&
         Objects.equals(this.accessTokenAsJwt, registerSiteParams.accessTokenAsJwt) &&
         Objects.equals(this.accessTokenSigningAlg, registerSiteParams.accessTokenSigningAlg) &&
         Objects.equals(this.rptAsJwt, registerSiteParams.rptAsJwt) &&
@@ -1278,7 +1246,7 @@ public class RegisterSiteParams {
 
   @Override
   public int hashCode() {
-    return Objects.hash(redirectUris, opHost, postLogoutRedirectUris, responseTypes, grantTypes, scope, acrValues, clientName, clientJwksUri, clientTokenEndpointAuthMethod, clientTokenEndpointAuthSigningAlg, clientRequestUris, clientFrontchannelLogoutUris, clientSectorIdentifierUri, contacts, uiLocales, claimsLocales, claimsRedirectUri, clientId, clientSecret, trustedClient, accessTokenAsJwt, accessTokenSigningAlg, rptAsJwt, logoUri, clientUri, policyUri, frontChannelLogoutSessionRequired, tosUri, jwks, idTokenBindingCnf, tlsClientAuthSubjectDn, runIntrospectionScriptBeforeaccessTokenAsJwtCreationAndIncludeClaims, idTokenSignedResponseAlg, idTokenEncryptedResponseAlg, idTokenEncryptedResponseEnc, userInfoSignedResponseAlg, userInfoEncryptedResponseAlg, userInfoEncryptedResponseEnc, requestObjectSigningAlg, requestObjectEncryptionAlg, requestObjectEncryptionEnc, defaultMaxAge, requireAuthTime, initiateLoginUri, authorizedOrigins, accessTokenLifetime, softwareId, softwareVersion, softwareStatement, customAttributes);
+    return Objects.hash(redirectUris, opHost, postLogoutRedirectUris, responseTypes, grantTypes, scope, acrValues, clientName, clientJwksUri, clientTokenEndpointAuthMethod, clientTokenEndpointAuthSigningAlg, clientRequestUris, clientFrontchannelLogoutUris, clientSectorIdentifierUri, contacts, uiLocales, claimsLocales, claimsRedirectUri, clientId, clientSecret, accessTokenAsJwt, accessTokenSigningAlg, rptAsJwt, logoUri, clientUri, policyUri, frontChannelLogoutSessionRequired, tosUri, jwks, idTokenBindingCnf, tlsClientAuthSubjectDn, runIntrospectionScriptBeforeaccessTokenAsJwtCreationAndIncludeClaims, idTokenSignedResponseAlg, idTokenEncryptedResponseAlg, idTokenEncryptedResponseEnc, userInfoSignedResponseAlg, userInfoEncryptedResponseAlg, userInfoEncryptedResponseEnc, requestObjectSigningAlg, requestObjectEncryptionAlg, requestObjectEncryptionEnc, defaultMaxAge, requireAuthTime, initiateLoginUri, authorizedOrigins, accessTokenLifetime, softwareId, softwareVersion, softwareStatement, customAttributes);
   }
 
 
@@ -1307,7 +1275,6 @@ public class RegisterSiteParams {
     sb.append("    claimsRedirectUri: ").append(toIndentedString(claimsRedirectUri)).append("\n");
     sb.append("    clientId: ").append(toIndentedString(clientId)).append("\n");
     sb.append("    clientSecret: ").append(toIndentedString(clientSecret)).append("\n");
-    sb.append("    trustedClient: ").append(toIndentedString(trustedClient)).append("\n");
     sb.append("    accessTokenAsJwt: ").append(toIndentedString(accessTokenAsJwt)).append("\n");
     sb.append("    accessTokenSigningAlg: ").append(toIndentedString(accessTokenSigningAlg)).append("\n");
     sb.append("    rptAsJwt: ").append(toIndentedString(rptAsJwt)).append("\n");

@@ -30,6 +30,7 @@ public class GetTokensByCodeTest {
     public void whenValidCodeIsUsed_shouldGetTokenInResponse(String host, String opHost, String redirectUrls, String userId, String userSecret) {
         ClientInterface client = Tester.newClient(host);
         final RegisterSiteResponse site = RegisterSiteTest.registerSite(client, opHost, redirectUrls);
+        SeleniumTester.authenticateGluuServer(opHost, userId, userSecret, site.getClientId(), site.getClientSecret());
         GetTokensByCodeResponse2 tokensResponse = tokenByCode(client, site, userId, userSecret, CoreUtils.secureRandomString());
         refreshToken(tokensResponse, client, site.getOxdId());
     }

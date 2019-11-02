@@ -22,6 +22,7 @@
         <guice.version>3.0</guice.version>
         <guava.version>13.0.1</guava.version>
         <oxlicense.version>3.2.0-SNAPSHOT</oxlicense.version>
+        <selenium.version>2.53.1</selenium.version>
     </properties>
 
     <prerequisites>
@@ -271,6 +272,13 @@
                 <groupId>com.google.inject.extensions</groupId>
                 <artifactId>guice-servlet</artifactId>
                 <version>${guice.version}</version>
+            </dependency>
+            <!-- selenium dependencies-->
+            <dependency>
+                <groupId>org.seleniumhq.selenium</groupId>
+                <artifactId>selenium-java</artifactId>
+                <version>${selenium.version}</version>
+                <scope>test</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>

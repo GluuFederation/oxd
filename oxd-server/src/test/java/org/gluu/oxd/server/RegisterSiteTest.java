@@ -2,12 +2,15 @@ package org.gluu.oxd.server;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
+import com.google.inject.Injector;
 import org.gluu.oxauth.model.common.GrantType;
 import org.gluu.oxd.client.ClientInterface;
 import org.gluu.oxd.common.params.RegisterSiteParams;
 import org.gluu.oxd.common.params.UpdateSiteParams;
 import org.gluu.oxd.common.response.RegisterSiteResponse;
 import org.gluu.oxd.common.response.UpdateSiteResponse;
+import org.gluu.oxd.server.service.Rp;
+import org.gluu.oxd.server.service.RpService;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
@@ -89,14 +92,20 @@ public class RegisterSiteTest {
         params.setSoftwareVersion("2.0");
 
         Map<String, String> customAttributes = new HashMap<>();
-        customAttributes.put("k1", "v1");
-        customAttributes.put("k2", "v2");
+        customAttributes.put("oxAuthTrustedClient", "true");
+        customAttributes.put("oxd_id", "dummy_id");
         params.setCustomAttributes(customAttributes);
 
         resp = Tester.newClient(host).registerSite(params);
         assertNotNull(resp);
         assertNotNull(resp.getOxdId());
         oxdId = resp.getOxdId();
+        //check if `oxAuthTrustedClient` added in customAttributes
+        Injector injector = ServerLauncher.getInjector();
+        RpService rpService = injector.getInstance(RpService.class);
+        Rp rp = rpService.getRp(oxdId);
+        assertTrue(!rp.getCustomAttributes().containsKey("oxAuthTrustedClient"));
+        assertTrue(rp.getCustomAttributes().containsKey("oxd_id"));
     }
 
     @Parameters({"host"})
@@ -152,8 +161,8 @@ public class RegisterSiteTest {
         params.setSoftwareVersion("3.0");
 
         Map<String, String> customAttributes = new HashMap<>();
-        customAttributes.put("key1", "v1");
-        customAttributes.put("key2", "v2");
+        customAttributes.put("oxAuthTrustedClient", "true");
+        customAttributes.put("oxd_id", "dummy_id");
         params.setCustomAttributes(customAttributes);
 
         UpdateSiteResponse resp = Tester.newClient(host).updateSite(Tester.getAuthorization(), params);
@@ -171,9 +180,9 @@ public class RegisterSiteTest {
         params.setPostLogoutRedirectUris(Lists.newArrayList(postLogoutRedirectUrls.split(" ")));
         params.setClientFrontchannelLogoutUris(Lists.newArrayList(logoutUri));
         params.setRedirectUris(Lists.newArrayList(redirectUrls.split(" ")));
-        params.setScope(Lists.newArrayList("openid", "uma_protection", "profile"));
+        params.setScope(Lists.newArrayList("openid", "uma_protection", "profile", "oxd"));
         params.setResponseTypes(Lists.newArrayList("code", "id_token", "token"));
-        params.setTrustedClient(true);
+        params.setAcrValues(Lists.newArrayList("basic"));
         params.setGrantTypes(Lists.newArrayList(
                 GrantType.AUTHORIZATION_CODE.getValue(),
                 GrantType.OXAUTH_UMA_TICKET.getValue(),

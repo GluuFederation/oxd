@@ -33,7 +33,7 @@ public class GetTokensByCodeTest {
         DevelopersApi client = Tester.api();
 
         final RegisterSiteResponse site = RegisterSiteTest.registerSite(client, opHost, redirectUrls);
-
+        SeleniumTester.authenticateGluuServer(opHost, userId, userSecret, site.getClientId(), site.getClientSecret());
         GetTokensByCodeResponse tokensResponse = tokenByCode(client, site, userId, userSecret, CoreUtils.secureRandomString());
 
         refreshToken(tokensResponse, client, site);

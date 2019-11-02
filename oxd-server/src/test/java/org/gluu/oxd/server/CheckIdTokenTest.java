@@ -1,5 +1,6 @@
 package org.gluu.oxd.server;
 
+import io.swagger.client.api.SeleniumTester;
 import org.gluu.oxd.client.ClientInterface;
 import org.gluu.oxd.client.GetTokensByCodeResponse2;
 import org.gluu.oxd.common.CoreUtils;
@@ -28,7 +29,7 @@ public class CheckIdTokenTest {
         ClientInterface client = Tester.newClient(host);
 
         RegisterSiteResponse site = RegisterSiteTest.registerSite(client, opHost, redirectUrls);
-
+        SeleniumTester.authenticateGluuServer(opHost, userId, userSecret, site.getClientId(), site.getClientSecret());
         String nonce = CoreUtils.secureRandomString();
         GetTokensByCodeResponse2 response = GetTokensByCodeTest.tokenByCode(client, site, userId, userSecret, nonce);
 
