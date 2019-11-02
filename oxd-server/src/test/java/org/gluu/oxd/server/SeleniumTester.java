@@ -45,7 +45,7 @@ public class SeleniumTester {
 
     @Parameters({"opHost", "userId", "userSecret", "clientId", "clientSecret"})
     @Test
-    public static void authenticateGluuServer(String opHost, String userId, String userSecret, String clientId, String clientSecret) {
+    public static void enableTrustedClientOnGluuServer(String opHost, String userId, String userSecret, String clientId, String clientSecret) {
         WebDriver driver = new HtmlUnitDriver();
 
         loginGluuServer(driver, opHost, userId, userSecret);
@@ -53,10 +53,4 @@ public class SeleniumTester {
 
         driver.quit();
     }
-    /*
-    public static void main(String[] args) {
-        SeleniumTester seleniumTester = new SeleniumTester();
-        seleniumTester.authenticateGluuServer("https://www.devompro.xyz", "admin", "Onezee@1020", "a013c1b0-780a-4d85-b410-9fec2a62cd4c", "faf400c6-3e24-4e8a-acb5-6551553f23cd");
-    }
-    */
 }

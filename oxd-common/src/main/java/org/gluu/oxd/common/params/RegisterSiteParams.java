@@ -60,8 +60,6 @@ public class RegisterSiteParams implements HasOxdIdParams {
     private List<String> grant_types;
     @JsonProperty(value = "contacts")
     private List<String> contacts;
-    @JsonProperty(value = "trusted_client")
-    private Boolean trusted_client = false;
     @JsonProperty(value = "access_token_as_jwt")
     private Boolean access_token_as_jwt = false;
     @JsonProperty(value = "access_token_signing_alg")
@@ -167,14 +165,6 @@ public class RegisterSiteParams implements HasOxdIdParams {
 
     public void setClientRegistrationClientUri(String clientRegistrationClientUri) {
         this.client_registration_client_uri = clientRegistrationClientUri;
-    }
-
-    public Boolean getTrustedClient() {
-        return trusted_client;
-    }
-
-    public void setTrustedClient(Boolean trustedClient) {
-        this.trusted_client = trustedClient;
     }
 
     public String getClientName() {
@@ -870,7 +860,6 @@ public class RegisterSiteParams implements HasOxdIdParams {
                 ", acr_values=" + acr_values +
                 ", grant_types=" + grant_types +
                 ", contacts=" + contacts +
-                ", trusted_client=" + trusted_client +
                 ", access_token_as_jwt=" + access_token_as_jwt +
                 ", access_token_signing_alg=" + access_token_signing_alg +
                 ", rpt_as_jwt=" + rpt_as_jwt +
