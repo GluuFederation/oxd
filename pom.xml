@@ -13,7 +13,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.min-version>3.0.3</maven.min-version>
         <oxCore.version>4.0.1.Final</oxCore.version>
-        <jackson.version>2.9.9</jackson.version>
+        <jackson.version>2.10.1</jackson.version>
         <slf4j.version>1.7.25</slf4j.version>
         <httpcomponents.version>4.1.2</httpcomponents.version>
         <oxauth.version>4.0.1.Final</oxauth.version>
