@@ -8,5 +8,5 @@ rm -f $warName
 rm -f -r $destDir
 
 # Download and unzip
-wget http://ox.gluu.org/maven/org/xdi/oxd-server/4.0.Final/$warName
+wget http://ox.gluu.org/maven/org/xdi/oxd-server/4.0.1.Final/$warName
 unzip $warName -d $distDir
