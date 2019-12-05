@@ -1,6 +1,7 @@
 package org.gluu.oxd.server.persistence;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
 import org.gluu.oxd.common.Jackson2;
 import org.gluu.oxd.server.OxdServerConfiguration;
@@ -13,6 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -55,6 +57,27 @@ public class RedisPersistenceService implements PersistenceService {
         }
     }
 
+
+    public boolean createState(String state) {
+        try {
+            put(configuration.getStateExpirationInMinutes() * 60, state, "state");
+            return true;
+        } catch (Exception e) {
+            LOG.error("Failed to create state: " + state, e);
+            return false;
+        }
+    }
+
+    public boolean createNonce(String nonce) {
+        try {
+            put(configuration.getNonceExpirationInMinutes() * 60, nonce, "nonce");
+            return true;
+        } catch (Exception e) {
+            LOG.error("Failed to create nonce: " + nonce, e);
+            return false;
+        }
+    }
+
     @Override
     public boolean update(Rp rp) {
         try {
@@ -71,6 +94,22 @@ public class RedisPersistenceService implements PersistenceService {
         return MigrationService.parseRp(get(oxdId));
     }
 
+    public boolean isStatePresent(String state) {
+        String stateValue = (String) redisProvider.get(state);
+        if (!Strings.isNullOrEmpty(stateValue) && stateValue.equals("state")) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isNoncePresent(String nonce) {
+        String nonceValue = (String) redisProvider.get(nonce);
+        if (!Strings.isNullOrEmpty(nonceValue) && nonceValue.equals("nonce")) {
+            return true;
+        }
+        return false;
+    }
+
     @Override
     public boolean removeAllRps() {
         return false;
@@ -79,6 +118,14 @@ public class RedisPersistenceService implements PersistenceService {
     @Override
     public Set<Rp> getRps() {
         return Sets.newHashSet();
+    }
+
+    public Map<String, String> getAllStates() {
+        return null;
+    }
+
+    public Map<String, String> getAllNonce() {
+        return null;
     }
 
     @Override
@@ -96,6 +143,16 @@ public class RedisPersistenceService implements PersistenceService {
         return true;
     }
 
+    public boolean removeState(String state) {
+        redisProvider.remove(state);
+        return true;
+    }
+
+    public boolean removeNonce(String nonce) {
+        redisProvider.remove(nonce);
+        return true;
+    }
+
     private void testConnection() {
         put("testKey", "testValue");
         if (!"testValue".equals(get("testKey"))) {
@@ -105,6 +162,10 @@ public class RedisPersistenceService implements PersistenceService {
 
     public void put(String key, String value) {
         redisProvider.put(key, value);
+    }
+
+    public void put(int expirationInSeconds, String key, String value) {
+        redisProvider.put(expirationInSeconds, key, value);
     }
 
     public String get(String key) {

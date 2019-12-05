@@ -24,7 +24,7 @@
           </elementProp>
           <elementProp name="oxd_port" elementType="Argument">
             <stringProp name="Argument.name">oxd_port</stringProp>
-            <stringProp name="Argument.value">57267</stringProp>
+            <stringProp name="Argument.value">8443</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="nonce" elementType="Argument">
@@ -34,7 +34,7 @@
           </elementProp>
           <elementProp name="state" elementType="Argument">
             <stringProp name="Argument.name">state</stringProp>
-            <stringProp name="Argument.value">DUMMY_STATE</stringProp>
+            <stringProp name="Argument.value">${__Random(0,999999999999)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="username" elementType="Argument">
