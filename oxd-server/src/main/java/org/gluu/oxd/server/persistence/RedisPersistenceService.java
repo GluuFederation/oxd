@@ -96,18 +96,14 @@ public class RedisPersistenceService implements PersistenceService {
 
     public boolean isStatePresent(String state) {
         String stateValue = (String) redisProvider.get(state);
-        if (!Strings.isNullOrEmpty(stateValue) && stateValue.equals("state")) {
-            return true;
-        }
-        return false;
+
+        return (!Strings.isNullOrEmpty(stateValue) && stateValue.equals("state"));
     }
 
     public boolean isNoncePresent(String nonce) {
         String nonceValue = (String) redisProvider.get(nonce);
-        if (!Strings.isNullOrEmpty(nonceValue) && nonceValue.equals("nonce")) {
-            return true;
-        }
-        return false;
+
+        return (!Strings.isNullOrEmpty(nonceValue) && nonceValue.equals("nonce"));
     }
 
     @Override
@@ -121,10 +117,12 @@ public class RedisPersistenceService implements PersistenceService {
     }
 
     public Map<String, String> getAllStates() {
+        //Feature Not Required
         return null;
     }
 
     public Map<String, String> getAllNonce() {
+        //Feature Not Required
         return null;
     }
 

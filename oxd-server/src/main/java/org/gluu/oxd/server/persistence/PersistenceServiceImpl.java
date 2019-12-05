@@ -7,7 +7,6 @@ import org.gluu.oxd.server.service.Rp;
 import java.util.Map;
 import java.util.Set;
 import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * @author Yuriy Zabrovarnyy
@@ -45,7 +44,7 @@ public class PersistenceServiceImpl implements PersistenceService {
     public void setTimerForDBCleanUpTask() {
         Timer timer = new Timer();
         H2DBCleanerService h2DBCleanerService = new H2DBCleanerService(configurationService, new SqlPersistenceServiceImpl(sqlProvider, configurationService));
-        timer.schedule(h2DBCleanerService, 1000 * 60 * 1, 1000 * 60 * 1);
+        timer.schedule(h2DBCleanerService, 1000 * 60 * 5, 1000 * 60 * 5);
     }
 
     public boolean create(Rp rp) {
