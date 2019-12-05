@@ -10,7 +10,7 @@ import java.sql.Timestamp;
 import java.util.Map;
 import java.util.TimerTask;
 
-public class H2DBCleanerService  extends TimerTask {
+public class H2DBCleanerService extends TimerTask {
 
     private static final Logger LOG = LoggerFactory.getLogger(H2DBCleanerService.class);
 
@@ -25,13 +25,13 @@ public class H2DBCleanerService  extends TimerTask {
     }
 
     public void run() {
-        LOG.debug("Starting state clean-up task.persistenceService");
+        LOG.debug("Starting state clean-up task.");
         Map<String, String> stateMap = persistenceService.getAllStates();
 
         stateMap.forEach(
                 (state, createdAt) -> {
                     if (hasStateOrNoanceExpired(createdAt, conf.getStateExpirationInMinutes())) {
-                        LOG.debug("State has expired: " + state);
+                        LOG.debug("State has expired. Removing from storage. State: " + state);
                         persistenceService.removeState(state);
                     }
                 });
@@ -40,7 +40,7 @@ public class H2DBCleanerService  extends TimerTask {
         nonceMap.forEach(
                 (nonce, createdAt) -> {
                     if (hasStateOrNoanceExpired(createdAt, conf.getNonceExpirationInMinutes())) {
-                        LOG.debug("Nonce has expired: " + nonce);
+                        LOG.debug("Nonce has expired. Removing from storage. Nonce: " + nonce);
                         persistenceService.removeNonce(nonce);
                     }
                 });
@@ -55,9 +55,6 @@ public class H2DBCleanerService  extends TimerTask {
         int secTimeDiff = (int) millisecTimeDiff / 1000;
         int minTimeDiff = (secTimeDiff % 3600) / 60;
 
-        if (minTimeDiff >= expirationInMinutes) {
-            return true;
-        }
-        return false;
+        return (minTimeDiff >= expirationInMinutes);
     }
 }
