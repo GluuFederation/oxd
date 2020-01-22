@@ -27,11 +27,98 @@ public class GetTokensByCodeTest {
 
     @Parameters({"host", "opHost", "redirectUrls", "userId", "userSecret"})
     @Test
-    public void whenValidCodeIsUsed_shouldGetTokenInResponse(String host, String opHost, String redirectUrls, String userId, String userSecret) {
+    public void getToken_withHS256(String host, String opHost, String redirectUrls, String userId, String userSecret) {
         ClientInterface client = Tester.newClient(host);
-        final RegisterSiteResponse site = RegisterSiteTest.registerSite(client, opHost, redirectUrls);
-        GetTokensByCodeResponse2 tokensResponse = tokenByCode(client, site, userId, userSecret, CoreUtils.secureRandomString());
-        refreshToken(tokensResponse, client, site.getOxdId());
+        final RegisterSiteResponse site = RegisterSiteTest.registerSite(client, opHost, redirectUrls, "HS256");
+        GetTokensByCodeResponse2 tokensResp = tokenByCode(client, site, userId, userSecret, CoreUtils.secureRandomString());
+    }
+
+    @Parameters({"host", "opHost", "redirectUrls", "userId", "userSecret"})
+    @Test
+    public void getToken_withHS384(String host, String opHost, String redirectUrls, String userId, String userSecret) {
+        ClientInterface client = Tester.newClient(host);
+        final RegisterSiteResponse site = RegisterSiteTest.registerSite(client, opHost, redirectUrls, "HS384");
+        GetTokensByCodeResponse2 tokensResp = tokenByCode(client, site, userId, userSecret, CoreUtils.secureRandomString());
+    }
+
+    @Parameters({"host", "opHost", "redirectUrls", "userId", "userSecret"})
+    @Test
+    public void getToken_withHS512(String host, String opHost, String redirectUrls, String userId, String userSecret) {
+        ClientInterface client = Tester.newClient(host);
+        final RegisterSiteResponse site = RegisterSiteTest.registerSite(client, opHost, redirectUrls, "HS512");
+        GetTokensByCodeResponse2 tokensResp = tokenByCode(client, site, userId, userSecret, CoreUtils.secureRandomString());
+    }
+
+    @Parameters({"host", "opHost", "redirectUrls", "userId", "userSecret"})
+    @Test
+    public void getToken_withRS256(String host, String opHost, String redirectUrls, String userId, String userSecret) {
+        ClientInterface client = Tester.newClient(host);
+        final RegisterSiteResponse site = RegisterSiteTest.registerSite(client, opHost, redirectUrls, "RS256");
+        GetTokensByCodeResponse2 tokensResp = tokenByCode(client, site, userId, userSecret, CoreUtils.secureRandomString());
+    }
+
+    @Parameters({"host", "opHost", "redirectUrls", "userId", "userSecret"})
+    @Test
+    public void getToken_withRS384(String host, String opHost, String redirectUrls, String userId, String userSecret) {
+        ClientInterface client = Tester.newClient(host);
+        final RegisterSiteResponse site = RegisterSiteTest.registerSite(client, opHost, redirectUrls, "RS384");
+        GetTokensByCodeResponse2 tokensResp = tokenByCode(client, site, userId, userSecret, CoreUtils.secureRandomString());
+    }
+
+    @Parameters({"host", "opHost", "redirectUrls", "userId", "userSecret"})
+    @Test
+    public void getToken_withRS512(String host, String opHost, String redirectUrls, String userId, String userSecret) {
+        ClientInterface client = Tester.newClient(host);
+        final RegisterSiteResponse site = RegisterSiteTest.registerSite(client, opHost, redirectUrls, "RS512");
+        GetTokensByCodeResponse2 tokensResp = tokenByCode(client, site, userId, userSecret, CoreUtils.secureRandomString());
+    }
+
+    @Parameters({"host", "opHost", "redirectUrls", "userId", "userSecret"})
+    @Test
+    public void getToken_withES256(String host, String opHost, String redirectUrls, String userId, String userSecret) {
+        ClientInterface client = Tester.newClient(host);
+        final RegisterSiteResponse site = RegisterSiteTest.registerSite(client, opHost, redirectUrls, "ES256");
+        GetTokensByCodeResponse2 tokensResp = tokenByCode(client, site, userId, userSecret, CoreUtils.secureRandomString());
+    }
+
+    @Parameters({"host", "opHost", "redirectUrls", "userId", "userSecret"})
+    @Test
+    public void getToken_withES384(String host, String opHost, String redirectUrls, String userId, String userSecret) {
+        ClientInterface client = Tester.newClient(host);
+        final RegisterSiteResponse site = RegisterSiteTest.registerSite(client, opHost, redirectUrls, "ES384");
+        GetTokensByCodeResponse2 tokensResp = tokenByCode(client, site, userId, userSecret, CoreUtils.secureRandomString());
+    }
+
+    @Parameters({"host", "opHost", "redirectUrls", "userId", "userSecret"})
+    @Test
+    public void getToken_withES512(String host, String opHost, String redirectUrls, String userId, String userSecret) {
+        ClientInterface client = Tester.newClient(host);
+        final RegisterSiteResponse site = RegisterSiteTest.registerSite(client, opHost, redirectUrls, "ES512");
+        GetTokensByCodeResponse2 tokensResp = tokenByCode(client, site, userId, userSecret, CoreUtils.secureRandomString());
+    }
+
+    @Parameters({"host", "opHost", "redirectUrls", "userId", "userSecret"})
+    @Test
+    public void getToken_withPS256(String host, String opHost, String redirectUrls, String userId, String userSecret) {
+        ClientInterface client = Tester.newClient(host);
+        final RegisterSiteResponse site = RegisterSiteTest.registerSite(client, opHost, redirectUrls, "PS256");
+        GetTokensByCodeResponse2 tokensResp = tokenByCode(client, site, userId, userSecret, CoreUtils.secureRandomString());
+    }
+
+    @Parameters({"host", "opHost", "redirectUrls", "userId", "userSecret"})
+    @Test
+    public void getToken_withPS384(String host, String opHost, String redirectUrls, String userId, String userSecret) {
+        ClientInterface client = Tester.newClient(host);
+        final RegisterSiteResponse site = RegisterSiteTest.registerSite(client, opHost, redirectUrls, "PS384");
+        GetTokensByCodeResponse2 tokensResp = tokenByCode(client, site, userId, userSecret, CoreUtils.secureRandomString());
+    }
+
+    @Parameters({"host", "opHost", "redirectUrls", "userId", "userSecret"})
+    @Test
+    public void getToken_withPS512(String host, String opHost, String redirectUrls, String userId, String userSecret) {
+        ClientInterface client = Tester.newClient(host);
+        final RegisterSiteResponse site = RegisterSiteTest.registerSite(client, opHost, redirectUrls, "PS512");
+        GetTokensByCodeResponse2 tokensResp = tokenByCode(client, site, userId, userSecret, CoreUtils.secureRandomString());
     }
 
     @Parameters({"host", "opHost", "redirectUrls", "userId", "userSecret"})
