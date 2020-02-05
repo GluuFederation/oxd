@@ -37,6 +37,7 @@ public class UmaGetClaimsGatheringUrlTest {
         params.setOxdId(site.getOxdId());
         params.setTicket(checkAccess.getTicket());
         params.setClaimsRedirectUri(paramRedirectUrl);
+        params.setRedirectUri(paramRedirectUrl);
 
         final UmaRpGetClaimsGatheringUrlResponse response = client.umaRpGetClaimsGatheringUrl(Tester.getAuthorization(), params);
 
@@ -47,6 +48,7 @@ public class UmaGetClaimsGatheringUrlTest {
         assertTrue(isNotBlank(parameters.get("state")));
         assertTrue(isNotBlank(response.getState()));
         assertEquals(paramRedirectUrl, parameters.get("claims_redirect_uri"));
+        assertEquals(paramRedirectUrl, parameters.get("redirect_uri"));
     }
 
     @Parameters({"opHost", "redirectUrls", "rsProtect", "state", "paramRedirectUrl"})
@@ -65,6 +67,7 @@ public class UmaGetClaimsGatheringUrlTest {
         params.setTicket(checkAccess.getTicket());
         params.setClaimsRedirectUri(paramRedirectUrl);
         params.setState(state);
+        params.setRedirectUri(paramRedirectUrl);
 
         final UmaRpGetClaimsGatheringUrlResponse response = client.umaRpGetClaimsGatheringUrl(Tester.getAuthorization(), params);
 
@@ -76,5 +79,6 @@ public class UmaGetClaimsGatheringUrlTest {
         assertTrue(isNotBlank(response.getState()));
         assertEquals(response.getState(), state);
         assertEquals(paramRedirectUrl, parameters.get("claims_redirect_uri"));
+        assertEquals(paramRedirectUrl, parameters.get("redirect_uri"));
     }
 }

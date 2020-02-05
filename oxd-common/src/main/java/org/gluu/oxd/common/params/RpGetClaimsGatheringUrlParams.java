@@ -17,6 +17,8 @@ public class RpGetClaimsGatheringUrlParams implements HasAccessTokenParams {
     private String ticket;
     @JsonProperty(value = "claims_redirect_uri")
     private String claims_redirect_uri;
+    @JsonProperty(value = "redirect_uri")
+    private String redirect_uri;
     @JsonProperty(value = "token")
     private String token;
     @JsonProperty(value = "state")
@@ -65,6 +67,14 @@ public class RpGetClaimsGatheringUrlParams implements HasAccessTokenParams {
         this.state = state;
     }
 
+    public String getRedirectUri() {
+        return redirect_uri;
+    }
+
+    public void setRedirectUri(String redirect_uri) {
+        this.redirect_uri = redirect_uri;
+    }
+
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder();
@@ -74,6 +84,7 @@ public class RpGetClaimsGatheringUrlParams implements HasAccessTokenParams {
         sb.append(", claims_redirect_uri=").append(claims_redirect_uri);
         sb.append(", token=").append(token);
         sb.append(", state=").append(state);
+        sb.append(", redirect_uri=").append(redirect_uri);
         sb.append('}');
         return sb.toString();
     }
