@@ -11,7 +11,7 @@ info:
 
   license:
     name: License
-    url: https://github.com/GluuFederation/oxd/blob/master/LICENSE
+    url: https://github.com/GluuFederation/oxd/blob/master/license.md
 
 host: gluu.org
 basePath: /
