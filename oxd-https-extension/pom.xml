@@ -138,13 +138,13 @@
         <dependency>
             <groupId>org.xdi</groupId>
             <artifactId>oxd-server</artifactId>
-            <version>${project.version}</version>
+            <version>3.1.7.Final</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.xdi</groupId>
             <artifactId>oxd-server</artifactId>
-            <version>${project.version}</version>
+            <version>3.1.7.Final</version>
             <type>test-jar</type>
             <scope>test</scope>
         </dependency>
