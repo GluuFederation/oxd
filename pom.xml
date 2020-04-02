@@ -56,11 +56,6 @@
             <url>http://repository.jboss.org/nexus/content/groups/public-jboss/</url>
         </repository>
         <repository>
-            <id>bouncycastle</id>
-            <name>Bouncy Castle</name>
-            <url>http://repo2.maven.org/maven2/org/bouncycastle</url>
-        </repository>
-        <repository>
             <id>local</id>
             <name>oxd local repository</name>
             <url>file://${project.basedir}/../oxd-repo</url>
