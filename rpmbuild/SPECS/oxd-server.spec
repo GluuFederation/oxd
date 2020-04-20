@@ -8,7 +8,7 @@ License:        MIT
 URL:            http://www.gluu.org
 Source0:        %{name}.tar.gz
 Source1:        oxd-server.init.d
-Source2:        oxd-https-extension
+Source2:        oxd-https-extension.init.d
 Source3:        oxd-server-default
 BuildArch:      noarch
 Conflicts:      oxd-server
