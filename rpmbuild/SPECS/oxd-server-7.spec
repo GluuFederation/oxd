@@ -33,7 +33,7 @@ install -m 755 %SOURCE1 %{buildroot}/lib/systemd/system/oxd-server.service
 install -m 755 %SOURCE2 %{buildroot}/opt/oxd-server/bin/oxd-server.sh
 install -m 755 oxd-server/src/main/bin/oxd-start.sh %{buildroot}/opt/oxd-server/bin/
 install -m 755 oxd-server/src/main/bin/lsox.sh %{buildroot}/opt/oxd-server/bin/
-install -m 644 oxd-server/src/main/resources/oxd-server.yml %{buildroot}/opt/oxd-server/conf/
+#install -m 644 oxd-server/src/main/resources/oxd-server.yml %{buildroot}/opt/oxd-server/conf/
 install -m 644 oxd-server/src/main/resources/oxd-server.keystore %{buildroot}/opt/oxd-server/conf/
 install -m 644 oxd-server/src/main/resources/swagger.yaml %{buildroot}/opt/oxd-server/conf/
 install -m 644 bcprov-jdk15on-1.54.jar %{buildroot}/opt/oxd-server/lib/
