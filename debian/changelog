@@ -1,4 +1,4 @@
-oxd-server-3.1.8 (1-1~bionic) bionic; urgency=low
+oxd-server (3.8.1-1) unstable; urgency=low
 
   * Initial release (Closes: #1232)
 
