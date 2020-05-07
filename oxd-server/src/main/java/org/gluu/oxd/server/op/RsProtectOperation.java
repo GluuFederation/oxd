@@ -163,10 +163,10 @@ public class RsProtectOperation extends BaseOperation<RsProtectParams> {
             } else {
                 // remove existing resources, overwrite=true
                 UmaMetadata discovery = getDiscoveryService().getUmaDiscoveryByOxdId(params.getOxdId());
-                UmaResourceService resourceService = UmaClientFactory.instance().createResourceService(discovery, getHttpService().getClientEngine());
                 String pat = getUmaTokenService().getPat(params.getOxdId()).getToken();
 
                 for (UmaResource resource : existingUmaResources) {
+                    UmaResourceService resourceService = UmaClientFactory.instance().createResourceService(discovery, getHttpService().getClientEngine());
                     LOG.trace("Removing existing resource " + resource.getId() + " ...");
                     resourceService.deleteResource("Bearer " + pat, resource.getId());
                     LOG.trace("Removed existing resource " + resource.getId() + ".");
