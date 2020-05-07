@@ -21,6 +21,7 @@ import org.gluu.oxd.server.HttpException;
 import org.gluu.oxd.server.model.UmaResource;
 import org.gluu.oxd.server.service.Rp;
 
+import javax.ws.rs.ClientErrorException;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -114,8 +115,8 @@ public class RsCheckAccessOperation extends BaseOperation<RsCheckAccessParams> {
         try {
             LOG.trace("Try to register ticket, scopes: " + scopes + ", resourceId: " + resource.getId());
             response = rptInterceptor.registerTicketResponse(scopes, resource.getId());
-        } catch (ClientResponseFailure e) {
-            LOG.debug("Failed to register ticket. Entity: " + e.getResponse().getEntity(String.class) + ", status: " + e.getResponse().getStatus(), e);
+        } catch (ClientErrorException e) {
+            LOG.debug("Failed to register ticket. Entity: " + e.getResponse().readEntity(String.class) + ", status: " + e.getResponse().getStatus(), e);
             if (e.getResponse().getStatus() == 400 || e.getResponse().getStatus() == 401) {
                 LOG.debug("Try maybe PAT is lost on AS, force refresh PAT and request ticket again ...");
                 getUmaTokenService().obtainPat(params.getOxdId()); // force to refresh PAT
