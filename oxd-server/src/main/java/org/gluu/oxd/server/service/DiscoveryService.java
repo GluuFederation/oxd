@@ -112,7 +112,7 @@ public class DiscoveryService {
                 return r;
             }
             final UmaMetadata response = opClientFactory.createUmaClientFactory().createMetadataService(
-                    getUmaDiscoveryUrl(opHost, opDiscoveryPath), httpService.getClientExecutor()).getMetadata();
+                    getUmaDiscoveryUrl(opHost, opDiscoveryPath), httpService.getClientEngine()).getMetadata();
             LOG.trace("Uma discovery response: {} ", response);
             umaMap.put(opHost, response);
             return response;

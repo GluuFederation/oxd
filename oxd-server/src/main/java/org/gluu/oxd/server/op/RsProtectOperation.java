@@ -30,6 +30,7 @@ import org.gluu.oxd.server.HttpException;
 import org.gluu.oxd.server.model.UmaResource;
 import org.gluu.oxd.server.service.Rp;
 
+import javax.ws.rs.ClientErrorException;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -69,8 +70,8 @@ public class RsProtectOperation extends BaseOperation<RsProtectParams> {
         ResourceRegistrar registrar = getOpClientFactory().createResourceRegistrar(patProvider, new ServiceProvider(site.getOpHost()));
         try {
             registrar.register(params.getResources());
-        } catch (ClientResponseFailure e) {
-            LOG.debug("Failed to register resource. Entity: " + e.getResponse().getEntity(String.class) + ", status: " + e.getResponse().getStatus(), e);
+        } catch (ClientErrorException e) {
+            LOG.debug("Failed to register resource. Entity: " + e.getResponse().readEntity(String.class) + ", status: " + e.getResponse().getStatus(), e);
             if (e.getResponse().getStatus() == 400 || e.getResponse().getStatus() == 401) {
                 LOG.debug("Try maybe PAT is lost on AS, force refresh PAT and re-try ...");
                 getUmaTokenService().obtainPat(params.getOxdId()); // force to refresh PAT
@@ -78,6 +79,9 @@ public class RsProtectOperation extends BaseOperation<RsProtectParams> {
             } else {
                 throw e;
             }
+        } catch (Exception e) {
+            LOG.error(e.getMessage(), e);
+            throw e;
         }
 
         persist(registrar, site);
@@ -159,7 +163,7 @@ public class RsProtectOperation extends BaseOperation<RsProtectParams> {
             } else {
                 // remove existing resources, overwrite=true
                 UmaMetadata discovery = getDiscoveryService().getUmaDiscoveryByOxdId(params.getOxdId());
-                UmaResourceService resourceService = UmaClientFactory.instance().createResourceService(discovery, getHttpService().getClientExecutor());
+                UmaResourceService resourceService = UmaClientFactory.instance().createResourceService(discovery, getHttpService().getClientEngine());
                 String pat = getUmaTokenService().getPat(params.getOxdId()).getToken();
 
                 for (UmaResource resource : existingUmaResources) {
