@@ -1,9 +1,10 @@
 package org.gluu.oxd.server;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.google.common.collect.Lists;
+import com.google.gson.JsonObject;
 import io.dropwizard.util.Strings;
 import io.opentracing.Scope;
-import org.apache.commons.lang.StringUtils;
-import org.gluu.oxauth.model.common.IntrospectionResponse;
 import org.gluu.oxd.common.Command;
 import org.gluu.oxd.common.CommandType;
 import org.gluu.oxd.common.ErrorResponseCode;
@@ -11,16 +12,22 @@ import org.gluu.oxd.common.Jackson2;
 import org.gluu.oxd.common.params.*;
 import org.gluu.oxd.common.response.IOpResponse;
 import org.gluu.oxd.common.response.POJOResponse;
-import org.gluu.oxd.server.service.*;
+import org.gluu.oxd.server.service.ConfigurationService;
+import org.gluu.oxd.server.service.Rp;
+import org.gluu.oxd.server.service.RpSyncService;
+import org.gluu.oxd.server.service.ValidationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriInfo;
 import java.io.IOException;
+import java.lang.reflect.Field;
+import java.util.List;
+import java.util.stream.IntStream;
 
 @Path("/")
 public class RestResource {
@@ -28,7 +35,8 @@ public class RestResource {
     private static final Logger LOG = LoggerFactory.getLogger(RestResource.class);
 
     @Context
-    private UriInfo uriInfo;
+    private HttpServletRequest httpRequest;
+    private static final String LOCALHOST_IP_ADDRESS = "127.0.0.1";
 
     public RestResource() {
     }
@@ -37,7 +45,22 @@ public class RestResource {
     @Path("/health-check")
     @Produces(MediaType.APPLICATION_JSON)
     public String healthCheck() {
+        validateIpAddressAllowed(httpRequest.getRemoteAddr());
         return "{\"status\":\"running\"}";
+    }
+
+    @GET
+    @Path("/get-request-object/{request_object_id}")
+    @Produces(MediaType.TEXT_PLAIN)
+    public String getRequestObject(@PathParam("request_object_id") String value) {
+        return process(CommandType.GET_REQUEST_OBJECT_JWT, (new StringParam(value)).toJsonString(), StringParam.class, null, null, httpRequest);
+    }
+
+    @GET
+    @Path("/get-rp-jwks")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getRpJwks() {
+        return process(CommandType.GET_RP_JWKS, null, GetJwksParams.class, null, null, httpRequest);
     }
 
     @POST
@@ -45,7 +68,7 @@ public class RestResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public String getClientToken(String params) {
-        return process(CommandType.GET_CLIENT_TOKEN, params, GetClientTokenParams.class, null, null, uriInfo);
+        return process(CommandType.GET_CLIENT_TOKEN, params, GetClientTokenParams.class, null, null, httpRequest);
     }
 
     @POST
@@ -53,7 +76,7 @@ public class RestResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public String introspectAccessToken(@HeaderParam("Authorization") String authorization, @HeaderParam("AuthorizationOxdId") String authorizationOxdId, String params) {
-        return process(CommandType.INTROSPECT_ACCESS_TOKEN, params, IntrospectAccessTokenParams.class, authorization, authorizationOxdId, uriInfo);
+        return process(CommandType.INTROSPECT_ACCESS_TOKEN, params, IntrospectAccessTokenParams.class, authorization, authorizationOxdId, httpRequest);
     }
 
     @POST
@@ -61,7 +84,7 @@ public class RestResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public String introspectRpt(@HeaderParam("Authorization") String authorization, @HeaderParam("AuthorizationOxdId") String authorizationOxdId, String params) {
-        return process(CommandType.INTROSPECT_RPT, params, IntrospectRptParams.class, authorization, authorizationOxdId, uriInfo);
+        return process(CommandType.INTROSPECT_RPT, params, IntrospectRptParams.class, authorization, authorizationOxdId, httpRequest);
     }
 
     @POST
@@ -69,7 +92,7 @@ public class RestResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public String registerSite(String params) {
-        return process(CommandType.REGISTER_SITE, params, RegisterSiteParams.class, null, null, uriInfo);
+        return process(CommandType.REGISTER_SITE, params, RegisterSiteParams.class, null, null, httpRequest);
     }
 
     @POST
@@ -77,7 +100,7 @@ public class RestResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public String updateSite(@HeaderParam("Authorization") String authorization, @HeaderParam("AuthorizationOxdId") String authorizationOxdId, String params) {
-        return process(CommandType.UPDATE_SITE, params, UpdateSiteParams.class, authorization, authorizationOxdId, uriInfo);
+        return process(CommandType.UPDATE_SITE, params, UpdateSiteParams.class, authorization, authorizationOxdId, httpRequest);
     }
 
     @POST
@@ -85,7 +108,7 @@ public class RestResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public String removeSite(@HeaderParam("Authorization") String authorization, @HeaderParam("AuthorizationOxdId") String authorizationOxdId, String params) {
-        return process(CommandType.REMOVE_SITE, params, RemoveSiteParams.class, authorization, authorizationOxdId, uriInfo);
+        return process(CommandType.REMOVE_SITE, params, RemoveSiteParams.class, authorization, authorizationOxdId, httpRequest);
     }
 
     @POST
@@ -93,7 +116,7 @@ public class RestResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public String getAuthorizationUrl(@HeaderParam("Authorization") String authorization, @HeaderParam("AuthorizationOxdId") String authorizationOxdId, String params) {
-        return process(CommandType.GET_AUTHORIZATION_URL, params, GetAuthorizationUrlParams.class, authorization, authorizationOxdId, uriInfo);
+        return process(CommandType.GET_AUTHORIZATION_URL, params, GetAuthorizationUrlParams.class, authorization, authorizationOxdId, httpRequest);
     }
 
     @POST
@@ -101,7 +124,7 @@ public class RestResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public String getAuthorizationCode(@HeaderParam("Authorization") String authorization, @HeaderParam("AuthorizationOxdId") String authorizationOxdId, String params) {
-        return process(CommandType.GET_AUTHORIZATION_CODE, params, GetAuthorizationCodeParams.class, authorization, authorizationOxdId, uriInfo);
+        return process(CommandType.GET_AUTHORIZATION_CODE, params, GetAuthorizationCodeParams.class, authorization, authorizationOxdId, httpRequest);
     }
 
     @POST
@@ -109,7 +132,7 @@ public class RestResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public String getTokenByCode(@HeaderParam("Authorization") String authorization, @HeaderParam("AuthorizationOxdId") String authorizationOxdId, String params) {
-        return process(CommandType.GET_TOKENS_BY_CODE, params, GetTokensByCodeParams.class, authorization, authorizationOxdId, uriInfo);
+        return process(CommandType.GET_TOKENS_BY_CODE, params, GetTokensByCodeParams.class, authorization, authorizationOxdId, httpRequest);
     }
 
     @POST
@@ -117,7 +140,7 @@ public class RestResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public String getUserInfo(@HeaderParam("Authorization") String authorization, @HeaderParam("AuthorizationOxdId") String authorizationOxdId, String params) {
-        return process(CommandType.GET_USER_INFO, params, GetUserInfoParams.class, authorization, authorizationOxdId, uriInfo);
+        return process(CommandType.GET_USER_INFO, params, GetUserInfoParams.class, authorization, authorizationOxdId, httpRequest);
     }
 
     @POST
@@ -125,7 +148,7 @@ public class RestResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public String getLogoutUri(@HeaderParam("Authorization") String authorization, @HeaderParam("AuthorizationOxdId") String authorizationOxdId, String params) {
-        return process(CommandType.GET_LOGOUT_URI, params, GetLogoutUrlParams.class, authorization, authorizationOxdId, uriInfo);
+        return process(CommandType.GET_LOGOUT_URI, params, GetLogoutUrlParams.class, authorization, authorizationOxdId, httpRequest);
     }
 
     @POST
@@ -133,7 +156,7 @@ public class RestResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public String getAccessTokenByRefreshToken(@HeaderParam("Authorization") String authorization, @HeaderParam("AuthorizationOxdId") String authorizationOxdId, String params) {
-        return process(CommandType.GET_ACCESS_TOKEN_BY_REFRESH_TOKEN, params, GetAccessTokenByRefreshTokenParams.class, authorization, authorizationOxdId, uriInfo);
+        return process(CommandType.GET_ACCESS_TOKEN_BY_REFRESH_TOKEN, params, GetAccessTokenByRefreshTokenParams.class, authorization, authorizationOxdId, httpRequest);
     }
 
     @POST
@@ -141,7 +164,7 @@ public class RestResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public String umaRsProtect(@HeaderParam("Authorization") String authorization, @HeaderParam("AuthorizationOxdId") String authorizationOxdId, String params) {
-        return process(CommandType.RS_PROTECT, params, RsProtectParams.class, authorization, authorizationOxdId, uriInfo);
+        return process(CommandType.RS_PROTECT, params, RsProtectParams.class, authorization, authorizationOxdId, httpRequest);
     }
 
     @POST
@@ -149,7 +172,7 @@ public class RestResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public String umaRsModify(@HeaderParam("Authorization") String authorization, @HeaderParam("AuthorizationOxdId") String authorizationOxdId, String params) {
-        return process(CommandType.RS_MODIFY, params, RsModifyParams.class, authorization, authorizationOxdId, uriInfo);
+        return process(CommandType.RS_MODIFY, params, RsModifyParams.class, authorization, authorizationOxdId, httpRequest);
     }
 
     @POST
@@ -157,7 +180,7 @@ public class RestResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public String umaRsCheckAccess(@HeaderParam("Authorization") String authorization, @HeaderParam("AuthorizationOxdId") String authorizationOxdId, String params) {
-        return process(CommandType.RS_CHECK_ACCESS, params, RsCheckAccessParams.class, authorization, authorizationOxdId, uriInfo);
+        return process(CommandType.RS_CHECK_ACCESS, params, RsCheckAccessParams.class, authorization, authorizationOxdId, httpRequest);
     }
 
     @POST
@@ -165,7 +188,7 @@ public class RestResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public String umaRpGetRpt(@HeaderParam("Authorization") String authorization, @HeaderParam("AuthorizationOxdId") String authorizationOxdId, String params) {
-        return process(CommandType.RP_GET_RPT, params, RpGetRptParams.class, authorization, authorizationOxdId, uriInfo);
+        return process(CommandType.RP_GET_RPT, params, RpGetRptParams.class, authorization, authorizationOxdId, httpRequest);
     }
 
     @POST
@@ -173,7 +196,7 @@ public class RestResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public String umaRpGetClaimsGatheringUrl(@HeaderParam("Authorization") String authorization, @HeaderParam("AuthorizationOxdId") String authorizationOxdId, String params) {
-        return process(CommandType.RP_GET_CLAIMS_GATHERING_URL, params, RpGetClaimsGatheringUrlParams.class, authorization, authorizationOxdId, uriInfo);
+        return process(CommandType.RP_GET_CLAIMS_GATHERING_URL, params, RpGetClaimsGatheringUrlParams.class, authorization, authorizationOxdId, httpRequest);
     }
 
     @POST
@@ -181,7 +204,7 @@ public class RestResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public String authorizationCodeFlow(@HeaderParam("Authorization") String authorization, @HeaderParam("AuthorizationOxdId") String authorizationOxdId, String params) {
-        return process(CommandType.AUTHORIZATION_CODE_FLOW, params, AuthorizationCodeFlowParams.class, authorization, authorizationOxdId, uriInfo);
+        return process(CommandType.AUTHORIZATION_CODE_FLOW, params, AuthorizationCodeFlowParams.class, authorization, authorizationOxdId, httpRequest);
     }
 
     @POST
@@ -189,7 +212,7 @@ public class RestResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public String checkAccessToken(@HeaderParam("Authorization") String authorization, @HeaderParam("AuthorizationOxdId") String authorizationOxdId, String params) {
-        return process(CommandType.CHECK_ACCESS_TOKEN, params, CheckAccessTokenParams.class, authorization, authorizationOxdId, uriInfo);
+        return process(CommandType.CHECK_ACCESS_TOKEN, params, CheckAccessTokenParams.class, authorization, authorizationOxdId, httpRequest);
     }
 
     @POST
@@ -197,7 +220,7 @@ public class RestResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public String checkIdToken(@HeaderParam("Authorization") String authorization, @HeaderParam("AuthorizationOxdId") String authorizationOxdId, String params) {
-        return process(CommandType.CHECK_ID_TOKEN, params, CheckIdTokenParams.class, authorization, authorizationOxdId, uriInfo);
+        return process(CommandType.CHECK_ID_TOKEN, params, CheckIdTokenParams.class, authorization, authorizationOxdId, httpRequest);
     }
 
     @POST
@@ -205,7 +228,7 @@ public class RestResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public String getRp(@HeaderParam("Authorization") String authorization, @HeaderParam("AuthorizationOxdId") String authorizationOxdId, String params) {
-        return process(CommandType.GET_RP, params, GetRpParams.class, authorization, authorizationOxdId, uriInfo);
+        return process(CommandType.GET_RP, params, GetRpParams.class, authorization, authorizationOxdId, httpRequest);
     }
 
     @POST
@@ -213,7 +236,7 @@ public class RestResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public String getJwks(@HeaderParam("Authorization") String authorization, @HeaderParam("AuthorizationOxdId") String authorizationOxdId, String params) {
-        return process(CommandType.GET_JWKS, params, GetJwksParams.class, authorization, authorizationOxdId, uriInfo);
+        return process(CommandType.GET_JWKS, params, GetJwksParams.class, authorization, authorizationOxdId, httpRequest);
     }
 
     @POST
@@ -221,7 +244,23 @@ public class RestResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public String getDiscovery(String params) {
-        return process(CommandType.GET_DISCOVERY, params, GetDiscoveryParams.class, null, null, uriInfo);
+        return process(CommandType.GET_DISCOVERY, params, GetDiscoveryParams.class, null, null, httpRequest);
+    }
+
+    @POST
+    @Path("/get-issuer")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public String getIssuer(String params) {
+        return process(CommandType.ISSUER_DISCOVERY, params, GetIssuerParams.class, null, null, httpRequest);
+    }
+
+    @POST
+    @Path("/get-request-object-uri")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public String getRequestObjectUri(@HeaderParam("Authorization") String authorization, @HeaderParam("AuthorizationOxdId") String authorizationOxdId, String params) {
+        return process(CommandType.GET_REQUEST_URI, params, GetRequestObjectUriParams.class, authorization, authorizationOxdId, httpRequest);
     }
 
     public static <T> T read(String params, Class<T> clazz) {
@@ -234,22 +273,53 @@ public class RestResource {
         }
     }
 
-    private static <T extends IParams> String process(CommandType commandType, String paramsAsString, Class<T> paramsClass, String authorization, String authorizationOxdId, UriInfo uriInfo) {
+    private static <T extends IParams> String process(CommandType commandType, String paramsAsString, Class<T> paramsClass, String authorization, String authorizationOxdId, HttpServletRequest httpRequest) {
         try (Scope orderSpanScope = TracingUtil.buildSpan(commandType.toString(), true)) {
-            TracingUtil.setTag("end-point", uriInfo.getAbsolutePath().toString());
+            TracingUtil.setTag("end-point", httpRequest.getRequestURL().toString());
             TracingUtil.log("Request parameters: " + paramsAsString);
             TracingUtil.log("CommandType: " + commandType);
+
+            validateIpAddressAllowed(httpRequest.getRemoteAddr());
             Object forJsonConversion = getObjectForJsonConversion(commandType, paramsAsString, paramsClass, authorization, authorizationOxdId);
-            final String json = Jackson2.asJsonSilently(forJsonConversion);
-            TracingUtil.log("Send back response: " + json);
-            LOG.trace("Send back response: {}", json);
-            return json;
+            String response = null;
+
+            if (commandType.getReturnType().equalsIgnoreCase(MediaType.APPLICATION_JSON)) {
+                response = Jackson2.asJsonSilently(forJsonConversion);
+            } else if (commandType.getReturnType().equalsIgnoreCase(MediaType.TEXT_PLAIN)) {
+                response = forJsonConversion.toString();
+            }
+
+            TracingUtil.log("Send back response: " + response);
+            LOG.trace("Send back response: {}", response);
+            return response;
         }
+    }
+
+    private static void validateIpAddressAllowed(String callerIpAddress) {
+        LOG.trace("Checking if caller ipAddress : {} is allowed to make request to oxd.", callerIpAddress);
+        final OxdServerConfiguration conf = ServerLauncher.getInjector().getInstance(ConfigurationService.class).get();
+        List<String> bindIpAddresses = conf.getBindIpAddresses();
+
+        //localhost as default bindAddress
+        if ((bindIpAddresses == null || bindIpAddresses.isEmpty()) && LOCALHOST_IP_ADDRESS.equalsIgnoreCase(callerIpAddress)) {
+            return;
+        }
+        //allow all ip_address
+        if (bindIpAddresses.contains("*")) {
+            return;
+        }
+
+        if (bindIpAddresses.contains(callerIpAddress)) {
+            return;
+        }
+        LOG.error("The caller is not allowed to make request to oxd. To allow add ip_address of caller in `bind_ip_addresses` array of `oxd-server.yml`.");
+        throw new HttpException(ErrorResponseCode.OXD_ACCESS_DENIED);
+
     }
 
     private static <T extends IParams> Object getObjectForJsonConversion(CommandType commandType, String paramsAsString, Class<T> paramsClass, String authorization, String authorizationOxdId) {
         LOG.trace("Command: {}", paramsAsString);
-        T params = read(paramsAsString, paramsClass);
+        T params = read(safeToJson(paramsAsString), paramsClass);
 
         final OxdServerConfiguration conf = ServerLauncher.getInjector().getInstance(ConfigurationService.class).get();
 
@@ -317,5 +387,9 @@ public class RestResource {
 
     private static String safeToOxdId(HasOxdIdParams params, String authorizationOxdId) {
         return Strings.isNullOrEmpty(authorizationOxdId) ? params.getOxdId() : authorizationOxdId;
+    }
+
+    private static String safeToJson(String jsonString) {
+        return Strings.isNullOrEmpty(jsonString) ? "{}" : jsonString;
     }
 }

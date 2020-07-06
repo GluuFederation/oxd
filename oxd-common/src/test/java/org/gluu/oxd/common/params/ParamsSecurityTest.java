@@ -29,6 +29,9 @@ public class ParamsSecurityTest {
             EmptyParams.class,
             HasOxdIdParams.class,
             GetDiscoveryParams.class,
+            GetIssuerParams.class,
+            GetRequestObjectUriParams.class,
+            StringParam.class,
             IParams.class
     );
 
