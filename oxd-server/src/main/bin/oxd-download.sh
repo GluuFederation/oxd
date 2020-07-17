@@ -1,6 +1,6 @@
 #!/bin/sh
 
-warName=oxd-server-4.2.0.Final-distribution.zip
+warName=oxd-server-4.2.0-SNAPSHOT-distribution.zip
 distDir=oxd-dist
 
 # Clean up
