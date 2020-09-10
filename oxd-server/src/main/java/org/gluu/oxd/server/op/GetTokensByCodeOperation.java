@@ -11,6 +11,7 @@ import org.gluu.oxauth.model.common.GrantType;
 import org.gluu.oxauth.model.jwt.Jwt;
 import org.gluu.oxd.common.Command;
 import org.gluu.oxd.common.ErrorResponseCode;
+import org.gluu.oxd.common.ExpiredObjectType;
 import org.gluu.oxd.common.Jackson2;
 import org.gluu.oxd.common.params.GetTokensByCodeParams;
 import org.gluu.oxd.common.response.GetTokensByCodeResponse;
@@ -82,6 +83,7 @@ public class GetTokensByCodeOperation extends BaseOperation<GetTokensByCodeParam
                     .rp(rp)
                     .build();
 
+            String state = getStateService().encodeExpiredObject(params.getState(), ExpiredObjectType.STATE);
             validator.validateNonce(getStateService());
             validator.validateIdToken();
             validator.validateAccessToken(response.getAccessToken());
@@ -90,7 +92,7 @@ public class GetTokensByCodeOperation extends BaseOperation<GetTokensByCodeParam
             rp.setIdToken(response.getIdToken());
             rp.setAccessToken(response.getAccessToken());
             getRpService().update(rp);
-            getStateService().deleteExpiredObjectsByKey(params.getState());
+            getStateService().deleteExpiredObjectsByKey(state);
 
             LOG.trace("Scope: " + response.getScope());
 
@@ -117,7 +119,12 @@ public class GetTokensByCodeOperation extends BaseOperation<GetTokensByCodeParam
         if (Strings.isNullOrEmpty(params.getState())) {
             throw new HttpException(ErrorResponseCode.BAD_REQUEST_NO_STATE);
         }
-        if (!getStateService().isExpiredObjectPresent(params.getState())) {
+        try {
+            if (!getStateService().isExpiredObjectPresent(getStateService().encodeExpiredObject(params.getState(), ExpiredObjectType.STATE))) {
+                throw new HttpException(ErrorResponseCode.BAD_REQUEST_STATE_NOT_VALID);
+            }
+        } catch (Exception e) {
+            LOG.error(e.getMessage(), e);
             throw new HttpException(ErrorResponseCode.BAD_REQUEST_STATE_NOT_VALID);
         }
     }

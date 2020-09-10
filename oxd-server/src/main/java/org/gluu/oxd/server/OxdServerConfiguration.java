@@ -41,6 +41,10 @@ public class OxdServerConfiguration extends Configuration {
     private int stateExpirationInMinutes = 5;
     @JsonProperty(value = "nonce_expiration_in_minutes")
     private int nonceExpirationInMinutes = 5;
+    @JsonProperty(value = "encode_state_from_request_parameter")
+    private Boolean encodeStateFromRequestParameter = false;
+    @JsonProperty(value = "encode_nonce_from_request_parameter")
+    private Boolean encodeNonceFromRequestParameter = false;
     @JsonProperty(value = "request_object_expiration_in_minutes")
     private int requestObjectExpirationInMinutes = 5;
     @JsonProperty(value = "db_cleanup_interval_in_hours")
@@ -402,6 +406,22 @@ public class OxdServerConfiguration extends Configuration {
         this.jwksRegenerationIntervalInHours = jwksRegenerationIntervalInHours;
     }
 
+    public Boolean getEncodeStateFromRequestParameter() {
+        return encodeStateFromRequestParameter;
+    }
+
+    public void setEncodeStateFromRequestParameter(Boolean encodeStateFromRequestParameter) {
+        this.encodeStateFromRequestParameter = encodeStateFromRequestParameter;
+    }
+
+    public Boolean getEncodeNonceFromRequestParameter() {
+        return encodeNonceFromRequestParameter;
+    }
+
+    public void setEncodeNonceFromRequestParameter(Boolean encodeNonceFromRequestParameter) {
+        this.encodeNonceFromRequestParameter = encodeNonceFromRequestParameter;
+    }
+
     @Override
     public String toString() {
         return "OxdServerConfiguration{" +
@@ -440,6 +460,8 @@ public class OxdServerConfiguration extends Configuration {
                 ", jwksExpirationInHours=" + jwksExpirationInHours + '\'' +
                 ", requestObjectExpirationInMinutes=" + requestObjectExpirationInMinutes + '\'' +
                 ", jwksRegenerationIntervalInHours=" + jwksRegenerationIntervalInHours + '\'' +
+                ", encodeStateFromRequestParameter=" + encodeStateFromRequestParameter + '\'' +
+                ", encodeNonceFromRequestParameter=" + encodeNonceFromRequestParameter + '\'' +
                 '}';
     }
 }
