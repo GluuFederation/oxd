@@ -1,8 +1,5 @@
 package org.gluu.oxd.server;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.google.common.collect.Lists;
-import com.google.gson.JsonObject;
 import io.dropwizard.util.Strings;
 import io.opentracing.Scope;
 import org.gluu.oxd.common.Command;
@@ -16,6 +13,7 @@ import org.gluu.oxd.server.service.ConfigurationService;
 import org.gluu.oxd.server.service.Rp;
 import org.gluu.oxd.server.service.RpSyncService;
 import org.gluu.oxd.server.service.ValidationService;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,9 +23,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.util.List;
-import java.util.stream.IntStream;
 
 @Path("/")
 public class RestResource {
@@ -46,7 +42,13 @@ public class RestResource {
     @Produces(MediaType.APPLICATION_JSON)
     public String healthCheck() {
         validateIpAddressAllowed(httpRequest.getRemoteAddr());
-        return "{\"status\":\"running\"}";
+
+        JSONObject oxdStatusJson = new JSONObject();
+        oxdStatusJson.put("application", "oxd");
+        oxdStatusJson.put("version", Utils.getOxdVersion());
+        oxdStatusJson.put("status", "running");
+
+        return oxdStatusJson.toString(3);
     }
 
     @GET

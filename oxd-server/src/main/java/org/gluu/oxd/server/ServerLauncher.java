@@ -10,7 +10,10 @@ import org.apache.commons.io.IOUtils;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.gluu.oxd.server.guice.GuiceModule;
 import org.gluu.oxd.server.persistence.service.PersistenceService;
-import org.gluu.oxd.server.service.*;
+import org.gluu.oxd.server.service.ConfigurationService;
+import org.gluu.oxd.server.service.MigrationService;
+import org.gluu.oxd.server.service.RpService;
+import org.gluu.oxd.server.service.SchedulerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -75,7 +78,7 @@ public class ServerLauncher {
         Properties properties = buildProperties();
         if (properties != null) {
             LOG.info("commit: " + properties.getProperty("git.commit.id") + ", branch: " + properties.getProperty("git.branch") +
-                    ", build time:" + properties.getProperty("git.build.time"));
+                    ", build time:" + properties.getProperty("git.build.time") + ", oxd_version:" + Utils.getOxdVersion());
         }
     }
 
