@@ -10,6 +10,7 @@ import org.gluu.oxauth.model.util.Util;
 import org.apache.maven.model.Model;
 import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -140,9 +141,11 @@ public class Utils {
             MavenXpp3Reader reader = new MavenXpp3Reader();
 
             Model model = null;
-            if ((new File("pom.xml")).exists())
-                model = reader.read(new FileReader("pom.xml"));
-
+            if ((new File("pom.xml")).exists()) {
+                try (Reader fileReader = new FileReader("pom.xml")) {
+                    model = reader.read(fileReader);
+                }
+            }
             String oxdVersion = model != null ? model.getVersion() : OxdServerApplication.class.getPackage().getImplementationVersion();
             return oxdVersion;
         } catch (IOException | XmlPullParserException e) {
