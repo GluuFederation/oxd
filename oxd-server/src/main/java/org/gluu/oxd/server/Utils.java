@@ -4,6 +4,7 @@
 package org.gluu.oxd.server;
 
 import com.google.common.base.Joiner;
+import com.google.common.base.Strings;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang.StringUtils;
 import org.gluu.oxauth.model.util.Util;
@@ -140,5 +141,9 @@ public class Utils {
         } catch (IOException | IllegalArgumentException e) {
             throw new RuntimeException("Could not load properties from file " + filename, e);
         }
+    }
+
+    public static String getOxdVersion() {
+        return !Strings.isNullOrEmpty(System.getProperty("projectVersion")) ? System.getProperty("projectVersion") : OxdServerApplication.class.getPackage().getImplementationVersion();
     }
 }

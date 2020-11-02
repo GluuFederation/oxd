@@ -79,7 +79,7 @@ NAME=$(echo $(basename $0) | sed -e 's/^[SK][0-9]*//' -e 's/\.sh$//')
 
 usage()
 {
-    echo "Usage: ${0##*/} [-d] {start|stop|run|restart|check|supervise} [ CONFIGS ... ] "
+    echo "Usage: ${0##*/} [-d] {start|stop|run|restart|check|supervise|version} [ CONFIGS ... ] "
     exit 1
 }
 
@@ -643,6 +643,11 @@ case "$ACTION" in
     fi
     exit 1
 
+    ;;
+
+  version)
+    result=$( unzip -p $OXD_HOME/lib/oxd-server.jar META-INF/MANIFEST.MF | grep "Implementation-Version:" |awk -F ': ' '{print $2}')
+    echo $result
     ;;
 
   *)

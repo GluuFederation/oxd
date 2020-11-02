@@ -16,6 +16,7 @@ import org.gluu.oxd.server.service.ConfigurationService;
 import org.gluu.oxd.server.service.Rp;
 import org.gluu.oxd.server.service.RpSyncService;
 import org.gluu.oxd.server.service.ValidationService;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,7 +47,13 @@ public class RestResource {
     @Produces(MediaType.APPLICATION_JSON)
     public String healthCheck() {
         validateIpAddressAllowed(httpRequest.getRemoteAddr());
-        return "{\"status\":\"running\"}";
+
+        JSONObject oxdStatusJson = new JSONObject();
+        oxdStatusJson.put("application", "oxd");
+        oxdStatusJson.put("version", Utils.getOxdVersion());
+        oxdStatusJson.put("status", "running");
+
+        return oxdStatusJson.toString(3);
     }
 
     @GET
