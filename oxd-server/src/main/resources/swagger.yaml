@@ -153,8 +153,10 @@ paths:
                   items:
                     type: string
                 client_frontchannel_logout_uris:
-                  type: string
+                  type: array
                   description: Provide frontchannel logout uris.
+                  items:
+                    type: string
                 client_sector_identifier_uri:
                   type: string
                   description: Provide the URL using the https scheme to be used in
