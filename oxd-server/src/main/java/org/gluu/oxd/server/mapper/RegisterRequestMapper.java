@@ -172,10 +172,7 @@ public class RegisterRequestMapper {
 
         request.setApplicationType(ApplicationType.fromString(rp.getApplicationType()));
         request.setTokenEndpointAuthSigningAlg(SignatureAlgorithm.fromString(rp.getTokenEndpointAuthSigningAlg()));
-
-        if (CollectionUtils.isNotEmpty(rp.getGrantType())) {
-            request.setGrantTypes(rp.getGrantType().stream().map(item -> GrantType.fromString(item)).collect(Collectors.toList()));
-        }
+        request.setFrontChannelLogoutUris(rp.getFrontChannelLogoutUris());
 
         if (CollectionUtils.isNotEmpty(rp.getGrantType())) {
             request.setGrantTypes(rp.getGrantType().stream().map(item -> GrantType.fromString(item)).collect(Collectors.toList()));
