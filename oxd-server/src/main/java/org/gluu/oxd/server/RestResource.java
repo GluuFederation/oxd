@@ -270,6 +270,14 @@ public class RestResource {
         return process(CommandType.GET_REQUEST_URI, params, GetRequestObjectUriParams.class, authorization, authorizationOxdId, httpRequest);
     }
 
+    @GET
+    @Path("/initiate-third-party-login/{oxd_id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public String initiateThirdPartyLogin(@HeaderParam("Authorization") String authorization, @HeaderParam("AuthorizationOxdId") String authorizationOxdId, @PathParam("oxd_id") String oxdId, @QueryParam("iss") String iss, @QueryParam("login_hint") String loginHint, @QueryParam("target_link_uri") String targetLinkUri) {
+        return process(CommandType.INITIATE_THIRD_PARTY_LOGIN, (new ThirdPartyLoginParams(oxdId, iss, loginHint, targetLinkUri)).toJsonString(), ThirdPartyLoginParams.class, null, null, httpRequest);
+    }
+
     public static <T> T read(String params, Class<T> clazz) {
         try {
             return Jackson2.createJsonMapper().readValue(params, clazz);

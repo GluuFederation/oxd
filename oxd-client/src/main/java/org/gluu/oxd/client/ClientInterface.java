@@ -1,6 +1,7 @@
 package org.gluu.oxd.client;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import org.gluu.oxd.common.CommandType;
 import org.gluu.oxd.common.introspection.CorrectRptIntrospectionResponse;
 import org.gluu.oxd.common.params.*;
 import org.gluu.oxd.common.response.*;
@@ -178,4 +179,10 @@ public interface ClientInterface {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     GetRequestObjectUriResponse getRequestObjectUri(@HeaderParam("Authorization") String authorization, @HeaderParam("AuthorizationOxdId") String authorizationOxdId, GetRequestObjectUriParams params);
+
+    @GET
+    @Path("/initiate-third-party-login/{oxd_id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public GetAuthorizationUrlResponse initiateThirdPartyLogin(@HeaderParam("Authorization") String authorization, @HeaderParam("AuthorizationOxdId") String authorizationOxdId, @PathParam("oxd_id") String oxdId, @QueryParam("iss") String iss, @QueryParam("login_hint") String loginHint, @QueryParam("target_link_uri") String targetLinkUri);
 }
