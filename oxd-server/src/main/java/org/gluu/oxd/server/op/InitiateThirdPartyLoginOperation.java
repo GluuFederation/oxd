@@ -2,13 +2,18 @@ package org.gluu.oxd.server.op;
 
 import com.google.inject.Injector;
 import org.gluu.oxd.common.Command;
+import org.gluu.oxd.common.ErrorResponseCode;
 import org.gluu.oxd.common.params.ThirdPartyLoginParams;
 import org.gluu.oxd.common.response.GetAuthorizationUrlResponse;
 import org.gluu.oxd.common.response.IOpResponse;
+import org.gluu.oxd.server.HttpException;
 import org.gluu.oxd.server.Utils;
 import org.gluu.oxd.server.service.Rp;
+import org.python.google.common.base.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.net.URI;
 
 public class InitiateThirdPartyLoginOperation extends BaseOperation<ThirdPartyLoginParams> {
 
@@ -21,6 +26,17 @@ public class InitiateThirdPartyLoginOperation extends BaseOperation<ThirdPartyLo
     @Override
     public IOpResponse execute(ThirdPartyLoginParams params) throws Exception {
         final Rp rp = getRp();
+
+        if (Strings.isNullOrEmpty(params.getIss())) {
+            LOG.error("'iss' is empty or not specified in parameter.");
+            throw new HttpException(ErrorResponseCode.BAD_REQUEST_NO_ISSUER);
+        }
+
+        if (!Strings.isNullOrEmpty(params.getTargetLinkUri()) && !rp.getRedirectUris().stream().anyMatch(uri -> getHost(uri)== getHost(params.getTargetLinkUri()))) {
+            LOG.error("The hostname of `target_link_uri` should match with the hostname of `redirect_uri` of RP.");
+            throw new HttpException(ErrorResponseCode.BAD_REQUEST_INVALID_TARGET_URI);
+        }
+
         String authorizationEndpoint = getDiscoveryService().getConnectDiscoveryResponse(rp).getAuthorizationEndpoint();
 
         String state = getStateService().generateState();
@@ -36,5 +52,15 @@ public class InitiateThirdPartyLoginOperation extends BaseOperation<ThirdPartyLo
         authorizationEndpoint += "&nonce=" + nonce;
 
         return new GetAuthorizationUrlResponse(authorizationEndpoint);
+    }
+
+    private static String getHost(String stringUri) {
+        try {
+            final URI uri = new URI(stringUri);
+            return uri.getHost();
+        } catch (java.net.URISyntaxException ex) {
+            LOG.error("The URI syntax is incorrect.", ex);
+            throw new RuntimeException(ex);
+        }
     }
 }

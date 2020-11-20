@@ -15,9 +15,8 @@ public class ThirdPartyLoginTest {
     public void test(String host, String opHost, String redirectUrls, String userId, String userSecret) {
         ClientInterface client = Tester.newClient(host);
         final RegisterSiteResponse site = RegisterSiteTest.registerSite_withInitiateLoginUri(client, opHost, redirectUrls, "https://localhost" + ":" + SetUpTest.SUPPORT.getLocalPort() + "/initiate-third-party-login");
-        //GetAuthorizationUrlResponse authzUrl = client.initiateThirdPartyLogin(Tester.getAuthorization(site), null, site.getOxdId(), opHost, null, null);
-
-        assertNotNull(site.getInitiateLoginUri());
+        GetAuthorizationUrlResponse authzUrl = client.initiateThirdPartyLogin(Tester.getAuthorization(site), null, site.getOxdId(), opHost, null, null);
+        assertNotNull(authzUrl.getAuthorizationUrl());
 
     }
 }
