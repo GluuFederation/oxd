@@ -32,7 +32,7 @@ public class InitiateThirdPartyLoginOperation extends BaseOperation<ThirdPartyLo
             throw new HttpException(ErrorResponseCode.BAD_REQUEST_NO_ISSUER);
         }
 
-        if (!Strings.isNullOrEmpty(params.getTargetLinkUri()) && !rp.getRedirectUris().stream().anyMatch(uri -> getHost(uri)== getHost(params.getTargetLinkUri()))) {
+        if (!Strings.isNullOrEmpty(params.getTargetLinkUri()) && !rp.getRedirectUris().stream().anyMatch(uri -> getHost(uri) == getHost(params.getTargetLinkUri()))) {
             LOG.error("The hostname of `target_link_uri` should match with the hostname of `redirect_uri` of RP.");
             throw new HttpException(ErrorResponseCode.BAD_REQUEST_INVALID_TARGET_URI);
         }
