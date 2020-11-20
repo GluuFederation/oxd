@@ -82,6 +82,8 @@ public class OperationFactory {
                     return new GetRequestObjectUriOperation(command, injector);
                 case GET_REQUEST_OBJECT_JWT:
                     return new GetRequestObjectOperation(command, injector);
+                case INITIATE_THIRD_PARTY_LOGIN:
+                    return new InitiateThirdPartyLoginOperation(command, injector);
             }
             LOG.error("Command is not supported. Command: {}", command);
         } else {

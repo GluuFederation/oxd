@@ -28,6 +28,8 @@ public class RegisterSiteResponse implements IOpResponse {
     private long clientIdIssuedAt;
     @JsonProperty(value = "client_secret_expires_at")
     private long clientSecretExpiresAt;
+    @JsonProperty(value = "initiate_login_uri ")
+    String initiateLoginUri ;
 
     public RegisterSiteResponse() {
     }
@@ -104,6 +106,14 @@ public class RegisterSiteResponse implements IOpResponse {
         this.clientSecretExpiresAt = clientSecretExpiresAt;
     }
 
+    public String getInitiateLoginUri() {
+        return initiateLoginUri;
+    }
+
+    public void setInitiateLoginUri(String initiateLoginUri) {
+        this.initiateLoginUri = initiateLoginUri;
+    }
+
     @Override
     public String toString() {
         return "RegisterSiteResponse{" +
@@ -116,6 +126,7 @@ public class RegisterSiteResponse implements IOpResponse {
                 ", clientRegistrationClientUri='" + clientRegistrationClientUri + '\'' +
                 ", clientIdIssuedAt=" + clientIdIssuedAt +
                 ", clientSecretExpiresAt=" + clientSecretExpiresAt +
+                ", initiateLoginUri=" + initiateLoginUri +
                 '}';
     }
 }

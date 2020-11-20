@@ -75,6 +75,7 @@ public class RegisterSiteOperation extends BaseOperation<RegisterSiteParams> {
         response.setClientRegistrationClientUri(rp.getClientRegistrationClientUri());
         response.setClientIdIssuedAt(Utils.date(rp.getClientIdIssuedAt()));
         response.setClientSecretExpiresAt(Utils.date(rp.getClientSecretExpiresAt()));
+        response.setInitiateLoginUri(rp.getInitiateLoginUri());
         return response;
     }
 
@@ -698,7 +699,8 @@ public class RegisterSiteOperation extends BaseOperation<RegisterSiteParams> {
         }
 
         if (!Strings.isNullOrEmpty(params.getInitiateLoginUri())) {
-            request.setInitiateLoginUri(params.getInitiateLoginUri());
+            String initiateLoginUri = params.getInitiateLoginUri().endsWith("/") ? (params.getInitiateLoginUri().endsWith("/") + oxdId) : (params.getInitiateLoginUri() + "/" + oxdId);
+            request.setInitiateLoginUri(initiateLoginUri);
         }
 
         if (params.getAuthorizedOrigins() != null && !params.getAuthorizedOrigins().isEmpty()) {
