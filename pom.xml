@@ -142,7 +142,7 @@
                     </exclusion>
                     <exclusion>
                         <groupId>org.gluu</groupId>
-                        <artifactId>oxcore-persistence-ldap</artifactId>
+                        <artifactId>gluu-orm-ldap</artifactId>
                     </exclusion>
                     <exclusion>
                         <groupId>org.python</groupId>
