@@ -1,7 +1,7 @@
 package org.gluu.oxd.server.persistence.providers;
 
 import org.gluu.persist.PersistenceEntryManager;
-import org.gluu.persist.couchbase.impl.CouchbaseEntryManagerFactory;
+import org.gluu.orm.couchbase.impl.CouchbaseEntryManagerFactory;
 import org.gluu.persist.exception.operation.ConfigurationException;
 import org.gluu.persist.ldap.impl.LdapEntryManagerFactory;
 
