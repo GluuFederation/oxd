@@ -46,13 +46,10 @@ public class PersistenceServiceImpl implements PersistenceService {
                 return new SqlPersistenceServiceImpl(this.sqlProvider, this.configurationService);
             case "redis":
                 return new RedisPersistenceService(this.configurationService.getConfiguration());
-            case "jdbc":
-                this.sqlProvider = new JDBCPersistenceProvider(this.configurationService);
-                return new SqlPersistenceServiceImpl(this.sqlProvider, this.configurationService);
             case "gluu_server_configuration":
-                return new GluuPersistenceService(this.configurationService.getConfiguration());
+            case "sql":
+            case "spanner":
             case "ldap":
-                return new GluuPersistenceService(this.configurationService.getConfiguration(), storage);
             case "couchbase":
                 return new GluuPersistenceService(this.configurationService.getConfiguration(), storage);
         }
