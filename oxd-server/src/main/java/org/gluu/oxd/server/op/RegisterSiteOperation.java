@@ -75,6 +75,7 @@ public class RegisterSiteOperation extends BaseOperation<RegisterSiteParams> {
         response.setClientRegistrationClientUri(rp.getClientRegistrationClientUri());
         response.setClientIdIssuedAt(Utils.date(rp.getClientIdIssuedAt()));
         response.setClientSecretExpiresAt(Utils.date(rp.getClientSecretExpiresAt()));
+        response.setInitiateLoginUri(rp.getInitiateLoginUri());
         return response;
     }
 
@@ -248,8 +249,8 @@ public class RegisterSiteOperation extends BaseOperation<RegisterSiteParams> {
         }
 
         //front_channel_logout_uris
-        if (StringUtils.isBlank(params.getClientFrontchannelLogoutUri()) && StringUtils.isNotBlank(fallback.getFrontChannelLogoutUri())) {
-            params.setClientFrontchannelLogoutUri(fallback.getFrontChannelLogoutUri());
+        if ((params.getClientFrontchannelLogoutUris() == null || params.getClientFrontchannelLogoutUris().isEmpty()) && (fallback.getFrontChannelLogoutUris() != null && !fallback.getFrontChannelLogoutUris().isEmpty())) {
+            params.setClientFrontchannelLogoutUris(fallback.getFrontChannelLogoutUris());
         }
 
         //sector_identifier_uri
@@ -534,8 +535,8 @@ public class RegisterSiteOperation extends BaseOperation<RegisterSiteParams> {
         }
         request.setGrantTypes(grantTypes);
 
-        if (StringUtils.isNotBlank(params.getClientFrontchannelLogoutUri())) {
-            request.setFrontChannelLogoutUri(params.getClientFrontchannelLogoutUri());
+        if (params.getClientFrontchannelLogoutUris() != null) {
+            request.setFrontChannelLogoutUris(Lists.newArrayList(params.getClientFrontchannelLogoutUris()));
         }
 
         if (StringUtils.isNotBlank(params.getClientTokenEndpointAuthMethod())) {
@@ -698,7 +699,8 @@ public class RegisterSiteOperation extends BaseOperation<RegisterSiteParams> {
         }
 
         if (!Strings.isNullOrEmpty(params.getInitiateLoginUri())) {
-            request.setInitiateLoginUri(params.getInitiateLoginUri());
+            String initiateLoginUri = params.getInitiateLoginUri().endsWith("/") ? (params.getInitiateLoginUri().endsWith("/") + oxdId) : (params.getInitiateLoginUri() + "/" + oxdId);
+            request.setInitiateLoginUri(initiateLoginUri);
         }
 
         if (params.getAuthorizedOrigins() != null && !params.getAuthorizedOrigins().isEmpty()) {

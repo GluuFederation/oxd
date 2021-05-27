@@ -43,8 +43,8 @@ public class Rp implements Serializable {
     private List<String> claimsRedirectUri;
     @JsonProperty(value = "response_types")
     private List<String> responseTypes;
-    @JsonProperty(value = "front_channel_logout_uri")
-    private String frontChannelLogoutUri;
+    @JsonProperty(value = "front_channel_logout_uris")
+    private List<String> frontChannelLogoutUris;
     @JsonProperty(value = "client_id")
     private String clientId;
     @JsonProperty(value = "client_secret")
@@ -211,7 +211,7 @@ public class Rp implements Serializable {
         this.redirectUris = conf.redirectUris;
         this.claimsRedirectUri = conf.claimsRedirectUri;
         this.responseTypes = conf.responseTypes;
-        this.frontChannelLogoutUri = conf.frontChannelLogoutUri;
+        this.frontChannelLogoutUris = conf.frontChannelLogoutUris;
 
         this.clientId = conf.clientId;
         this.clientSecret = conf.clientSecret;
@@ -319,12 +319,12 @@ public class Rp implements Serializable {
         this.accessTokenSigningAlg = accessTokenSigningAlg;
     }
 
-    public String getFrontChannelLogoutUri() {
-        return frontChannelLogoutUri;
+    public List<String> getFrontChannelLogoutUris() {
+        return frontChannelLogoutUris;
     }
 
-    public void setFrontChannelLogoutUri(String frontChannelLogoutUri) {
-        this.frontChannelLogoutUri = frontChannelLogoutUri;
+    public void setFrontChannelLogoutUris(List<String> frontChannelLogoutUris) {
+        this.frontChannelLogoutUris = frontChannelLogoutUris;
     }
 
     public String getTokenEndpointAuthSigningAlg() {
@@ -1060,7 +1060,7 @@ public class Rp implements Serializable {
                 ", postLogoutRedirectUris='" + postLogoutRedirectUris + '\'' +
                 ", applicationType='" + applicationType + '\'' +
                 ", redirectUris=" + redirectUris + '\'' +
-                ", frontChannelLogoutUri=" + frontChannelLogoutUri + '\'' +
+                ", frontChannelLogoutUris=" + frontChannelLogoutUris +
                 ", claimsRedirectUri=" + claimsRedirectUri + '\'' +
                 ", responseTypes=" + responseTypes + '\'' +
                 ", clientId='" + clientId + '\'' +

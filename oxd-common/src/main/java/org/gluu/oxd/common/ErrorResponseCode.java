@@ -25,6 +25,8 @@ public enum ErrorResponseCode {
     BAD_REQUEST_NO_OXD_ID(400, "bad_request", "oxd_id is empty or not specified or is otherwise invalid (not registered)."),
     BAD_REQUEST_NO_CODE(400, "bad_request", "'code' is empty or not specified."),
     BAD_REQUEST_NO_STATE(400, "bad_request", "'state' is empty or not specified."),
+    BAD_REQUEST_NO_ISSUER(400, "bad_request_no_issuer", "'iss' is empty or not specified in parameter."),
+    BAD_REQUEST_INVALID_TARGET_URI(400, "bad_request_invalid_target_uri", "Invalid `target_link_uri`. Please check: 1) If `target_link_uri` syntax is correct? 2) The hostname of `target_link_uri` should match with the hostname of `redirect_uri` of RP."),
     BAD_REQUEST_STATE_NOT_VALID(400, "bad_request", "'state' is not registered."),
     BAD_REQUEST_INVALID_CODE(400, "bad_request", "'code' is invalid."),
     BAD_REQUEST_NO_RESOURCE(400, "bad_request_no_resource", "The 'resource' is empty or not specified."),
