@@ -47,6 +47,7 @@ public class PersistenceServiceImpl implements PersistenceService {
             case "redis":
                 return new RedisPersistenceService(this.configurationService.getConfiguration());
             case "gluu_server_configuration":
+                return new GluuPersistenceService(this.configurationService.getConfiguration());
             case "sql":
             case "spanner":
             case "ldap":
