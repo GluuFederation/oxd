@@ -8,6 +8,8 @@ package org.gluu.oxd.server.introspection;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import org.gluu.oxauth.model.common.converter.ListConverter;
 import org.jboss.resteasy.annotations.providers.jaxb.IgnoreMediaTypes;
 
 import java.util.ArrayList;
@@ -30,6 +32,7 @@ public class BackCompatibleIntrospectionResponse {
     @JsonProperty(value = "scopes")
     private List<String> scopes;
     @JsonProperty(value = "scope")
+    @JsonDeserialize(converter = ListConverter.class)	// Force use of List even when value in actual json content is String
     private List<String> scope;
     @JsonProperty(value = "client_id")
     private String clientId;
