@@ -22,9 +22,8 @@ import org.gluu.oxd.common.proxy.ProxyConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSession;
+import java.security.*;
+import javax.net.ssl.*;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -33,10 +32,6 @@ import java.math.BigInteger;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLDecoder;
-import java.security.KeyManagementException;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.Date;
@@ -197,6 +192,9 @@ public class CoreUtils {
         SSLContext sslcontext = SSLContexts.custom()
                 .loadTrustMaterial(trustStoreFile, trustStorePassword.toCharArray())
                 .build();
+        if(isFips()){
+            sslcontext.init(getKeyManagersWithPkcs11(), null, null);
+        }
 
         SSLConnectionSocketFactory sslConSocFactory = new SSLConnectionSocketFactory(
                 sslcontext, tlsVersions, tlsSecureCiphers, SSLConnectionSocketFactory.getDefaultHostnameVerifier());
@@ -210,6 +208,10 @@ public class CoreUtils {
                 .loadKeyMaterial(mtlsClientKeyStoreFile, mtlsClientKeyStorePassword.toCharArray(), mtlsClientKeyStorePassword.toCharArray())
                 .loadTrustMaterial(trustStoreFile, trustStorePassword.toCharArray())
                 .build();
+
+        if(isFips()){
+            sslcontext.init(getKeyManagersWithPkcs11(), null, null);
+        }
 
         SSLConnectionSocketFactory sslConSocFactory = new SSLConnectionSocketFactory(
                 sslcontext, tlsVersions, tlsSecureCiphers, SSLConnectionSocketFactory.getDefaultHostnameVerifier());
@@ -331,6 +333,36 @@ public class CoreUtils {
             LOG.error(e.getMessage(), e);
         }
         return log;
+    }
+
+    static boolean isFips() {
+        Provider[] providers = Security.getProviders();
+        for (int i = 0; i < providers.length; i++) {
+            if (providers[i].getName().toLowerCase().contains("fips"))
+                return true;
+        }
+
+        return false;
+    }
+
+    public static KeyManager[] getKeyManagersWithPkcs11() throws Exception {
+        KeyStore keyStore = KeyStore.getInstance("PKCS11");
+        String keyStorePIN = "example";
+        try {
+            keyStore.load(null, keyStorePIN.toCharArray());
+        } catch (Exception e) {
+            LOG.error("Error in generating PKCS11 keystore.", e);
+        }
+
+        try {
+            String keyManagerAlgorithm = KeyManagerFactory.getDefaultAlgorithm();
+            KeyManagerFactory keyManagerFactory = KeyManagerFactory.getInstance(keyManagerAlgorithm);
+            keyManagerFactory.init(keyStore, keyStorePIN.toCharArray());
+            return keyManagerFactory.getKeyManagers();
+        } catch (Exception e) {
+            LOG.error("Error in generating PKCS11 keyManager.", e);
+            throw e;
+        }
     }
 
     private static boolean isSafePort(Integer input) {
