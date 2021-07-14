@@ -193,7 +193,7 @@ public class CoreUtils {
                 .loadTrustMaterial(trustStoreFile, trustStorePassword.toCharArray())
                 .build();
         if(isFips()){
-            sslcontext.init(getKeyManagersWithPkcs11(), null, null);
+            sslcontext.init(getKeyManagersWithPkcs11(trustStorePassword), null, null);
         }
 
         SSLConnectionSocketFactory sslConSocFactory = new SSLConnectionSocketFactory(
@@ -210,7 +210,7 @@ public class CoreUtils {
                 .build();
 
         if(isFips()){
-            sslcontext.init(getKeyManagersWithPkcs11(), null, null);
+            sslcontext.init(getKeyManagersWithPkcs11(trustStorePassword), null, null);
         }
 
         SSLConnectionSocketFactory sslConSocFactory = new SSLConnectionSocketFactory(
@@ -345,9 +345,8 @@ public class CoreUtils {
         return false;
     }
 
-    public static KeyManager[] getKeyManagersWithPkcs11() throws Exception {
+    public static KeyManager[] getKeyManagersWithPkcs11(String keyStorePIN) throws Exception {
         KeyStore keyStore = KeyStore.getInstance("PKCS11");
-        String keyStorePIN = "example";
         try {
             keyStore.load(null, keyStorePIN.toCharArray());
         } catch (Exception e) {
