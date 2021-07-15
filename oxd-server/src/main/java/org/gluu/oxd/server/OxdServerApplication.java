@@ -4,11 +4,18 @@ import com.codahale.metrics.health.HealthCheck;
 import io.dropwizard.Application;
 import io.dropwizard.configuration.EnvironmentVariableSubstitutor;
 import io.dropwizard.configuration.SubstitutingSourceProvider;
+import io.dropwizard.jetty.HttpsConnectorFactory;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
+import org.eclipse.jetty.util.ssl.SslContextFactory;
 import org.glassfish.jersey.server.filter.RolesAllowedDynamicFeature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.security.KeyStore;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 public class OxdServerApplication extends Application<OxdServerConfiguration> {
 
@@ -20,6 +27,23 @@ public class OxdServerApplication extends Application<OxdServerConfiguration> {
                 ServerLauncher.shutdown(true);
                 return;
             } else {
+                List<String> supportedProtocols = Arrays.asList("SSLv3", "TLSv1");
+
+                /*HttpsConnectorFactory factory = new HttpsConnectorFactory();
+                factory.setKeyStorePassword("example"); // necessary to avoid a prompt for a password
+                factory.setSupportedProtocols(supportedProtocols);
+                factory.setExcludedProtocols(Collections.emptyList());*/
+                KeyStore keyStore = KeyStore.getInstance("PKCS11");
+                try {
+                    keyStore.load(null, "example".toCharArray());
+                } catch (Exception e) {
+                    LOG.error("Error in generating PKCS11 keystore.", e);
+                }
+
+                SslContextFactory sslContextFactory = new SslContextFactory();
+                sslContextFactory.setKeyStore(keyStore);
+
+                sslContextFactory.start();
                 new OxdServerApplication().run(args);
             }
         } catch (Throwable e) {
