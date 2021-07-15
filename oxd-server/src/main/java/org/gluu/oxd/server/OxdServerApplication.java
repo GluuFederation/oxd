@@ -12,6 +12,9 @@ import org.glassfish.jersey.server.filter.RolesAllowedDynamicFeature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.net.ssl.KeyManager;
+import javax.net.ssl.KeyManagerFactory;
+import javax.net.ssl.SSLContext;
 import java.security.KeyStore;
 import java.util.Arrays;
 import java.util.Collections;
@@ -42,6 +45,8 @@ public class OxdServerApplication extends Application<OxdServerConfiguration> {
 
                 SslContextFactory sslContextFactory = new SslContextFactory.Server();
                 sslContextFactory.setKeyStore(keyStore);
+                SSLContext sslContext = sslContextFactory.getSslContext();
+                sslContext.init(getKeyManagersWithPkcs11(keyStore), null, null);
 
                 sslContextFactory.start();
                 new OxdServerApplication().run(args);
@@ -53,6 +58,18 @@ public class OxdServerApplication extends Application<OxdServerConfiguration> {
                 LOG.error("Failed to start oxd-server.", e);
             }
             System.exit(1);
+        }
+    }
+
+    public static KeyManager[] getKeyManagersWithPkcs11(KeyStore keyStore) throws Exception {
+        try {
+            String keyManagerAlgorithm = KeyManagerFactory.getDefaultAlgorithm();
+            KeyManagerFactory keyManagerFactory = KeyManagerFactory.getInstance(keyManagerAlgorithm);
+            keyManagerFactory.init(keyStore, "example".toCharArray());
+            return keyManagerFactory.getKeyManagers();
+        } catch (Exception e) {
+            LOG.error("Error in generating PKCS11 keyManager.", e);
+            throw e;
         }
     }
 
