@@ -40,7 +40,7 @@ public class OxdServerApplication extends Application<OxdServerConfiguration> {
                     LOG.error("Error in generating PKCS11 keystore.", e);
                 }
 
-                SslContextFactory sslContextFactory = new SslContextFactory();
+                SslContextFactory sslContextFactory = new SslContextFactory.Server();
                 sslContextFactory.setKeyStore(keyStore);
 
                 sslContextFactory.start();
