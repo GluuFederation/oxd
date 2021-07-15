@@ -45,8 +45,10 @@ public class OxdServerApplication extends Application<OxdServerConfiguration> {
 
                 SslContextFactory sslContextFactory = new SslContextFactory.Server();
                 sslContextFactory.setKeyStore(keyStore);
-                SSLContext sslContext = sslContextFactory.getSslContext();
+
+                SSLContext sslContext = SSLContext.getInstance("TLS"); ;
                 sslContext.init(getKeyManagersWithPkcs11(keyStore), null, null);
+                sslContextFactory.setSslContext(sslContext);
 
                 sslContextFactory.start();
                 new OxdServerApplication().run(args);
