@@ -145,8 +145,8 @@
                         <artifactId>gluu-orm-ldap</artifactId>
                     </exclusion>
                     <exclusion>
-                        <groupId>org.python</groupId>
-                        <artifactId>jython</artifactId>
+                        <groupId>org.gluufederation</groupId>
+                        <artifactId>jython-standalone</artifactId>
                     </exclusion>
                     <exclusion>
                         <groupId>org.quartz-scheduler</groupId>
