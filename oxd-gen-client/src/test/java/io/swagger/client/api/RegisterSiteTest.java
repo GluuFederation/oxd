@@ -49,7 +49,7 @@ public class RegisterSiteTest {
         final RegisterSiteParams params = new RegisterSiteParams();
         params.setOpConfigurationEndpoint(opConfigurationEndpoint);
         params.setPostLogoutRedirectUris(Lists.newArrayList(postLogoutRedirectUrls.split(" ")));
-        params.setClientFrontchannelLogoutUri(logoutUrl);
+        params.setClientFrontchannelLogoutUris(Lists.newArrayList(logoutUrl));
         params.setRedirectUris(Lists.newArrayList(redirectUrls.split(" ")));
         params.setAcrValues(new ArrayList<>());
         params.setScope(Lists.newArrayList("openid", "profile"));
@@ -119,7 +119,7 @@ public class RegisterSiteTest {
         params.setOpHost(opHost);
         params.setRedirectUris(Lists.newArrayList(redirectUrls.split(" ")));
         params.setPostLogoutRedirectUris(Lists.newArrayList(postLogoutRedirectUrls.split(" ")));
-        params.setClientFrontchannelLogoutUri(logoutUri.split(" ")[0]);
+        params.setClientFrontchannelLogoutUris(Lists.newArrayList(logoutUri.split(" ")[0]));
         params.setScope(Lists.newArrayList("openid", "uma_protection", "profile", "oxd"));
         params.setGrantTypes(Lists.newArrayList(
                 GrantType.AUTHORIZATION_CODE.getValue(),
@@ -140,7 +140,7 @@ public class RegisterSiteTest {
         params.setOpHost(opHost);
         params.setRedirectUris(Lists.newArrayList(redirectUrls.split(" ")));
         params.setPostLogoutRedirectUris(Lists.newArrayList(postLogoutRedirectUrls.split(" ")));
-        params.setClientFrontchannelLogoutUri(logoutUri.split(" ")[0]);
+        params.setClientFrontchannelLogoutUris(Lists.newArrayList(logoutUri.split(" ")[0]));
         params.setScope(Lists.newArrayList("openid", "uma_protection", "profile", "oxd"));
         params.setGrantTypes(Lists.newArrayList(
                 GrantType.AUTHORIZATION_CODE.getValue(),

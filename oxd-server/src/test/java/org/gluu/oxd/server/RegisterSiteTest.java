@@ -44,7 +44,7 @@ public class RegisterSiteTest {
         final RegisterSiteParams params = new RegisterSiteParams();
         params.setOpConfigurationEndpoint(opConfigurationEndpoint);
         params.setPostLogoutRedirectUris(Lists.newArrayList(postLogoutRedirectUrls.split(" ")));
-        params.setClientFrontchannelLogoutUri(logoutUrl);
+        params.setClientFrontchannelLogoutUris(Lists.newArrayList(logoutUrl));
         params.setRedirectUris(Lists.newArrayList(redirectUrls.split(" ")));
         params.setAcrValues(new ArrayList<String>());
         params.setGrantTypes(Lists.newArrayList(
@@ -173,7 +173,7 @@ public class RegisterSiteTest {
         final RegisterSiteParams params = new RegisterSiteParams();
         params.setOpHost(opHost);
         params.setPostLogoutRedirectUris(Lists.newArrayList(postLogoutRedirectUrls.split(" ")));
-        params.setClientFrontchannelLogoutUri(logoutUri);
+        params.setClientFrontchannelLogoutUris(Lists.newArrayList(logoutUri));
         params.setRedirectUris(Lists.newArrayList(redirectUrls.split(" ")));
         params.setScope(Lists.newArrayList("openid", "uma_protection", "profile", "oxd"));
         params.setResponseTypes(Lists.newArrayList("code", "id_token", "token"));
@@ -247,6 +247,24 @@ public class RegisterSiteTest {
         params.setClientTokenEndpointAuthMethod(authenticationMethod);
         params.setJwks(client.getRpJwks().toString());
 
+        final RegisterSiteResponse resp = client.registerSite(params);
+        assertNotNull(resp);
+        assertTrue(!Strings.isNullOrEmpty(resp.getOxdId()));
+        return resp;
+    }
+
+    public static RegisterSiteResponse registerSite_withInitiateLoginUri(ClientInterface client, String opHost, String redirectUrls, String initiateLoginUri) {
+
+        final RegisterSiteParams params = new RegisterSiteParams();
+        params.setOpHost(opHost);
+        params.setRedirectUris(Lists.newArrayList(redirectUrls.split(" ")));
+        params.setScope(Lists.newArrayList("openid", "uma_protection", "profile", "oxd"));
+        params.setResponseTypes(Lists.newArrayList("code", "id_token", "token"));
+        params.setGrantTypes(Lists.newArrayList(
+                GrantType.AUTHORIZATION_CODE.getValue(),
+                GrantType.OXAUTH_UMA_TICKET.getValue(),
+                GrantType.CLIENT_CREDENTIALS.getValue()));
+        params.setInitiateLoginUri(initiateLoginUri);
         final RegisterSiteResponse resp = client.registerSite(params);
         assertNotNull(resp);
         assertTrue(!Strings.isNullOrEmpty(resp.getOxdId()));

@@ -5,14 +5,14 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>oxd-server</artifactId>
     <packaging>jar</packaging>
-    <version>5.0.0-SNAPSHOT</version>
+    <version>4.3.0.Final</version>
     <name>oxD Server</name>
     <url>http://ox.gluu.org</url>
 
     <properties>
         <dbcp.version>1.4</dbcp.version>
         <h2.version>1.4.194</h2.version>
-        <dropwizard.version>2.0.12</dropwizard.version>
+        <dropwizard.version>2.0.23</dropwizard.version>
         <jersey-test-framework-provider>2.29.1</jersey-test-framework-provider>
         <generate.windows.exe>false</generate.windows.exe>
         <commons-daemon.bin.version>1.2.1</commons-daemon.bin.version>
@@ -22,7 +22,7 @@
     <parent>
         <groupId>org.gluu</groupId>
         <artifactId>oxd</artifactId>
-        <version>5.0.0-SNAPSHOT</version>
+        <version>4.3.0.Final</version>
     </parent>
 
     <build>
@@ -246,6 +246,12 @@
             <groupId>io.dropwizard</groupId>
             <artifactId>dropwizard-configuration</artifactId>
             <version>${dropwizard.version}</version>
+            <exclusions>
+            	<exclusion>
+            		<groupId>org.yaml</groupId>
+            		<artifactId>snakeyaml</artifactId>
+            	</exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.mockito</groupId>
@@ -408,6 +414,12 @@
             </exclusions>
         </dependency>
         <dependency>
+            <groupId>org.yaml</groupId>
+            <artifactId>snakeyaml</artifactId>
+            <version>1.26</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
             <scope>compile</scope>
@@ -432,6 +444,12 @@
             <groupId>com.lightstep.tracer</groupId>
             <artifactId>lightstep-tracer-jre</artifactId>
             <version>0.14.2</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.google.protobuf</groupId>
+                    <artifactId>protobuf-java</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>io.jaegertracing</groupId>
@@ -463,15 +481,29 @@
         </dependency>
         <dependency>
             <groupId>org.gluu</groupId>
-            <artifactId>oxcore-persistence-ldap</artifactId>
+            <artifactId>gluu-orm-ldap</artifactId>
         </dependency>
         <dependency>
             <groupId>org.gluu</groupId>
-            <artifactId>oxcore-persistence-standalone</artifactId>
+            <artifactId>gluu-orm-standalone</artifactId>
         </dependency>
         <dependency>
             <groupId>org.gluu</groupId>
-            <artifactId>oxcore-persistence-couchbase</artifactId>
+            <artifactId>gluu-orm-couchbase</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.gluu</groupId>
+            <artifactId>gluu-orm-sql</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.google.protobuf</groupId>
+                    <artifactId>protobuf-java</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.gluu</groupId>
+            <artifactId>gluu-orm-spanner</artifactId>
         </dependency>
         <!-- Logging -->
         <dependency>
@@ -508,7 +540,17 @@
         </dependency>
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
-            <artifactId>selenium-htmlunit-driver</artifactId>
+            <artifactId>htmlunit-driver</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.sourceforge.htmlunit</groupId>
+            <artifactId>htmlunit</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.sourceforge.htmlunit</groupId>
+            <artifactId>htmlunit-cssparser</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>

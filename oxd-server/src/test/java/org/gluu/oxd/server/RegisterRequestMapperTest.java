@@ -35,7 +35,8 @@ public class RegisterRequestMapperTest {
         assertEquals(request.getTokenEndpointAuthMethod(), AuthenticationMethod.CLIENT_SECRET_BASIC);
         assertEquals(Jackson2.createRpMapper().readTree(Jackson2.serializeWithoutNulls(request.getGrantTypes())),
                 Jackson2.createRpMapper().readTree(Jackson2.serializeWithoutNulls(rp.getGrantType().stream().map(item -> GrantType.fromString(item)).collect(Collectors.toList()))));
-        assertEquals(request.getFrontChannelLogoutUri(), rp.getFrontChannelLogoutUri());
+        assertEquals(Jackson2.createRpMapper().readTree(Jackson2.serializeWithoutNulls(request.getFrontChannelLogoutUris())),
+                Jackson2.createRpMapper().readTree(Jackson2.serializeWithoutNulls(rp.getFrontChannelLogoutUris())));
         assertEquals(request.getTokenEndpointAuthMethod().toString(), rp.getTokenEndpointAuthMethod());
         assertEquals(Jackson2.createRpMapper().readTree(Jackson2.serializeWithoutNulls(request.getRequestUris())),
                 Jackson2.createRpMapper().readTree(Jackson2.serializeWithoutNulls(rp.getRequestUris())));
@@ -97,7 +98,8 @@ public class RegisterRequestMapperTest {
         assertEquals(newRp.getTokenEndpointAuthMethod(), rp.getTokenEndpointAuthMethod());
         assertEquals(Jackson2.createRpMapper().readTree(Jackson2.serializeWithoutNulls(newRp.getGrantType())),
                 Jackson2.createRpMapper().readTree(Jackson2.serializeWithoutNulls(rp.getGrantType())));
-        assertEquals(newRp.getFrontChannelLogoutUri(), rp.getFrontChannelLogoutUri());
+        assertEquals(Jackson2.createRpMapper().readTree(Jackson2.serializeWithoutNulls(newRp.getFrontChannelLogoutUris())),
+                Jackson2.createRpMapper().readTree(Jackson2.serializeWithoutNulls(rp.getFrontChannelLogoutUris())));
         assertEquals(newRp.getTokenEndpointAuthMethod().toString(), rp.getTokenEndpointAuthMethod());
         assertEquals(Jackson2.createRpMapper().readTree(Jackson2.serializeWithoutNulls(newRp.getRequestUris())),
                 Jackson2.createRpMapper().readTree(Jackson2.serializeWithoutNulls(rp.getRequestUris())));
@@ -161,7 +163,7 @@ public class RegisterRequestMapperTest {
                 GrantType.AUTHORIZATION_CODE.getValue(),
                 GrantType.OXAUTH_UMA_TICKET.getValue(),
                 GrantType.CLIENT_CREDENTIALS.getValue()));
-        rp.setFrontChannelLogoutUri("https://client.example.org/logout");
+        rp.setFrontChannelLogoutUris(Lists.newArrayList("https://client.example.org/logout"));
         rp.setTokenEndpointAuthMethod("client_secret_basic");
         rp.setRequestUris(Lists.newArrayList("https://client.example.org/requestUri"));
         rp.setSectorIdentifierUri("https://client.example.org/identifierUri");

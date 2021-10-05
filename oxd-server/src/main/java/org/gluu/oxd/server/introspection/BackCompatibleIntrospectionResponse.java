@@ -8,6 +8,8 @@ package org.gluu.oxd.server.introspection;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import org.gluu.oxauth.model.common.converter.ListConverter;
 import org.jboss.resteasy.annotations.providers.jaxb.IgnoreMediaTypes;
 
 import java.util.ArrayList;
@@ -19,17 +21,15 @@ import java.util.List;
  * @author Yuriy Zabrovarnyy
  * @version 0.9, 17/09/2013
  */
-@JsonPropertyOrder({"active", "scopes", "client_id", "username", "token_type", "exp", "iat", "sub", "aud", "iss", "jti", "acr_values"})
+@JsonPropertyOrder({"active", "scope", "client_id", "username", "token_type", "exp", "iat", "sub", "aud", "iss", "jti", "acr_values"})
 // ignore jettison as it's recommended here: http://docs.jboss.org/resteasy/docs/2.3.4.Final/userguide/html/json.html
 @IgnoreMediaTypes("application/*+json")
 public class BackCompatibleIntrospectionResponse {
 
     @JsonProperty(value = "active")
     private boolean active;   // according spec, must be "active" http://tools.ietf.org/html/draft-richer-oauth-introspection-03#section-2.2
-    @Deprecated // redundant, in spec we have just "scope", leave it for back compatiblity
-    @JsonProperty(value = "scopes")
-    private List<String> scopes;
     @JsonProperty(value = "scope")
+    @JsonDeserialize(converter = ListConverter.class)	// Force use of List even when value in actual json content is String
     private List<String> scope;
     @JsonProperty(value = "client_id")
     private String clientId;
@@ -73,14 +73,6 @@ public class BackCompatibleIntrospectionResponse {
 
     public void setActive(boolean p_active) {
         active = p_active;
-    }
-
-    public List<String> getScopes() {
-        return scopes;
-    }
-
-    public void setScopes(Collection<String> scopes) {
-        this.scopes = scopes != null ? new ArrayList<String>(scopes) : new ArrayList<String>();
     }
 
     public List<String> getScope() {
@@ -170,7 +162,6 @@ public class BackCompatibleIntrospectionResponse {
     public String toString() {
         return "BackCompatibleIntrospectionResponse{" +
                 "active=" + active +
-                ", scopes=" + scopes +
                 ", scope=" + scope +
                 ", clientId='" + clientId + '\'' +
                 ", username='" + username + '\'' +

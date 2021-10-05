@@ -8,7 +8,7 @@ import org.gluu.oxd.server.OxdServerConfiguration;
 import org.gluu.oxd.server.persistence.modal.OrganizationBranch;
 import org.gluu.oxd.server.persistence.modal.RpObject;
 import org.gluu.oxd.server.persistence.providers.GluuPersistenceConfiguration;
-import org.gluu.oxd.server.persistence.providers.PersistenceEntryManagerFactory;
+import org.gluu.oxd.server.persistence.providers.OxdPersistenceEntryManagerFactory;
 import org.gluu.oxd.server.service.MigrationService;
 import org.gluu.oxd.server.service.Rp;
 import org.gluu.persist.PersistenceEntryManager;
@@ -43,15 +43,14 @@ public class GluuPersistenceService implements PersistenceService {
             GluuPersistenceConfiguration gluuPersistenceConfiguration = new GluuPersistenceConfiguration(configuration);
             Properties props = gluuPersistenceConfiguration.getPersistenceProps();
             this.baseDn = props.getProperty(PersistenceConfigKeys.BaseDn.getKeyName());
-            if (props.getProperty(PersistenceConfigKeys.PersistenceType.getKeyName()).equalsIgnoreCase("ldap")
-                    || props.getProperty(PersistenceConfigKeys.PersistenceType.getKeyName()).equalsIgnoreCase("hybrid")) {
 
-                this.persistenceEntryManager = PersistenceEntryManagerFactory.createLdapPersistenceEntryManager(props);
-
-            } else if (props.getProperty(PersistenceConfigKeys.PersistenceType.getKeyName()).equalsIgnoreCase("couchbase")) {
-
-                this.persistenceEntryManager = PersistenceEntryManagerFactory.createCouchbasePersistenceEntryManager(props);
+            OxdPersistenceEntryManagerFactory oxdPersistenceEntryManagerFactory = new OxdPersistenceEntryManagerFactory();
+            String persistenceType = props.getProperty(PersistenceConfigKeys.PersistenceType.getKeyName());
+            if (persistenceType.equalsIgnoreCase("hybrid")) {
+                persistenceType = PersistenceEntryManager.PERSITENCE_TYPES.ldap.name();
             }
+
+            this.persistenceEntryManager = oxdPersistenceEntryManagerFactory.createPersistenceEntryManager(props, persistenceType);
 
             if (this.persistenceType != null && !this.persistenceType.equalsIgnoreCase(props.getProperty(PersistenceConfigKeys.PersistenceType.getKeyName()))) {
                 LOG.error("The value of the `storage` field in `oxd-server.yml` does not matches with `persistence.type` in `gluu.property` file. \n `storage` value: {} \n `persistence.type` value : {}"
