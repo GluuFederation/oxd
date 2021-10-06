@@ -1,5 +1,6 @@
 package org.gluu.oxd.server.op;
 
+import com.google.common.base.Strings;
 import com.google.inject.Injector;
 import org.apache.commons.beanutils.BeanUtils;
 import org.gluu.oxauth.client.OpenIdConnectDiscoveryClient;
@@ -11,7 +12,6 @@ import org.gluu.oxd.common.params.GetIssuerParams;
 import org.gluu.oxd.common.response.GetIssuerResponse;
 import org.gluu.oxd.common.response.IOpResponse;
 import org.gluu.oxd.server.HttpException;
-import org.python.google.common.base.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
