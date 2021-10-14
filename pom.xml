@@ -22,7 +22,13 @@
         <guava.version>[24.1.1,)</guava.version>
         <oxlicense.version>4.3.1-SNAPSHOT</oxlicense.version>
         <selenium.version>3.141.59</selenium.version>
-        <skip.swagger.client.generation>false</skip.swagger.client.generation>
+	<skip.swagger.client.generation>false</skip.swagger.client.generation>
+
+	<sonar.projectKey>GluuFederation_oxd</sonar.projectKey>
+        <sonar.moduleKey>${project.groupId}:${project.artifactId}</sonar.moduleKey>
+        <sonar.organization>gluufederation</sonar.organization>
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+
     </properties>
 
     <prerequisites>
