@@ -23,7 +23,6 @@ import org.gluu.oxd.common.response.IOpResponse;
 import org.gluu.oxd.server.HttpException;
 import org.gluu.oxd.server.Utils;
 import org.gluu.oxd.server.service.Rp;
-import org.python.jline.internal.Log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -159,7 +158,7 @@ public class GetTokensByCodeOperation extends BaseOperation<GetTokensByCodeParam
                 throw new HttpException(ErrorResponseCode.BAD_REQUEST_STATE_NOT_VALID);
             }
         } catch (Exception e) {
-            Log.error(e.getMessage(), e);
+            LOG.error(e.getMessage(), e);
             throw new HttpException(ErrorResponseCode.BAD_REQUEST_STATE_NOT_VALID);
         }
     }
