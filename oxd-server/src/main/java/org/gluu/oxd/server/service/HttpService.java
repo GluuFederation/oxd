@@ -3,9 +3,10 @@
  */
 package org.gluu.oxd.server.service;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.google.common.base.Strings;
-import com.google.inject.Inject;
+import java.io.File;
+import java.util.List;
+import java.util.Optional;
+
 import org.apache.http.client.HttpClient;
 import org.gluu.oxd.common.CoreUtils;
 import org.gluu.oxd.common.Jackson2;
@@ -14,13 +15,13 @@ import org.gluu.oxd.server.OxdServerConfiguration;
 import org.jboss.resteasy.client.ClientExecutor;
 import org.jboss.resteasy.client.core.executors.ApacheHttpClient4Executor;
 import org.jboss.resteasy.client.jaxrs.ClientHttpEngine;
-import org.jboss.resteasy.client.jaxrs.engines.ApacheHttpClient4Engine;
+import org.jboss.resteasy.client.jaxrs.engines.ApacheHttpClient43Engine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.util.List;
-import java.util.Optional;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.google.common.base.Strings;
+import com.google.inject.Inject;
 
 /**
  * @author Yuriy Zabrovarnyy
@@ -110,7 +111,7 @@ public class HttpService {
     }
 
     public ClientHttpEngine getClientEngine() {
-        return new ApacheHttpClient4Engine(getHttpClient());
+        return new ApacheHttpClient43Engine(getHttpClient());
     }
 
     private static String[] listToArray(List<String> input) {
