@@ -17,6 +17,7 @@ import org.gluu.oxauth.model.jwk.Use;
 import org.gluu.oxd.server.op.OpClientFactory;
 import org.gluu.util.Pair;
 import org.jboss.resteasy.client.core.executors.ApacheHttpClient4Executor;
+import org.jboss.resteasy.client.jaxrs.engines.ApacheHttpClient43Engine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -55,7 +56,7 @@ public class PublicOpKeyService {
         }
         //Request jwks from OP
         JwkClient jwkClient = opClientFactory.createJwkClient(jwkSetUrl);
-        jwkClient.setExecutor(new ApacheHttpClient4Executor(httpService.getHttpClient()));
+        jwkClient.setExecutor(new ApacheHttpClient43Engine(httpService.getHttpClient()));
 
         JwkResponse jwkResponse = jwkClient.exec();
         if (jwkResponse == null || jwkResponse.getStatus() != 200) {

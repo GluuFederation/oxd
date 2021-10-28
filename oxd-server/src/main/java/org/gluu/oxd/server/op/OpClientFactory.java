@@ -1,5 +1,7 @@
 package org.gluu.oxd.server.op;
 
+import javax.ws.rs.client.Invocation.Builder;
+
 import org.gluu.oxauth.client.*;
 import org.gluu.oxauth.client.uma.UmaClientFactory;
 import org.gluu.oxauth.model.crypto.signature.RSAPublicKey;
@@ -14,6 +16,7 @@ import org.gluu.oxd.server.introspection.ClientFactory;
 import org.gluu.oxd.server.service.PublicOpKeyService;
 import org.jboss.resteasy.client.ClientExecutor;
 import org.jboss.resteasy.client.ClientRequest;
+import org.jboss.resteasy.client.jaxrs.ClientHttpEngine;
 
 public interface OpClientFactory {
     public TokenClient createTokenClient(String url);
@@ -40,5 +43,5 @@ public interface OpClientFactory {
 
     public UmaClientFactory createUmaClientFactory();
 
-    public ClientRequest createClientRequest(String uriTemplate, ClientExecutor executor) throws Exception;
+    public Builder createClientRequest(String uriTemplate, ClientHttpEngine engine) throws Exception;
 }
