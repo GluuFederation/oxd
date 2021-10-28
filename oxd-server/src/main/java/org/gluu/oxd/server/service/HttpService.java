@@ -12,8 +12,6 @@ import org.gluu.oxd.common.CoreUtils;
 import org.gluu.oxd.common.Jackson2;
 import org.gluu.oxd.common.proxy.ProxyConfiguration;
 import org.gluu.oxd.server.OxdServerConfiguration;
-import org.jboss.resteasy.client.ClientExecutor;
-import org.jboss.resteasy.client.core.executors.ApacheHttpClient4Executor;
 import org.jboss.resteasy.client.jaxrs.ClientHttpEngine;
 import org.jboss.resteasy.client.jaxrs.engines.ApacheHttpClient43Engine;
 import org.slf4j.Logger;

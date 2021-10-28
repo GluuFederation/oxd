@@ -1,15 +1,12 @@
 package org.gluu.oxd.server.introspection;
 
-import org.jboss.resteasy.client.ClientExecutor;
-import org.jboss.resteasy.client.ProxyFactory;
+import javax.ws.rs.core.UriBuilder;
+
+import org.gluu.oxauth.model.uma.UmaMetadata;
 import org.jboss.resteasy.client.jaxrs.ClientHttpEngine;
 import org.jboss.resteasy.client.jaxrs.ResteasyClient;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
-
-import javax.ws.rs.core.UriBuilder;
-
-import org.gluu.oxauth.model.uma.UmaMetadata;
 
 /**
  * @author yuriyz
@@ -25,7 +22,10 @@ public class ClientFactory {
     }
 
     public BackCompatibleIntrospectionService createBackCompatibleIntrospectionService(String url) {
-        return ProxyFactory.create(BackCompatibleIntrospectionService.class, url);
+        final ResteasyClient client = (ResteasyClient) ResteasyClientBuilder.newClient();
+        final ResteasyWebTarget target = client.target(UriBuilder.fromPath(url));
+
+        return target.proxy(BackCompatibleIntrospectionService.class);
     }
 
     public BackCompatibleIntrospectionService createBackCompatibleIntrospectionService(String url, ClientHttpEngine clientEngine) {
@@ -36,7 +36,10 @@ public class ClientFactory {
     }
 
     public BadRptIntrospectionService createBadRptStatusService(UmaMetadata metadata) {
-        return ProxyFactory.create(BadRptIntrospectionService.class, metadata.getIntrospectionEndpoint());
+        final ResteasyClient client = (ResteasyClient) ResteasyClientBuilder.newClient();
+        final ResteasyWebTarget target = client.target(UriBuilder.fromPath(metadata.getIntrospectionEndpoint()));
+
+        return target.proxy(BadRptIntrospectionService.class);
     }
 
     public BadRptIntrospectionService createBadRptStatusService(UmaMetadata metadata, ClientHttpEngine clientEngine) {
@@ -47,7 +50,10 @@ public class ClientFactory {
     }
 
     public CorrectRptIntrospectionService createCorrectRptStatusService(UmaMetadata metadata) {
-        return ProxyFactory.create(CorrectRptIntrospectionService.class, metadata.getIntrospectionEndpoint());
+        final ResteasyClient client = (ResteasyClient) ResteasyClientBuilder.newClient();
+        final ResteasyWebTarget target = client.target(UriBuilder.fromPath(metadata.getIntrospectionEndpoint()));
+
+        return target.proxy(CorrectRptIntrospectionService.class);
     }
 
     public CorrectRptIntrospectionService createCorrectRptStatusService(UmaMetadata metadata, ClientHttpEngine clientEngine) {

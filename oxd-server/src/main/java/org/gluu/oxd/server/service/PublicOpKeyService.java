@@ -1,10 +1,9 @@
 package org.gluu.oxd.server.service;
 
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
-import com.google.common.collect.Lists;
-import com.google.inject.Inject;
-import io.dropwizard.util.Strings;
+import java.util.List;
+import java.util.Optional;
+import java.util.concurrent.TimeUnit;
+
 import org.gluu.oxauth.client.JwkClient;
 import org.gluu.oxauth.client.JwkResponse;
 import org.gluu.oxauth.model.crypto.PublicKey;
@@ -16,14 +15,16 @@ import org.gluu.oxauth.model.jwk.JSONWebKeySet;
 import org.gluu.oxauth.model.jwk.Use;
 import org.gluu.oxd.server.op.OpClientFactory;
 import org.gluu.util.Pair;
-import org.jboss.resteasy.client.core.executors.ApacheHttpClient4Executor;
 import org.jboss.resteasy.client.jaxrs.engines.ApacheHttpClient43Engine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.concurrent.TimeUnit;
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
+import com.google.common.collect.Lists;
+import com.google.inject.Inject;
+
+import io.dropwizard.util.Strings;
 
 /**
  * @author Yuriy Zabrovarnyy

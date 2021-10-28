@@ -3,7 +3,14 @@
  */
 package org.gluu.oxd.server.op;
 
-import com.google.inject.Injector;
+import java.io.IOException;
+
+import javax.ws.rs.ClientErrorException;
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
+
 import org.apache.commons.lang.StringUtils;
 import org.gluu.oxauth.model.uma.UmaNeedInfoResponse;
 import org.gluu.oxauth.model.util.Util;
@@ -13,15 +20,10 @@ import org.gluu.oxd.common.Jackson2;
 import org.gluu.oxd.common.params.RpGetRptParams;
 import org.gluu.oxd.common.response.IOpResponse;
 import org.gluu.oxd.server.HttpException;
-import org.jboss.resteasy.client.ClientResponseFailure;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
-import java.io.IOException;
+import com.google.inject.Injector;
 
 /**
  * @author Yuriy Zabrovarnyy
@@ -41,9 +43,9 @@ public class RpGetRptOperation extends BaseOperation<RpGetRptParams> {
         try {
             validate(params);
             return getUmaTokenService().getRpt(params);
-        } catch (ClientResponseFailure ex) {
+        } catch (ClientErrorException ex) {
             LOG.trace(ex.getMessage(), ex);
-            String entity = (String) ex.getResponse().getEntity(String.class);
+            String entity = (String) ex.getResponse().readEntity(String.class);
             return handleRptError(ex.getResponse().getStatus(), entity);
         }
     }
