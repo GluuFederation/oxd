@@ -106,10 +106,6 @@ public class HttpService {
         }
     }
 
-    public ClientExecutor getClientExecutor() {
-        return new ApacheHttpClient4Executor(getHttpClient());
-    }
-
     public ClientHttpEngine getClientEngine() {
         return new ApacheHttpClient43Engine(getHttpClient());
     }

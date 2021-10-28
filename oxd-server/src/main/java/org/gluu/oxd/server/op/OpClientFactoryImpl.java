@@ -1,5 +1,8 @@
 package org.gluu.oxd.server.op;
 
+import javax.ws.rs.client.Invocation.Builder;
+import javax.ws.rs.core.UriBuilder;
+
 import org.gluu.oxauth.client.*;
 import org.gluu.oxauth.client.uma.UmaClientFactory;
 import org.gluu.oxauth.model.crypto.signature.RSAPublicKey;
@@ -14,6 +17,10 @@ import org.gluu.oxd.server.introspection.ClientFactory;
 import org.gluu.oxd.server.service.PublicOpKeyService;
 import org.jboss.resteasy.client.ClientExecutor;
 import org.jboss.resteasy.client.ClientRequest;
+import org.jboss.resteasy.client.jaxrs.ClientHttpEngine;
+import org.jboss.resteasy.client.jaxrs.ResteasyClient;
+import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
+import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
 
 public class OpClientFactoryImpl implements OpClientFactory {
 
@@ -68,8 +75,11 @@ public class OpClientFactoryImpl implements OpClientFactory {
         return new RptPreProcessInterceptor(resourceRegistrar);
     }
 
-    public ClientRequest createClientRequest(String uriTemplate, ClientExecutor executor) throws Exception {
-        return new ClientRequest(uriTemplate, executor);
+    public Builder createClientRequest(String uriTemplate, ClientHttpEngine clientEngine) throws Exception {
+        final ResteasyClient client = ((ResteasyClientBuilder) ResteasyClientBuilder.newBuilder()).httpEngine(clientEngine).build();
+        final ResteasyWebTarget target = client.target(UriBuilder.fromPath(uriTemplate));
+
+        return target.request();
     }
 
 }

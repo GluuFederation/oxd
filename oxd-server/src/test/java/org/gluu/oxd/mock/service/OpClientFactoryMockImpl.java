@@ -1,12 +1,39 @@
 package org.gluu.oxd.mock.service;
 
 
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
+
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.Invocation.Builder;
+import javax.ws.rs.core.Form;
+import javax.ws.rs.core.Response;
+
 import org.apache.commons.lang.StringUtils;
 import org.glassfish.jersey.message.internal.OutboundJaxrsResponse;
 import org.glassfish.jersey.message.internal.OutboundMessageContext;
-import org.gluu.oxauth.client.*;
+import org.gluu.oxauth.client.AuthorizationResponse;
+import org.gluu.oxauth.client.AuthorizeClient;
+import org.gluu.oxauth.client.JwkClient;
+import org.gluu.oxauth.client.JwkResponse;
+import org.gluu.oxauth.client.OpenIdConfigurationClient;
+import org.gluu.oxauth.client.OpenIdConfigurationResponse;
+import org.gluu.oxauth.client.RegisterClient;
+import org.gluu.oxauth.client.RegisterResponse;
+import org.gluu.oxauth.client.TokenClient;
+import org.gluu.oxauth.client.TokenResponse;
+import org.gluu.oxauth.client.UserInfoClient;
+import org.gluu.oxauth.client.UserInfoResponse;
 import org.gluu.oxauth.client.uma.UmaClientFactory;
 import org.gluu.oxauth.client.uma.UmaMetadataService;
 import org.gluu.oxauth.model.common.TokenType;
@@ -20,23 +47,20 @@ import org.gluu.oxd.common.introspection.CorrectRptIntrospectionResponse;
 import org.gluu.oxd.rs.protect.Condition;
 import org.gluu.oxd.rs.protect.RsResource;
 import org.gluu.oxd.rs.protect.RsResourceList;
-import org.gluu.oxd.rs.protect.resteasy.*;
+import org.gluu.oxd.rs.protect.resteasy.Key;
+import org.gluu.oxd.rs.protect.resteasy.PatProvider;
+import org.gluu.oxd.rs.protect.resteasy.ResourceRegistrar;
+import org.gluu.oxd.rs.protect.resteasy.RptPreProcessInterceptor;
+import org.gluu.oxd.rs.protect.resteasy.ServiceProvider;
 import org.gluu.oxd.server.introspection.ClientFactory;
 import org.gluu.oxd.server.introspection.CorrectRptIntrospectionService;
 import org.gluu.oxd.server.op.OpClientFactory;
-import org.jboss.resteasy.client.ClientExecutor;
-import org.jboss.resteasy.client.ClientRequest;
-import org.jboss.resteasy.client.ClientResponse;
+import org.jboss.resteasy.client.jaxrs.ClientHttpEngine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.ws.rs.core.Response;
-import java.util.*;
-import java.util.concurrent.TimeUnit;
-
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 
 public class OpClientFactoryMockImpl implements OpClientFactory {
 
@@ -315,27 +339,30 @@ public class OpClientFactoryMockImpl implements OpClientFactory {
         return umaClientFactory;
     }
 
-    public synchronized ClientRequest createClientRequest(String uriTemplate, ClientExecutor executor) throws Exception {
-        Optional<ClientRequest> clientRequest = Optional.ofNullable((ClientRequest) opClientCache.getIfPresent("ClientRequest"));
-        Optional<ClientResponse> clientResponse = Optional.ofNullable((ClientResponse) opClientCache.getIfPresent("ClientResponse"));
-        ClientRequest client = null;
-        if (!clientRequest.isPresent() || !clientResponse.isPresent()) {
-            client = mock(ClientRequest.class);
+    public synchronized Builder createClientRequest(String uriTemplate, ClientHttpEngine engine) throws Exception {
+        Optional<Builder> Builder = Optional.ofNullable((Builder) opClientCache.getIfPresent("Builder"));
+        Optional<Response> Response = Optional.ofNullable((Response) opClientCache.getIfPresent("Response"));
+        Optional<Form> Form = Optional.ofNullable((Form) opClientCache.getIfPresent("Form"));
+        Builder client = null;
+        if (!Builder.isPresent() || !Response.isPresent() || !Form.isPresent()) {
+            client = mock(Builder.class);
 
-            ClientResponse<String> response = mock(ClientResponse.class);
+            Response response = mock(Response.class);
+
+            Form form = mock(Form.class);
 
             when(response.getEntity()).thenReturn("{ \"access_token\":\"d457e3de-30dd-400a-8698-2b98472b7a40\"," +
                     "\"token_type\":\"Bearer\"," +
                     "\"pct\":\"30dd\"" +
                     "}");
             when(client.header(any(), any())).thenReturn(client);
-            when(client.formParameter(any(), any())).thenReturn(client);
-            when(client.queryParameter(any(), any())).thenReturn(client);
-            when(client.post(String.class)).thenReturn(response);
-            opClientCache.put("ClientRequest", client);
-            opClientCache.put("ClientResponse", response);
+            when(form.param(any(), any())).thenReturn(form);
+            when(form.param(any(), any())).thenReturn(form);
+            when(client.buildPost(Entity.form(form)).invoke()).thenReturn(response);
+            opClientCache.put("Builder", client);
+            opClientCache.put("Response", response);
         } else {
-            client = (ClientRequest) opClientCache.getIfPresent("ClientRequest");
+            client = (Builder) opClientCache.getIfPresent("Builder");
         }
         return client;
     }

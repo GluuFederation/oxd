@@ -1,19 +1,32 @@
 package org.gluu.oxd.server.service;
 
-import com.google.inject.Inject;
-import org.gluu.oxd.server.op.OpClientFactory;
-import org.jboss.resteasy.client.ClientResponseFailure;
-import org.jboss.resteasy.client.ProxyFactory;
-import org.jboss.resteasy.spi.ReaderException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import javax.ws.rs.core.UriBuilder;
+
 import org.gluu.oxauth.model.common.IntrospectionResponse;
 import org.gluu.oxauth.model.uma.UmaMetadata;
 import org.gluu.oxd.common.introspection.CorrectRptIntrospectionResponse;
 import org.gluu.oxd.common.introspection.CorrectUmaPermission;
-import org.gluu.oxd.server.introspection.*;
+import org.gluu.oxd.server.introspection.BackCompatibleIntrospectionResponse;
+import org.gluu.oxd.server.introspection.BackCompatibleIntrospectionService;
+import org.gluu.oxd.server.introspection.BadRptIntrospectionResponse;
+import org.gluu.oxd.server.introspection.BadRptIntrospectionService;
+import org.gluu.oxd.server.introspection.BadUmaPermission;
+import org.gluu.oxd.server.introspection.ClientFactory;
+import org.gluu.oxd.server.introspection.CorrectRptIntrospectionService;
+import org.gluu.oxd.server.op.OpClientFactory;
+import org.jboss.resteasy.client.ClientResponseFailure;
+import org.jboss.resteasy.client.jaxrs.ResteasyClient;
+import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
+import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
+import org.jboss.resteasy.spi.ReaderException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.util.*;
+import com.google.inject.Inject;
 
 /**
  * @author yuriyz
@@ -41,7 +54,10 @@ public class IntrospectionService {
 
     private IntrospectionResponse introspectToken(String oxdId, String accessToken, boolean retry) {
         final String introspectionEndpoint = discoveryService.getConnectDiscoveryResponseByOxdId(oxdId).getIntrospectionEndpoint();
-        final org.gluu.oxauth.client.service.IntrospectionService introspectionService = ProxyFactory.create(org.gluu.oxauth.client.service.IntrospectionService.class, introspectionEndpoint, httpService.getClientExecutor());
+
+        final ResteasyClient client = ((ResteasyClientBuilder) ResteasyClientBuilder.newBuilder()).httpEngine(httpService.getClientEngine()).build();
+        final ResteasyWebTarget target = client.target(UriBuilder.fromPath(introspectionEndpoint));
+        final org.gluu.oxauth.client.service.IntrospectionService introspectionService = target.proxy(org.gluu.oxauth.client.service.IntrospectionService.class);
 
         try {
             IntrospectionResponse response = introspectionService.introspectToken("Bearer " + umaTokenService.getOAuthToken(oxdId).getToken(), accessToken);
@@ -61,7 +77,7 @@ public class IntrospectionService {
             if (e instanceof ReaderException) { // dummy construction but checked JsonParseException is thrown inside jackson provider, so we don't have choice
                 // trying to handle compatiblity issue.
                 LOG.trace("Trying to handle compatibility issue ...");
-                BackCompatibleIntrospectionService backCompatibleIntrospectionService = ClientFactory.instance().createBackCompatibleIntrospectionService(introspectionEndpoint, httpService.getClientExecutor());
+                BackCompatibleIntrospectionService backCompatibleIntrospectionService = ClientFactory.instance().createBackCompatibleIntrospectionService(introspectionEndpoint, httpService.getClientEngine());
                 BackCompatibleIntrospectionResponse backResponse = backCompatibleIntrospectionService.introspectToken("Bearer " + umaTokenService.getOAuthToken(oxdId).getToken(), accessToken);
                 LOG.trace("Handled compatibility issue. Response: " + backResponse);
 
@@ -96,7 +112,7 @@ public class IntrospectionService {
         final UmaMetadata metadata = discoveryService.getUmaDiscoveryByOxdId(oxdId);
 
         try {
-            final CorrectRptIntrospectionService introspectionService = opClientFactory.createClientFactory().createCorrectRptStatusService(metadata, httpService.getClientExecutor());
+            final CorrectRptIntrospectionService introspectionService = opClientFactory.createClientFactory().createCorrectRptStatusService(metadata, httpService.getClientEngine());
             return introspectionService.requestRptStatus("Bearer " + umaTokenService.getPat(oxdId).getToken(), rpt, "");
         } catch (ClientResponseFailure e) {
             int httpStatus = e.getResponse().getStatus();
@@ -111,7 +127,7 @@ public class IntrospectionService {
             if (e instanceof ReaderException) { // dummy construction but checked JsonParseException is thrown inside jackson provider, so we don't have choice
                 // trying to handle compatiblity issue.
                 LOG.trace("Trying to handle compatibility issue ...");
-                BadRptIntrospectionService badService = ClientFactory.instance().createBadRptStatusService(metadata, httpService.getClientExecutor());
+                BadRptIntrospectionService badService = ClientFactory.instance().createBadRptStatusService(metadata, httpService.getClientEngine());
                 BadRptIntrospectionResponse badResponse = badService.requestRptStatus("Bearer " + umaTokenService.getPat(oxdId).getToken(), rpt, "");
 
                 LOG.trace("Handled compatibility issue. Response: " + badResponse);

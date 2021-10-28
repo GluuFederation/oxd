@@ -47,7 +47,7 @@ public class GetJwksOperation extends BaseOperation<GetJwksParams> {
             final String jwksUri = openIdConfigurationResponse.getJwksUri();
 
             final JwkClient jwkClient = new JwkClient(jwksUri);
-            jwkClient.setExecutor(getHttpService().getClientExecutor());
+            jwkClient.setExecutor(getHttpService().getClientEngine());
 
             final JwkResponse serverResponse = jwkClient.exec();
 
