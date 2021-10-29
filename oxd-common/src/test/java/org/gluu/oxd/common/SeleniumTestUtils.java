@@ -28,7 +28,7 @@ import static org.testng.Assert.fail;
 
 public class SeleniumTestUtils {
 
-    private static int WAIT_OPERATION_TIMEOUT = 60;
+    private static int WAIT_OPERATION_TIMEOUT = 15;
     private static final Logger LOG = LoggerFactory.getLogger(SeleniumTestUtils.class);
 
     public static AuthorizationResponse authorizeClient(
@@ -139,7 +139,7 @@ public class SeleniumTestUtils {
             authorizationRequest.setResponseTypes(responseTypes.stream().map(item -> ResponseType.fromString(item)).collect(Collectors.toList()));
             authorizationRequest.setState(state);
 
-            return URLDecoder.decode(opHost + "/oxauth/authorize.htm?" +authorizationRequest.getQueryString(), Util.UTF8_STRING_ENCODING);
+            return URLDecoder.decode(opHost + "/oxauth/restv1/authorize?" +authorizationRequest.getQueryString(), Util.UTF8_STRING_ENCODING);
 
             /*return URLDecoder.decode(opHost + "/oxauth/restv1/authorize?" +
                     "response_type=code+id_token+token" +
