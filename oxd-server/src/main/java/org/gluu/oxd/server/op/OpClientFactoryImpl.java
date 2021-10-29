@@ -15,8 +15,6 @@ import org.gluu.oxd.rs.protect.resteasy.RptPreProcessInterceptor;
 import org.gluu.oxd.rs.protect.resteasy.ServiceProvider;
 import org.gluu.oxd.server.introspection.ClientFactory;
 import org.gluu.oxd.server.service.PublicOpKeyService;
-import org.jboss.resteasy.client.ClientExecutor;
-import org.jboss.resteasy.client.ClientRequest;
 import org.jboss.resteasy.client.jaxrs.ClientHttpEngine;
 import org.jboss.resteasy.client.jaxrs.ResteasyClient;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.ws.rs.ClientErrorException;
 import javax.ws.rs.core.UriBuilder;
 
 import org.gluu.oxauth.model.common.IntrospectionResponse;
@@ -18,7 +19,6 @@ import org.gluu.oxd.server.introspection.BadUmaPermission;
 import org.gluu.oxd.server.introspection.ClientFactory;
 import org.gluu.oxd.server.introspection.CorrectRptIntrospectionService;
 import org.gluu.oxd.server.op.OpClientFactory;
-import org.jboss.resteasy.client.ClientResponseFailure;
 import org.jboss.resteasy.client.jaxrs.ResteasyClient;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
@@ -62,9 +62,9 @@ public class IntrospectionService {
         try {
             IntrospectionResponse response = introspectionService.introspectToken("Bearer " + umaTokenService.getOAuthToken(oxdId).getToken(), accessToken);
             return response; // we need local variable to force convertion here
-        } catch (ClientResponseFailure e) {
+        } catch (ClientErrorException e) {
             int status = e.getResponse().getStatus();
-            LOG.debug("Failed to introspect token. Entity: " + e.getResponse().getEntity(String.class) + ", status: " + status, e);
+            LOG.debug("Failed to introspect token. Entity: " + e.getResponse().readEntity(String.class) + ", status: " + status, e);
             if (retry && (status == 400 || status == 401)) {
                 LOG.debug("Try maybe OAuthToken is lost on AS, force refresh OAuthToken and re-try ...");
                 umaTokenService.obtainOauthToken(oxdId); // force to refresh OAuthToken
@@ -114,7 +114,7 @@ public class IntrospectionService {
         try {
             final CorrectRptIntrospectionService introspectionService = opClientFactory.createClientFactory().createCorrectRptStatusService(metadata, httpService.getClientEngine());
             return introspectionService.requestRptStatus("Bearer " + umaTokenService.getPat(oxdId).getToken(), rpt, "");
-        } catch (ClientResponseFailure e) {
+        } catch (ClientErrorException e) {
             int httpStatus = e.getResponse().getStatus();
             if (retry && (httpStatus == 401 || httpStatus == 400 || httpStatus == 403)) {
                 umaTokenService.obtainPat(oxdId).getToken();

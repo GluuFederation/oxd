@@ -1,10 +1,25 @@
 package org.gluu.oxd.server.service;
 
-import com.google.common.base.Strings;
-import com.google.common.collect.Lists;
-import com.google.inject.Inject;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.Invocation.Builder;
+import javax.ws.rs.core.Form;
+import javax.ws.rs.core.Response;
+
 import org.apache.commons.lang.StringUtils;
-import org.gluu.oxauth.client.*;
+import org.gluu.oxauth.client.AuthorizationRequest;
+import org.gluu.oxauth.client.AuthorizationResponse;
+import org.gluu.oxauth.client.AuthorizeClient;
+import org.gluu.oxauth.client.OpenIdConfigurationResponse;
+import org.gluu.oxauth.client.TokenClient;
+import org.gluu.oxauth.client.TokenRequest;
+import org.gluu.oxauth.client.TokenResponse;
 import org.gluu.oxauth.model.common.AuthenticationMethod;
 import org.gluu.oxauth.model.common.GrantType;
 import org.gluu.oxauth.model.common.Prompt;
@@ -28,18 +43,12 @@ import org.gluu.oxd.server.model.Token;
 import org.gluu.oxd.server.model.TokenFactory;
 import org.gluu.oxd.server.op.OpClientFactory;
 import org.gluu.oxd.server.op.RpGetRptOperation;
-import org.jboss.resteasy.client.ClientRequest;
-import org.jboss.resteasy.client.ClientResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.util.*;
-
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.Invocation.Builder;
-import javax.ws.rs.core.Form;
-import javax.ws.rs.core.Response;
+import com.google.common.base.Strings;
+import com.google.common.collect.Lists;
+import com.google.inject.Inject;
 
 /**
  * @author Yuriy Zabrovarnyy

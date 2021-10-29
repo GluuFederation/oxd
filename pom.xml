@@ -16,7 +16,6 @@
         <jackson.version>2.10.1</jackson.version>
         <httpcomponents.version>4.1.2</httpcomponents.version>
         <oxauth.version>4.3.1-SNAPSHOT</oxauth.version>
-        <resteasy.version>2.3.7.Final</resteasy.version>
         <licensing.version>1.1.0</licensing.version>
         <guice.version>3.0</guice.version>
         <guava.version>[24.1.1,)</guava.version>
@@ -200,17 +199,6 @@
                 <groupId>org.apache.httpcomponents</groupId>
                 <artifactId>httpclient</artifactId>
                 <version>4.5.13</version>
-            </dependency>
-            <dependency>
-                <groupId>org.jboss.resteasy</groupId>
-                <artifactId>resteasy-guice</artifactId>
-                <version>${resteasy.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>com.google.code.guice</groupId>
-                        <artifactId>guice</artifactId>
-                    </exclusion>
-                </exclusions>
             </dependency>
             <dependency>
                 <groupId>com.google.inject</groupId>
