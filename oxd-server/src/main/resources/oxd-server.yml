@@ -72,7 +72,7 @@ defaultSiteConfig:
   op_configuration_endpoint: ''
   response_types: ['code']
   grant_type: ['authorization_code']
-  acr_values: []
+  acr_values: ['']
   scope: ['openid', 'profile', 'email']
   ui_locales: ['en']
   claims_locales: ['en']
