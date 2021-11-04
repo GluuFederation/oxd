@@ -138,7 +138,7 @@ public class RegisterSiteTest {
         params.setTlsClientAuthSubjectDn("www.test.com");
         params.setSubjectType("pairwise");
 
-        params.setIdTokenSignedResponseAlg("PS256");
+        /*params.setIdTokenSignedResponseAlg("PS256");
         params.setIdTokenEncryptedResponseAlg("A128KW");
         params.setIdTokenEncryptedResponseEnc("A128CBC+HS256");
         params.setUserInfoSignedResponseAlg("HS256");
@@ -153,7 +153,7 @@ public class RegisterSiteTest {
         params.setAuthorizedOrigins(Lists.newArrayList("beem://www.test-updated.com", "fb://updated.local.url"));
         params.setAccessTokenLifetime(200000000);
         params.setSoftwareId("4NRB1-0XZABZI9E6-5SM3R");
-        params.setSoftwareVersion("3.0");
+        params.setSoftwareVersion("3.0");*/
 
         Map<String, String> customAttributes = new HashMap<>();
         customAttributes.put("key1", "v1");
