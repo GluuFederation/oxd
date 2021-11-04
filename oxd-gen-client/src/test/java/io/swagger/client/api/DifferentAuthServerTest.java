@@ -21,7 +21,7 @@ import static org.testng.AssertJUnit.assertTrue;
 public class DifferentAuthServerTest {
 
     @Parameters({"opHost", "redirectUrls", "authServer", "userId", "userSecret"})
-    @Test
+    @Test(enabled = false)
     public void getUserInfo_withDifferentAuthServer(String opHost, String redirectUrls, String authServer, String userId, String userSecret) throws Exception {
         final DevelopersApi client = api();
 
