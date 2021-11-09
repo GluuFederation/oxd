@@ -7,7 +7,7 @@
     <packaging>pom</packaging>
     <version>4.3.1-SNAPSHOT</version>
     <name>oxD</name>
-    <url>http://jenkins.gluu.org</url>
+    <url>https://jenkins.gluu.org</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
