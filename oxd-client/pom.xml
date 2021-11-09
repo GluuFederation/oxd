@@ -7,7 +7,7 @@
     <packaging>jar</packaging>
     <version>4.4.0-SNAPSHOT</version>
     <name>oxD Client</name>
-    <url>http://www.gluu.org</url>
+    <url>https://www.gluu.org</url>
 
     <parent>
         <groupId>org.gluu</groupId>
