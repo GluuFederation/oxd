@@ -23,7 +23,7 @@ import static org.testng.AssertJUnit.assertNotNull;
 public class DifferentAuthServerTest {
 
     @Parameters({"host", "opHost", "authServer", "redirectUrls", "clientId", "clientSecret", "userId", "userSecret"})
-    @Test
+    @Test(enabled = false)
     public void getUserInfo_withDifferentAuthServer(String host, String opHost, String authServer, String redirectUrls, String clientId, String clientSecret, String userId, String userSecret) {
 
         ClientInterface client = org.gluu.oxd.server.Tester.newClient(host);
@@ -43,7 +43,7 @@ public class DifferentAuthServerTest {
     }
 
     @Parameters({"host", "authServer", "redirectUrls", "opHost", "rsProtect"})
-    @Test
+    @Test(enabled = false)
     public void umaFullTest_withDifferentAuthServer(String host, String authServer, String redirectUrls, String opHost, String rsProtect) throws Exception {
 
         ClientInterface client = Tester.newClient(host);

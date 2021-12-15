@@ -21,7 +21,7 @@ import static org.testng.AssertJUnit.assertTrue;
 public class DifferentAuthServerTest {
 
     @Parameters({"opHost", "redirectUrls", "authServer", "userId", "userSecret"})
-    @Test
+    @Test(enabled = false)
     public void getUserInfo_withDifferentAuthServer(String opHost, String redirectUrls, String authServer, String userId, String userSecret) throws Exception {
         final DevelopersApi client = api();
 
@@ -41,7 +41,7 @@ public class DifferentAuthServerTest {
     }
 
     @Parameters({"redirectUrls", "opHost", "authServer", "rsProtect"})
-    @Test
+    @Test(enabled = false)
     public void umaFullTest_withDifferentAuthServer(String redirectUrls, String opHost, String authServer, String rsProtect) throws Exception {
 
         final DevelopersApi client = api();
