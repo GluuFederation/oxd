@@ -45,7 +45,7 @@
     </test>
 
     <!-- Connect -->
-    <!--<test name="HealthCheckTest" enabled="true">
+    <test name="HealthCheckTest" enabled="true">
         <classes>
             <class name="org.gluu.oxd.server.HealthCheckTest"></class>
         </classes>
@@ -55,7 +55,7 @@
             <class name="org.gluu.oxd.server.GetRpJwksTest"></class>
         </classes>
     </test>
-    <!--<test name="Get Request Uri" enabled="true">
+    <test name="Get Request Uri" enabled="true">
         <classes>
             <class name="org.gluu.oxd.server.GetRequestUriTest"></class>
         </classes>
@@ -89,7 +89,7 @@
         <classes>
             <class name="org.gluu.oxd.server.GetAuthorizationUrlTest"/>
         </classes>
-    </test>-->
+    </test>
     <test name="Get tokens by code" enabled="true">
         <classes>
             <class name="org.gluu.oxd.server.GetTokensByCodeTest"/>
@@ -100,11 +100,11 @@
             <class name="org.gluu.oxd.server.GetUserInfoTest"/>
         </classes>
     </test>
-    <!--<test name="Log out" enabled="true">
+    <test name="Log out" enabled="true">
         <classes>
             <class name="org.gluu.oxd.server.GetLogoutUrlTest"/>
         </classes>
-    </test>-->
+    </test>
     <test name="Check IdToken" enabled="true">
         <classes>
             <class name="org.gluu.oxd.server.CheckIdTokenTest"/>
@@ -115,93 +115,93 @@
             <class name="org.gluu.oxd.server.CheckAccessTokenTest"/>
         </classes>
     </test>
-<!--    <test name="Authorization code flow prompt=none" enabled="true">-->
-<!--        <classes>-->
-<!--            <class name="org.gluu.oxd.server.AuthorizationCodeFlowTest"/>-->
-<!--        </classes>-->
-<!--    </test>-->
-<!--    <test name="Migration Service Test" enabled="true">-->
-<!--        <classes>-->
-<!--            <class name="org.gluu.oxd.server.service.MigrationServiceTest"/>-->
-<!--        </classes>-->
-<!--    </test>-->
-<!--    <test name="Access Token as JWT Test" enabled="true">-->
-<!--        <classes>-->
-<!--            <class name="org.gluu.oxd.server.AccessTokenAsJwtTest"/>-->
-<!--        </classes>-->
-<!--    </test>-->
-<!--    <test name="rp" enabled="true">-->
-<!--        <classes>-->
-<!--            <class name="org.gluu.oxd.server.service.RpServiceTest"/>-->
-<!--        </classes>-->
-<!--    </test>-->
-<!--    <test name="RpSyncServiceTest" enabled="true">-->
-<!--        <classes>-->
-<!--            <class name="org.gluu.oxd.server.service.RpSyncServiceTest"></class>-->
-<!--        </classes>-->
-<!--    </test>-->
-<!--    <test name="RS - Modify" enabled="true">-->
-<!--        <classes>-->
-<!--            <class name="org.gluu.oxd.server.RsModifyTest"/>-->
-<!--        </classes>-->
-<!--    </test>-->
-<!--    <test name="Validator test" enabled="true">-->
-<!--        <classes>-->
-<!--            <class name="org.gluu.oxd.server.service.ValidatorTest"/>-->
-<!--        </classes>-->
-<!--    </test>-->
-<!--    <test name="Spontaneous Scope Auth Test" enabled="true">-->
-<!--        <classes>-->
-<!--            <class name="org.gluu.oxd.server.SpontaneousScopeAuthTest"/>-->
-<!--        </classes>-->
-<!--    </test>-->
-<!--    <test name="Uma Spontaneous Scope Test" enabled="true">-->
-<!--        <classes>-->
-<!--            <class name="org.gluu.oxd.server.UmaSpontaneousScopeTest"/>-->
-<!--        </classes>-->
-<!--    </test>-->
-<!--    &lt;!&ndash; UMA Tests &ndash;&gt;-->
-<!--    <test name="UMA - Full Flow Test" enabled="true">-->
-<!--        <classes>-->
-<!--            <class name="org.gluu.oxd.server.UmaFullTest"/>-->
-<!--        </classes>-->
-<!--    </test>-->
-<!--    <test name="RS - Protect" enabled="true">-->
-<!--        <classes>-->
-<!--            <class name="org.gluu.oxd.server.RsProtectTest"/>-->
-<!--        </classes>-->
-<!--    </test>-->
-<!--    <test name="RS - Check Access" enabled="true">-->
-<!--        <classes>-->
-<!--            <class name="org.gluu.oxd.server.RsCheckAccessTest"/>-->
-<!--        </classes>-->
-<!--    </test>-->
-<!--    <test name="RP - Get RPT" enabled="true">-->
-<!--        <classes>-->
-<!--            <class name="org.gluu.oxd.server.RpGetRptTest"/>-->
-<!--        </classes>-->
-<!--    </test>-->
-<!--    <test name="RP - Get Claims-Gathering Url" enabled="true">-->
-<!--        <classes>-->
-<!--            <class name="org.gluu.oxd.server.UmaGetClaimsGatheringUrlTest"/>-->
-<!--        </classes>-->
-<!--    </test>-->
-<!--    <test name="Introspect RPT" enabled="true">-->
-<!--        <classes>-->
-<!--            <class name="org.gluu.oxd.server.IntrospectRptTest"/>-->
-<!--        </classes>-->
-<!--    </test>-->
+    <test name="Authorization code flow prompt=none" enabled="true">
+        <classes>
+            <class name="org.gluu.oxd.server.AuthorizationCodeFlowTest"/>
+        </classes>
+    </test>
+    <test name="Migration Service Test" enabled="true">
+        <classes>
+            <class name="org.gluu.oxd.server.service.MigrationServiceTest"/>
+        </classes>
+    </test>
+    <test name="Access Token as JWT Test" enabled="true">
+        <classes>
+            <class name="org.gluu.oxd.server.AccessTokenAsJwtTest"/>
+        </classes>
+    </test>
+    <test name="rp" enabled="true">
+        <classes>
+            <class name="org.gluu.oxd.server.service.RpServiceTest"/>
+        </classes>
+    </test>
+    <test name="RpSyncServiceTest" enabled="true">
+        <classes>
+            <class name="org.gluu.oxd.server.service.RpSyncServiceTest"></class>
+        </classes>
+    </test>
+    <test name="RS - Modify" enabled="true">
+        <classes>
+            <class name="org.gluu.oxd.server.RsModifyTest"/>
+        </classes>
+    </test>
+    <test name="Validator test" enabled="true">
+        <classes>
+            <class name="org.gluu.oxd.server.service.ValidatorTest"/>
+        </classes>
+    </test>
+    <test name="Spontaneous Scope Auth Test" enabled="true">
+        <classes>
+            <class name="org.gluu.oxd.server.SpontaneousScopeAuthTest"/>
+        </classes>
+    </test>
+    <test name="Uma Spontaneous Scope Test" enabled="true">
+        <classes>
+            <class name="org.gluu.oxd.server.UmaSpontaneousScopeTest"/>
+        </classes>
+    </test>
+    <!-- UMA Tests -->
+    <test name="UMA - Full Flow Test" enabled="true">
+        <classes>
+            <class name="org.gluu.oxd.server.UmaFullTest"/>
+        </classes>
+    </test>
+    <test name="RS - Protect" enabled="true">
+        <classes>
+            <class name="org.gluu.oxd.server.RsProtectTest"/>
+        </classes>
+    </test>
+    <test name="RS - Check Access" enabled="true">
+        <classes>
+            <class name="org.gluu.oxd.server.RsCheckAccessTest"/>
+        </classes>
+    </test>
+    <test name="RP - Get RPT" enabled="true">
+        <classes>
+            <class name="org.gluu.oxd.server.RpGetRptTest"/>
+        </classes>
+    </test>
+    <test name="RP - Get Claims-Gathering Url" enabled="true">
+        <classes>
+            <class name="org.gluu.oxd.server.UmaGetClaimsGatheringUrlTest"/>
+        </classes>
+    </test>
+    <test name="Introspect RPT" enabled="true">
+        <classes>
+            <class name="org.gluu.oxd.server.IntrospectRptTest"/>
+        </classes>
+    </test>
     <test name="Different Authorization Server Test" enabled="true">
         <classes>
             <class name="org.gluu.oxd.server.DifferentAuthServerTest"/>
         </classes>
     </test>
-    <!--<test name="Third Party Login Test" enabled="true">
+    <test name="Third Party Login Test" enabled="true">
         <classes>
             <class name="org.gluu.oxd.server.ThirdPartyLoginTest"/>
         </classes>
     </test>
-    &lt;!&ndash; Custom &ndash;&gt;
+    <!-- Custom -->
     <test name="Setup client" enabled="true">
         <classes>
             <class name="org.gluu.oxd.server.SetupClientTest"/>
@@ -224,13 +224,13 @@
     </test>
 
 
-    &lt;!&ndash; SWAGGER TESTS &ndash;&gt;
+    <!-- SWAGGER TESTS -->
 
     <test name="Get OpDiscovery swagger" enabled="true">
         <classes>
             <class name="io.swagger.client.api.GetDiscoveryTest"></class>
         </classes>
-    </test>-->
+    </test>
 
     <test name="Rp Jwks Swagger" enabled="true">
         <classes>
@@ -244,7 +244,7 @@
         </classes>
     </test>
 
-    <!--<test name="Get Issuer swagger" enabled="true">
+    <test name="Get Issuer swagger" enabled="true">
         <classes>
             <class name="io.swagger.client.api.GetIssuerTest"></class>
         </classes>
@@ -278,7 +278,7 @@
         <classes>
             <class name="io.swagger.client.api.GetAuthorizationUrlTest"/>
         </classes>
-    </test>-->
+    </test>
 
     <test name="Get tokens by code swagger" enabled="true">
         <classes>
@@ -286,7 +286,7 @@
         </classes>
     </test>
 
-    <!--<test name="Get User Info swagger" enabled="true">
+    <test name="Get User Info swagger" enabled="true">
         <classes>
             <class name="io.swagger.client.api.GetUserInfoTest"/>
         </classes>
@@ -350,5 +350,5 @@
         <classes>
             <class name="io.swagger.client.api.DifferentAuthServerTest"/>
         </classes>
-    </test>-->
+    </test>
 </suite>
