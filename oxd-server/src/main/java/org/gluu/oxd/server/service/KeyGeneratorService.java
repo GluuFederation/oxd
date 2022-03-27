@@ -18,6 +18,7 @@ import org.gluu.oxd.common.ExpiredObjectType;
 import org.gluu.oxd.server.HttpException;
 import org.gluu.oxd.server.OxdServerConfiguration;
 import org.gluu.oxd.server.persistence.service.PersistenceService;
+import org.gluu.util.security.SecurityProviderUtility;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -45,7 +46,7 @@ public class KeyGeneratorService {
         this.keys = new JSONWebKeySet();
         this.persistenceService = persistenceService;
         try {
-            SignatureAlgorithm.installBCProvider();
+            SecurityProviderUtility.installBCProvider();
             this.cryptoProvider = new OxAuthCryptoProvider(configuration.getCryptProviderKeyStorePath(), configuration.getCryptProviderKeyStorePassword(), configuration.getCryptProviderDnName());
         } catch (Exception e) {
             LOG.error("Failed to create CryptoProvider.", e);
