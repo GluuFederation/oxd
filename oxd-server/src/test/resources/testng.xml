@@ -49,7 +49,7 @@
         <classes>
             <class name="org.gluu.oxd.server.HealthCheckTest"></class>
         </classes>
-    </test>-->
+    </test>
     <test name="Get Rp Jwks" enabled="true">
         <classes>
             <class name="org.gluu.oxd.server.GetRpJwksTest"></class>
