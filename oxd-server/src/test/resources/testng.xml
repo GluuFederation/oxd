@@ -10,11 +10,11 @@
     <parameter name="urlWebfingerInput" value="https://${test.server.name}/admin"/>
     <parameter name="hostnameWebfingerInput" value="${test.server.name}"/>
     <parameter name="opConfigurationEndpoint" value="https://${test.server.name}/.well-known/openid-configuration"/>
-    <parameter name="redirectUrls" value="https://gluu.org"/>
-    <parameter name="paramRedirectUrl" value="https://gluu.org"/>
-    <parameter name="postLogoutRedirectUrl" value="https://gluu.org"/>
-    <parameter name="postLogoutRedirectUrls" value="https://gluu.org"/>
-    <parameter name="logoutUrl" value="https://gluu.org"/>
+    <parameter name="redirectUrls" value="https://client.example.com/cb/home1 https://client.example.com/cb/home2"/>
+    <parameter name="paramRedirectUrl" value="https://client.example.com/cb/home2"/>
+    <parameter name="postLogoutRedirectUrl" value="https://client.example.com/cb/logout"/>
+    <parameter name="postLogoutRedirectUrls" value="https://client.example.com/cb/logout/page1 https://client.example.com/cb/logout/page2"/>
+    <parameter name="logoutUrl" value="https://client.example.com/logout"/>
     <parameter name="state" value="custom_state_for_testing"/>
     <parameter name="userId" value="${auth.user.uid}"/>
     <parameter name="userSecret" value="${auth.user.password}"/>
