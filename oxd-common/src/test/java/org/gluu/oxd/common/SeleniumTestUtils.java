@@ -28,7 +28,7 @@ import static org.testng.Assert.fail;
 
 public class SeleniumTestUtils {
 
-    private static int WAIT_OPERATION_TIMEOUT = 60;
+    private static int WAIT_OPERATION_TIMEOUT = 100;
     private static final Logger LOG = LoggerFactory.getLogger(SeleniumTestUtils.class);
 
     public static AuthorizationResponse authorizeClient(
