@@ -15,7 +15,7 @@
 				<include>org.bouncycastle:bcpkix-fips</include>
 				<include>org.bouncycastle:bcmail-fips</include>
             </includes>
-            <scope>provided</scope>
+            <scope>runtime</scope>
         </dependencySet>
     </dependencySets>
     <files>

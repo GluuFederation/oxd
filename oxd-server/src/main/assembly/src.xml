@@ -13,9 +13,8 @@
             <includes>
                 <include>org.bouncycastle:bcprov-jdk15on</include>
                 <include>org.bouncycastle:bcpkix-jdk15on</include>
-                <include>org.bouncycastle:bcutil-jdk15on</include>
             </includes>
-            <scope>provided</scope>
+            <scope>runtime</scope>
         </dependencySet>
     </dependencySets>
     <files>
