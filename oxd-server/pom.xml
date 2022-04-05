@@ -122,6 +122,7 @@
                                 <exclude>META-INF/*.SF</exclude>
                                 <exclude>META-INF/*.DSA</exclude>
                                 <exclude>META-INF/*.RSA</exclude>
+                                <exclude>org/bouncycastle/**</exclude>
                             </excludes>
                         </filter>
                     </filters>
@@ -188,6 +189,24 @@
                             </archive>
                             <descriptors>
                                 <descriptor>src/main/assembly/src.xml</descriptor>
+                            </descriptors>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>make-assembly-dist-bc-fips</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <configuration>
+                            <skipAssembly>${generate.windows.exe}</skipAssembly>
+                            <archive>
+                                <manifest>
+                                    <mainClass>org.gluu.oxd.server.OxdServerApplication</mainClass>
+                                </manifest>
+                            </archive>
+                            <descriptors>
+                                <descriptor>src/main/assembly/src.bc-fips.xml</descriptor>
                             </descriptors>
                         </configuration>
                     </execution>
@@ -506,6 +525,33 @@
         <dependency>
             <groupId>org.gluu</groupId>
             <artifactId>gluu-orm-spanner</artifactId>
+        </dependency>
+        <!-- Bouncycastle -->
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcprov-jdk15on</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcpkix-jdk15on</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <!-- Bouncycastle Fips -->
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bc-fips</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcpkix-fips</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcmail-fips</artifactId>
+            <scope>provided</scope>
         </dependency>
         <!-- Logging -->
         <dependency>

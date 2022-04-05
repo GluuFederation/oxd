@@ -1,7 +1,7 @@
 <assembly xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.0"
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.0 http://maven.apache.org/xsd/assembly-1.1.0.xsd">
-    <id>distribution</id>
+    <id>distribution-bc-fips</id>
     <formats>
         <format>zip</format>
     </formats>
@@ -11,21 +11,21 @@
             <outputDirectory>/lib</outputDirectory>
             <useProjectArtifact>false</useProjectArtifact>
             <includes>
-                <include>org.bouncycastle:bcprov-jdk15on</include>
-                <include>org.bouncycastle:bcpkix-jdk15on</include>
-                <include>org.bouncycastle:bcutil-jdk15on</include>
+				<include>org.bouncycastle:bc-fips</include>
+				<include>org.bouncycastle:bcpkix-fips</include>
+				<include>org.bouncycastle:bcmail-fips</include>
             </includes>
             <scope>provided</scope>
         </dependencySet>
     </dependencySets>
     <files>
         <file>
-            <source>${project.basedir}/src/main/resources/oxd-server.pkcs12.yml</source>
+            <source>${project.basedir}/src/main/resources/oxd-server.bc-fips.yml</source>
             <outputDirectory>/conf</outputDirectory>
 			<destName>oxd-server.yml</destName>
         </file>
         <file>
-            <source>${project.basedir}/src/main/resources/oxd-server.pkcs12</source>
+            <source>${project.basedir}/src/main/resources/oxd-server.bcfks</source>
             <outputDirectory>/conf</outputDirectory>
         </file>
         <file>

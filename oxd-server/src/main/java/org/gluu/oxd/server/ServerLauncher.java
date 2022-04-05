@@ -7,16 +7,14 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import org.apache.commons.io.IOUtils;
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.gluu.oxd.server.guice.GuiceModule;
 import org.gluu.oxd.server.persistence.service.PersistenceService;
 import org.gluu.oxd.server.service.*;
+import org.gluu.util.security.SecurityProviderUtility;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.InputStream;
-import java.security.Provider;
-import java.security.Security;
 import java.util.Properties;
 
 /**
@@ -87,20 +85,7 @@ public class ServerLauncher {
 
     private static void addSecurityProviders() {
         try {
-            final Provider[] providers = Security.getProviders();
-            if (providers != null) {
-                boolean hasBC = false;
-                for (Provider p : providers) {
-                    if (p.getName().equalsIgnoreCase("BC")) {
-                        hasBC = true;
-                    }
-                }
-                LOG.debug("BC registered: " + hasBC);
-                if (!hasBC) {
-                    Security.addProvider(new BouncyCastleProvider());
-                    LOG.debug("Registered BC successfully.");
-                }
-            }
+            SecurityProviderUtility.installBCProvider();
         } catch (Exception e) {
             LOG.error(e.getMessage(), e);
         }
