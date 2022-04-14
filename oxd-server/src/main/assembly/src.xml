@@ -15,7 +15,7 @@
                 <include>org.bouncycastle:bcpkix-jdk15on</include>
                 <include>org.bouncycastle:bcutil-jdk15on</include>
             </includes>
-            <scope>provided</scope>
+            <scope>runtime</scope>
         </dependencySet>
     </dependencySets>
     <files>
@@ -25,7 +25,7 @@
 			<destName>oxd-server.yml</destName>
         </file>
         <file>
-            <source>${project.basedir}/src/main/resources/oxd-server.pkcs12</source>
+            <source>${project.basedir}/src/main/resources/oxd-server.keystore</source>
             <outputDirectory>/conf</outputDirectory>
         </file>
         <file>

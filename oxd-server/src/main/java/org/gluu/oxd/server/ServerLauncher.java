@@ -7,14 +7,21 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import org.apache.commons.io.IOUtils;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.gluu.oxd.server.guice.GuiceModule;
 import org.gluu.oxd.server.persistence.service.PersistenceService;
 import org.gluu.oxd.server.service.*;
+import org.gluu.util.StringHelper;
 import org.gluu.util.security.SecurityProviderUtility;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+import java.security.Provider;
+import java.security.Security;
+import java.util.List;
 import java.util.Properties;
 
 /**
@@ -28,7 +35,7 @@ public class ServerLauncher {
      * Logger
      */
     private static final Logger LOG = LoggerFactory.getLogger(ServerLauncher.class);
-
+    public static boolean USE_FIPS_CHECK_COMMAND = false;
     private static Injector INJECTOR = Guice.createInjector(new GuiceModule());
     private static boolean setUpSuite = false;
 
@@ -85,9 +92,53 @@ public class ServerLauncher {
 
     private static void addSecurityProviders() {
         try {
-            SecurityProviderUtility.installBCProvider();
+            if (checkFipsMode()) {
+                SecurityProviderUtility.installBCProvider();
+            } else {
+                final Provider[] providers = Security.getProviders();
+                if (providers != null) {
+                    boolean hasBC = false;
+                    for (Provider p : providers) {
+                        if (p.getName().equalsIgnoreCase("BC")) {
+                            hasBC = true;
+                        }
+                    }
+                    LOG.debug("BC registered: " + hasBC);
+                    if (!hasBC) {
+                        Security.addProvider(new BouncyCastleProvider());
+                        LOG.debug("Registered BC successfully.");
+                    }
+                }
+            }
         } catch (Exception e) {
             LOG.error(e.getMessage(), e);
+        }
+    }
+
+    private static boolean checkFipsMode() {
+        try {
+            Class.forName("org.bouncycastle.jcajce.provider.BouncyCastleFipsProvider");
+        } catch (ClassNotFoundException var4) {
+            LOG.trace("BC Fips provider is not available", var4);
+            return false;
+        }
+
+        if (USE_FIPS_CHECK_COMMAND) {
+            String osName = System.getProperty("os.name");
+            if (StringHelper.isNotEmpty(osName) && osName.toLowerCase().startsWith("windows")) {
+                return false;
+            } else {
+                try {
+                    Process process = Runtime.getRuntime().exec("fips-mode-setup --check");
+                    List<String> result = IOUtils.readLines(process.getInputStream(), StandardCharsets.UTF_8);
+                    return result.size() > 0 && StringHelper.equalsIgnoreCase((String) result.get(0), "FIPS mode is enabled.");
+                } catch (IOException var3) {
+                    LOG.error("Failed to check if FIPS mode was enabled", var3);
+                    return false;
+                }
+            }
+        } else {
+            return true;
         }
     }
 

@@ -5,7 +5,7 @@ trust_all_certs: false
 trust_store_path: ''
 trust_store_password: ''
 enable_jwks_generation: true
-crypt_provider_key_store_path: '/opt/oxd-server/conf/oxd-jwks.pkcs12'
+crypt_provider_key_store_path: '/opt/oxd-server/conf/oxd-jwks.keystore'
 crypt_provider_key_store_password: 'example'
 crypt_provider_dn_name: 'CN=oxd CA Certificates'
 support-google-logout: true
@@ -35,7 +35,7 @@ server:
   applicationConnectors:
       - type: https
         port: 8443
-        keyStorePath: /opt/oxd-server/conf/oxd-server.pkcs12
+        keyStorePath: /opt/oxd-server/conf/oxd-server.keystore
         keyStorePassword: example
         keyStoreType: PKCS12
         keyStoreProvider: SUN
@@ -45,7 +45,7 @@ server:
   adminConnectors:
       - type: https
         port: 8444
-        keyStorePath: /opt/oxd-server/conf/oxd-server.pkcs12
+        keyStorePath: /opt/oxd-server/conf/oxd-server.keystore
         keyStorePassword: example
         keyStoreType: PKCS12
         keyStoreProvider: SUN
