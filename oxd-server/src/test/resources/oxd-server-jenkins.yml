@@ -4,7 +4,7 @@ use_client_authentication_for_pat: true
 trust_all_certs: true
 trust_store_path: ''
 trust_store_password: ''
-crypt_provider_key_store_path: './oxd-jwks_1.keystore'
+crypt_provider_key_store_path: './oxd-jwks.keystore'
 crypt_provider_key_store_password: 'example'
 crypt_provider_dn_name: 'CN=oxd CA Certificates'
 enable_jwks_generation: true
@@ -29,16 +29,16 @@ tracer: 'jaeger'
 tracer_host: 'localhost'
 tracer_port: 5775
 storage_configuration:
-  dbFileLocation: "./oxd_db_1"
+  dbFileLocation: "./oxd_db"
 
 # Connectors
 server:
   applicationConnectors:
     - type: http
-      port: 8090
+      port: 8084
   adminConnectors:
     - type: http
-      port: 8091
+      port: 8085
 
 # Logging settings.
 logging:
