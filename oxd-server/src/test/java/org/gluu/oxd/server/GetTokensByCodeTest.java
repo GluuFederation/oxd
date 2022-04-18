@@ -41,6 +41,15 @@ public class GetTokensByCodeTest {
 
     @Parameters({"host", "opHost", "redirectUrls", "userId", "userSecret"})
     @Test
+    public void getToken_withHS256(String host, String opHost, String redirectUrls, String userId, String userSecret) {
+        ClientInterface client = Tester.newClient(host);
+        final RegisterSiteResponse site = RegisterSiteTest.registerSite(client, opHost, redirectUrls, "HS256");
+        GetTokensByCodeResponse2 tokensResponse = tokenByCode(client, site, opHost, userId, userSecret, site.getClientId(), redirectUrls, CoreUtils.secureRandomString(), CoreUtils.secureRandomString());
+    }
+
+/*
+    @Parameters({"host", "opHost", "redirectUrls", "userId", "userSecret"})
+    @Test
     public void withbase64urlencodeState_shouldGetTokenInResponse(String host, String opHost, String redirectUrls, String userId, String userSecret) throws Exception{
         ClientInterface client = Tester.newClient(host);
         final RegisterSiteResponse site = RegisterSiteTest.registerSite(client, opHost, redirectUrls);
@@ -48,7 +57,6 @@ public class GetTokensByCodeTest {
         GetTokensByCodeResponse2 tokensResponse = tokenByCode(client, site, opHost, userId, userSecret, site.getClientId(), redirectUrls, CoreUtils.secureRandomString(), state);
         refreshToken(tokensResponse, client, site);
     }
-
     @Parameters({"host", "opHost", "redirectUrls", "userId", "userSecret"})
     @Test
     public void withAuthenticationMethod_shouldGetTokenInResponse(String host, String opHost, String redirectUrls, String userId, String userSecret) {
@@ -64,7 +72,6 @@ public class GetTokensByCodeTest {
         final RegisterSiteResponse site = RegisterSiteTest.registerSite(client, opHost, redirectUrls, "HS256");
         GetTokensByCodeResponse2 tokensResponse = tokenByCode(client, site, opHost, userId, userSecret, site.getClientId(), redirectUrls, CoreUtils.secureRandomString(), CoreUtils.secureRandomString());
     }
-
     @Parameters({"host", "opHost", "redirectUrls", "userId", "userSecret"})
     @Test
     public void getToken_withHS384(String host, String opHost, String redirectUrls, String userId, String userSecret) {
@@ -168,7 +175,7 @@ public class GetTokensByCodeTest {
         final RegisterSiteResponse site = RegisterSiteTest.registerSite(client, opHost, redirectUrls);
         tokenByInvalidCode(client, site, userId, userSecret, CoreUtils.secureRandomString());
     }
-
+*/
     public static GetClientTokenResponse refreshToken(GetTokensByCodeResponse2 resp, ClientInterface client, RegisterSiteResponse site) {
         notEmpty(resp.getRefreshToken());
 
