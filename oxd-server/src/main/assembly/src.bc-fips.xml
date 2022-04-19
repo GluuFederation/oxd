@@ -6,11 +6,23 @@
         <format>zip</format>
     </formats>
     <includeBaseDirectory>false</includeBaseDirectory>
+    <dependencySets>
+        <dependencySet>
+            <outputDirectory>/lib</outputDirectory>
+            <useProjectArtifact>false</useProjectArtifact>
+            <includes>
+				<include>org.bouncycastle:bc-fips</include>
+				<include>org.bouncycastle:bcpkix-fips</include>
+				<include>org.bouncycastle:bcmail-fips</include>
+            </includes>
+            <scope>provided</scope>
+        </dependencySet>
+    </dependencySets>
     <files>
         <file>
             <source>${project.basedir}/src/main/resources/oxd-server.bc-fips.yml</source>
             <outputDirectory>/conf</outputDirectory>
-            <destName>oxd-server.yml</destName>
+			<destName>oxd-server.yml</destName>
         </file>
         <file>
             <source>${project.basedir}/src/main/resources/oxd-server.bcfks</source>
@@ -19,10 +31,6 @@
         <file>
             <source>${project.basedir}/src/main/resources/swagger.yaml</source>
             <outputDirectory>/conf</outputDirectory>
-        </file>
-        <file>
-            <source>${project.build.directory}/oxd-server.jar</source>
-            <outputDirectory>/lib</outputDirectory>
         </file>
         <file>
             <source>${project.build.directory}/oxd-server.jar</source>
@@ -37,13 +45,6 @@
                 <include>README*</include>
                 <include>LICENSE*</include>
                 <include>NOTICE*</include>
-            </includes>
-        </fileSet>
-        <fileSet>
-            <directory>${project.build.directory}/dependencies</directory>
-            <outputDirectory>/lib</outputDirectory>
-            <includes>
-                <include>*-fips*.jar</include>
             </includes>
         </fileSet>
         <fileSet>

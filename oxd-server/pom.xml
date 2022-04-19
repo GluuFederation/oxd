@@ -12,7 +12,7 @@
     <properties>
         <dbcp.version>1.4</dbcp.version>
         <h2.version>2.1.210</h2.version>
-        <dropwizard.version>2.0.23</dropwizard.version>
+        <dropwizard.version>2.0.29</dropwizard.version>
         <jersey-test-framework-provider>2.29.1</jersey-test-framework-provider>
         <generate.windows.exe>false</generate.windows.exe>
         <commons-daemon.bin.version>1.2.1</commons-daemon.bin.version>
@@ -588,6 +588,33 @@
                     <artifactId>bcutil-jdk15on</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+        <!-- Bouncycastle -->
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcprov-jdk15on</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcpkix-jdk15on</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <!-- Bouncycastle Fips -->
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bc-fips</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcpkix-fips</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcmail-fips</artifactId>
+            <scope>provided</scope>
         </dependency>
         <!-- Logging -->
         <dependency>
