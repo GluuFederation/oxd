@@ -43,7 +43,7 @@
             <class name="org.gluu.oxd.server.SetUpTest"/>
         </classes>
     </test>
-    <test name="Get tokens by code" enabled="true">
+    <test name="GetRequestUriTest" enabled="true">
         <classes>
             <class name="org.gluu.oxd.server.GetRequestUriTest"/>
         </classes>
