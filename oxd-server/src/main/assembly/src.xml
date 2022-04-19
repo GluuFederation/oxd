@@ -6,23 +6,11 @@
         <format>zip</format>
     </formats>
     <includeBaseDirectory>false</includeBaseDirectory>
-    <dependencySets>
-        <dependencySet>
-            <outputDirectory>/lib</outputDirectory>
-            <useProjectArtifact>false</useProjectArtifact>
-            <includes>
-                <include>org.bouncycastle:bcprov-jdk15on</include>
-                <include>org.bouncycastle:bcpkix-jdk15on</include>
-                <include>org.bouncycastle:bcutil-jdk15on</include>
-            </includes>
-            <scope>runtime</scope>
-        </dependencySet>
-    </dependencySets>
     <files>
         <file>
             <source>${project.basedir}/src/main/resources/oxd-server.pkcs12.yml</source>
             <outputDirectory>/conf</outputDirectory>
-			<destName>oxd-server.yml</destName>
+            <destName>oxd-server.yml</destName>
         </file>
         <file>
             <source>${project.basedir}/src/main/resources/oxd-server.pkcs12</source>
@@ -45,6 +33,13 @@
                 <include>README*</include>
                 <include>LICENSE*</include>
                 <include>NOTICE*</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>${project.build.directory}/dependencies</directory>
+            <outputDirectory>/lib</outputDirectory>
+            <includes>
+                <include>*-jdk15on*.jar</include>
             </includes>
         </fileSet>
         <fileSet>
