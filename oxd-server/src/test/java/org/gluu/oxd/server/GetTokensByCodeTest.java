@@ -58,7 +58,7 @@ public class GetTokensByCodeTest {
     }
 
     @Parameters({"host", "opHost", "redirectUrls", "userId", "userSecret"})
-    // @Test
+    @Test
     public void getToken_withHS256(String host, String opHost, String redirectUrls, String userId, String userSecret) {
         ClientInterface client = Tester.newClient(host);
         final RegisterSiteResponse site = RegisterSiteTest.registerSite(client, opHost, redirectUrls, "HS256");
@@ -66,7 +66,7 @@ public class GetTokensByCodeTest {
     }
 
     @Parameters({"host", "opHost", "redirectUrls", "userId", "userSecret"})
-    /// @Test
+    @Test
     public void getToken_withHS384(String host, String opHost, String redirectUrls, String userId, String userSecret) {
         ClientInterface client = Tester.newClient(host);
         final RegisterSiteResponse site = RegisterSiteTest.registerSite(client, opHost, redirectUrls, "HS384");
@@ -90,7 +90,7 @@ public class GetTokensByCodeTest {
     }
 
     @Parameters({"host", "opHost", "redirectUrls", "userId", "userSecret"})
-    // @Test
+    @Test
     public void getToken_withRS384(String host, String opHost, String redirectUrls, String userId, String userSecret) {
         ClientInterface client = Tester.newClient(host);
         final RegisterSiteResponse site = RegisterSiteTest.registerSite(client, opHost, redirectUrls, "RS384");
@@ -98,7 +98,7 @@ public class GetTokensByCodeTest {
     }
 
     @Parameters({"host", "opHost", "redirectUrls", "userId", "userSecret"})
-    // @Test
+    @Test
     public void getToken_withRS512(String host, String opHost, String redirectUrls, String userId, String userSecret) {
         ClientInterface client = Tester.newClient(host);
         final RegisterSiteResponse site = RegisterSiteTest.registerSite(client, opHost, redirectUrls, "RS512");
@@ -106,7 +106,7 @@ public class GetTokensByCodeTest {
     }
 
     @Parameters({"host", "opHost", "redirectUrls", "userId", "userSecret"})
-    // @Test
+    @Test
     public void getToken_withES256(String host, String opHost, String redirectUrls, String userId, String userSecret) {
         ClientInterface client = Tester.newClient(host);
         final RegisterSiteResponse site = RegisterSiteTest.registerSite(client, opHost, redirectUrls, "ES256");
@@ -114,7 +114,7 @@ public class GetTokensByCodeTest {
     }
 
     @Parameters({"host", "opHost", "redirectUrls", "userId", "userSecret"})
-    // @Test
+    @Test
     public void getToken_withES384(String host, String opHost, String redirectUrls, String userId, String userSecret) {
         ClientInterface client = Tester.newClient(host);
         final RegisterSiteResponse site = RegisterSiteTest.registerSite(client, opHost, redirectUrls, "ES384");
@@ -122,7 +122,7 @@ public class GetTokensByCodeTest {
     }
 
     @Parameters({"host", "opHost", "redirectUrls", "userId", "userSecret"})
-    // @Test
+    @Test
     public void getToken_withES512(String host, String opHost, String redirectUrls, String userId, String userSecret) {
         ClientInterface client = Tester.newClient(host);
         final RegisterSiteResponse site = RegisterSiteTest.registerSite(client, opHost, redirectUrls, "ES512");
@@ -130,7 +130,7 @@ public class GetTokensByCodeTest {
     }
 
     @Parameters({"host", "opHost", "redirectUrls", "userId", "userSecret"})
-    // @Test
+    @Test
     public void getToken_withPS256(String host, String opHost, String redirectUrls, String userId, String userSecret) {
         ClientInterface client = Tester.newClient(host);
         final RegisterSiteResponse site = RegisterSiteTest.registerSite(client, opHost, redirectUrls, "PS256");
@@ -138,7 +138,7 @@ public class GetTokensByCodeTest {
     }
 
     @Parameters({"host", "opHost", "redirectUrls", "userId", "userSecret"})
-    // @Test
+    @Test
     public void getToken_withPS384(String host, String opHost, String redirectUrls, String userId, String userSecret) {
         ClientInterface client = Tester.newClient(host);
         final RegisterSiteResponse site = RegisterSiteTest.registerSite(client, opHost, redirectUrls, "PS384");
@@ -146,7 +146,7 @@ public class GetTokensByCodeTest {
     }
 
     @Parameters({"host", "opHost", "redirectUrls", "userId", "userSecret"})
-    // @Test
+    @Test
     public void getToken_withPS512(String host, String opHost, String redirectUrls, String userId, String userSecret) {
         ClientInterface client = Tester.newClient(host);
         final RegisterSiteResponse site = RegisterSiteTest.registerSite(client, opHost, redirectUrls, "PS512");
@@ -154,7 +154,7 @@ public class GetTokensByCodeTest {
     }
 
     @Parameters({"host", "opHost", "redirectUrls", "userId", "userSecret"})
-    // @Test
+    @Test
     public void getToken_withNoneAlgo(String host, String opHost, String redirectUrls, String userId, String userSecret) {
         ClientInterface client = Tester.newClient(host);
         final RegisterSiteResponse site = RegisterSiteTest.registerSite(client, opHost, redirectUrls, "none");
@@ -162,7 +162,7 @@ public class GetTokensByCodeTest {
     }
 
     @Parameters({"host", "opHost", "redirectUrls", "userId", "userSecret"})
-    // @Test
+    @Test
     public void whenInvalidCodeIsUsed_shouldGet400BadRequest(String host, String opHost, String redirectUrls, String userId, String userSecret) {
         ClientInterface client = Tester.newClient(host);
         final RegisterSiteResponse site = RegisterSiteTest.registerSite(client, opHost, redirectUrls);
