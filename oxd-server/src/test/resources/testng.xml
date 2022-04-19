@@ -223,7 +223,6 @@
         </classes>
     </test>
 
-
     <!-- SWAGGER TESTS -->
 
     <test name="Get OpDiscovery swagger" enabled="true">
