@@ -96,6 +96,62 @@
                 <artifactId>maven-surefire-plugin</artifactId>
             </plugin>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                  <execution>
+                    <id>copy</id>
+                    <phase>package</phase>
+                    <goals>
+                      <goal>copy</goal>
+                    </goals>
+                    <configuration>
+                      <artifactItems>
+                        <artifactItem>
+                            <groupId>org.bouncycastle</groupId>
+                            <artifactId>bc-fips</artifactId>
+                            <overWrite>true</overWrite>
+                            <outputDirectory>${project.build.directory}/dependencies</outputDirectory>
+                        </artifactItem>
+                        <artifactItem>
+                            <groupId>org.bouncycastle</groupId>
+                            <artifactId>bcpkix-fips</artifactId>
+                            <overWrite>true</overWrite>
+                            <outputDirectory>${project.build.directory}/dependencies</outputDirectory>
+                        </artifactItem>
+                        <artifactItem>
+                            <groupId>org.bouncycastle</groupId>
+                            <artifactId>bcmail-fips</artifactId>
+                            <overWrite>true</overWrite>
+                            <outputDirectory>${project.build.directory}/dependencies</outputDirectory>
+                        </artifactItem>
+                        <artifactItem>
+                            <groupId>org.bouncycastle</groupId>
+                            <artifactId>bcprov-jdk15on</artifactId>
+                            <version>1.70</version>
+                            <overWrite>true</overWrite>
+                            <outputDirectory>${project.build.directory}/dependencies</outputDirectory>
+                        </artifactItem>
+                        <artifactItem>
+                            <groupId>org.bouncycastle</groupId>
+                            <artifactId>bcpkix-jdk15on</artifactId>
+                            <version>1.70</version>
+                            <overWrite>true</overWrite>
+                            <outputDirectory>${project.build.directory}/dependencies</outputDirectory>
+                        </artifactItem>
+                        <artifactItem>
+                            <groupId>org.bouncycastle</groupId>
+                            <artifactId>bcutil-jdk15on</artifactId>
+                            <version>1.70</version>
+                            <overWrite>true</overWrite>
+                            <outputDirectory>${project.build.directory}/dependencies</outputDirectory>
+                        </artifactItem>
+                      </artifactItems>
+                    </configuration>
+                  </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>findbugs-maven-plugin</artifactId>
             </plugin>
@@ -233,7 +289,6 @@
     </dependencyManagement>
 
     <dependencies>
-
         <!-- DROPWIZARD -->
         <dependency>
             <groupId>io.dropwizard</groupId>
@@ -250,16 +305,6 @@
             <groupId>io.dropwizard</groupId>
             <artifactId>dropwizard-testing</artifactId>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.bouncycastle</groupId>
-            <artifactId>bcpkix-jdk15on</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.bouncycastle</groupId>
-            <artifactId>bcpkix-jdk15on</artifactId>
-            <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>io.dropwizard</groupId>
@@ -525,6 +570,20 @@
         <dependency>
             <groupId>org.gluu</groupId>
             <artifactId>gluu-orm-spanner</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.bouncycastle</groupId>
+                    <artifactId>bcprov-jdk15on</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.bouncycastle</groupId>
+                    <artifactId>bcpkix-jdk15on</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.bouncycastle</groupId>
+                    <artifactId>bcutil-jdk15on</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <!-- Bouncycastle -->
         <dependency>
@@ -602,6 +661,8 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+
     <profiles>
         <profile>
             <id>windows-build</id>
@@ -674,5 +735,57 @@
                 </plugins>
             </build>
         </profile>
+
+        <profile>
+            <id>generic-provider-libs</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+                <property>
+                    <name>!fips.enable</name>
+                </property>
+            </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>org.bouncycastle</groupId>
+                    <artifactId>bcprov-jdk15on</artifactId>
+                    <scope>runtime</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.bouncycastle</groupId>
+                    <artifactId>bcpkix-jdk15on</artifactId>
+                    <scope>runtime</scope>
+                </dependency>
+            </dependencies>
+        </profile>
+
+        <profile>
+            <id>fips-provider-libs</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+                <property>
+                    <name>fips.enable</name>
+                </property>
+            </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>org.bouncycastle</groupId>
+                    <artifactId>bc-fips</artifactId>
+                    <scope>runtime</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.bouncycastle</groupId>
+                    <artifactId>bcpkix-fips</artifactId>
+                    <scope>runtime</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.bouncycastle</groupId>
+                    <artifactId>bcmail-fips</artifactId>
+                    <scope>runtime</scope>
+                </dependency>
+            </dependencies>
+        </profile>
+
     </profiles>
+
 </project>
+
