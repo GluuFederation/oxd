@@ -60,4 +60,26 @@
             <class name="org.gluu.oxd.server.GetRequestUriTest"></class>
         </classes>
     </test>
+
+
+    <!-- SWAGGER TESTS -->
+
+    <test name="Get OpDiscovery swagger" enabled="true">
+        <classes>
+            <class name="io.swagger.client.api.GetDiscoveryTest"></class>
+        </classes>
+    </test>
+
+    <test name="Rp Jwks Swagger" enabled="true">
+        <classes>
+            <class name="io.swagger.client.api.GetRpJwksTest"/>
+        </classes>
+    </test>
+
+    <test name="Request Uri Swagger" enabled="true">
+        <classes>
+            <class name="io.swagger.client.api.GetRequestUriTest"/>
+        </classes>
+    </test>
+
 </suite>
