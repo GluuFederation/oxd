@@ -55,7 +55,7 @@
             <class name="org.gluu.oxd.server.GetRpJwksTest"></class>
         </classes>
     </test>
-    <test name="Get Request Uri" enabled="false">
+    <test name="Get Request Uri" enabled="true">
         <classes>
             <class name="org.gluu.oxd.server.GetRequestUriTest"></class>
         </classes>
@@ -90,12 +90,12 @@
             <class name="org.gluu.oxd.server.GetAuthorizationUrlTest"/>
         </classes>
     </test>
-    <test name="Get tokens by code" enabled="false">
+    <test name="Get tokens by code" enabled="true">
         <classes>
             <class name="org.gluu.oxd.server.GetTokensByCodeTest"/>
         </classes>
     </test>
-    <test name="Get user info" enabled="false">
+    <test name="Get user info" enabled="true">
         <classes>
             <class name="org.gluu.oxd.server.GetUserInfoTest"/>
         </classes>
@@ -237,7 +237,7 @@
         </classes>
     </test>
 
-    <test name="Request Uri Swagger" enabled="false">
+    <test name="Request Uri Swagger" enabled="true">
         <classes>
             <class name="io.swagger.client.api.GetRequestUriTest"/>
         </classes>
@@ -279,13 +279,13 @@
         </classes>
     </test>
 
-    <test name="Get tokens by code swagger" enabled="false">
+    <test name="Get tokens by code swagger" enabled="true">
         <classes>
             <class name="io.swagger.client.api.GetTokensByCodeTest"/>
         </classes>
     </test>
 
-    <test name="Get User Info swagger" enabled="false">
+    <test name="Get User Info swagger" enabled="true">
         <classes>
             <class name="io.swagger.client.api.GetUserInfoTest"/>
         </classes>
