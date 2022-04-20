@@ -55,7 +55,7 @@
             <class name="org.gluu.oxd.server.GetRpJwksTest"></class>
         </classes>
     </test>
-    <test name="Get Request Uri" enabled="true">
+    <test name="Get Request Uri" enabled="false">
         <classes>
             <class name="org.gluu.oxd.server.GetRequestUriTest"></class>
         </classes>
