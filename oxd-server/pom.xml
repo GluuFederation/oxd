@@ -712,7 +712,7 @@
         <profile>
             <id>generic-provider-libs</id>
             <activation>
-                <activeByDefault>true</activeByDefault>
+                <activeByDefault>false</activeByDefault>
                 <property>
                     <name>!fips.enable</name>
                 </property>
@@ -734,7 +734,7 @@
         <profile>
             <id>fips-provider-libs</id>
             <activation>
-                <activeByDefault>false</activeByDefault>
+                <activeByDefault>true</activeByDefault>
                 <property>
                     <name>fips.enable</name>
                 </property>
