@@ -440,6 +440,20 @@
         <dependency>
             <groupId>org.gluu</groupId>
             <artifactId>oxauth-client</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.bouncycastle</groupId>
+                    <artifactId>bcprov-jdk15on</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.bouncycastle</groupId>
+                    <artifactId>bcpkix-jdk15on</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.bouncycastle</groupId>
+                    <artifactId>bcutil-jdk15on</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.gluu</groupId>
@@ -713,8 +727,13 @@
             <id>generic-provider-libs</id>
             <activation>
                 <activeByDefault>false</activeByDefault>
+<!--
                 <property>
                     <name>!fips.enable</name>
+                </property>
+-->
+                <property>
+                    <name>bcprov.enable</name>
                 </property>
             </activation>
             <dependencies>
@@ -735,8 +754,13 @@
             <id>fips-provider-libs</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
+<!--
                 <property>
                     <name>fips.enable</name>
+                </property>
+-->
+				<property>
+                    <name>!bcprov.enable</name>
                 </property>
             </activation>
             <dependencies>
