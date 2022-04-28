@@ -242,7 +242,7 @@ public class GluuPersistenceService implements PersistenceService {
 
     public boolean remove(String oxdId) {
         try {
-            this.persistenceEntryManager.remove(getDnForRp(oxdId));
+            this.persistenceEntryManager.remove(getDnForRp(oxdId), RpObject.class);
 
             LOG.debug("Removed rp successfully. oxdId: {} ", oxdId);
             return true;
@@ -254,7 +254,7 @@ public class GluuPersistenceService implements PersistenceService {
 
     public boolean deleteExpiredObjectsByKey(String key) {
         try {
-            this.persistenceEntryManager.remove(getDnForExpiredObj(key));
+            this.persistenceEntryManager.remove(getDnForExpiredObj(key), ExpiredObject.class);
             LOG.debug("Removed expired_objects successfully: {} ", key);
             return true;
         } catch (Exception e) {
