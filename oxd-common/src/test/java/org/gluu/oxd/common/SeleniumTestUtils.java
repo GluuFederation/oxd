@@ -55,16 +55,16 @@ public class SeleniumTestUtils {
             public WebElement apply(WebDriver d) {
                 //System.out.println(d.getCurrentUrl());
                 //System.out.println(d.getPageSource());
-                return d.findElement(By.id("loginForm:loginButton"));
+                return d.findElement(By.id("loginButton"));
             }
         });
 
         LOG.info("Login page loaded. The current url is: " + driver.getCurrentUrl());
         //username field
-        WebElement usernameElement = driver.findElement(By.id("loginForm:username"));
+        WebElement usernameElement = driver.findElement(By.id("username"));
         usernameElement.sendKeys(userId);
         //password field
-        WebElement passwordElement = driver.findElement(By.id("loginForm:password"));
+        WebElement passwordElement = driver.findElement(By.id("password"));
         passwordElement.sendKeys(userSecret);
         //click on login button
 
