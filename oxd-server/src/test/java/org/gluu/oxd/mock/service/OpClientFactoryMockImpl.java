@@ -359,7 +359,7 @@ public class OpClientFactoryMockImpl implements OpClientFactory {
             when(client.header(any(), any())).thenReturn(client);
             when(form.param(any(), any())).thenReturn(form);
             when(form.param(any(), any())).thenReturn(form);
-            when(client.buildPost(Entity.form(form)).invoke()).thenReturn(response);
+            //when(client.buildPost(Entity.form(form)).invoke()).thenReturn(response);
             opClientCache.put("Builder", client);
             opClientCache.put("Response", response);
         } else {
