@@ -1,7 +1,7 @@
 package org.gluu.oxd.server.op;
 
 import com.google.inject.Injector;
-import io.dropwizard.util.Strings;
+import io.dropwizard.logback.shaded.guava.base.Strings;
 import org.gluu.oxauth.client.UserInfoClient;
 import org.gluu.oxauth.client.UserInfoRequest;
 import org.gluu.oxauth.client.UserInfoResponse;

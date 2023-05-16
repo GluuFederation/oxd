@@ -4,7 +4,7 @@
 package org.gluu.oxd.server.service;
 
 import com.google.inject.Inject;
-import io.dropwizard.util.Strings;
+import io.dropwizard.logback.shaded.guava.base.Strings;
 import org.apache.commons.lang.StringUtils;
 import org.gluu.oxauth.client.OpenIdConfigurationClient;
 import org.gluu.oxauth.client.OpenIdConfigurationResponse;
