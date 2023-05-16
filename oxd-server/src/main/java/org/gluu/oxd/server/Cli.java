@@ -12,7 +12,6 @@ import io.dropwizard.jersey.validation.Validators;
 import io.dropwizard.jetty.ConnectorFactory;
 import io.dropwizard.jetty.HttpConnectorFactory;
 import io.dropwizard.jetty.HttpsConnectorFactory;
-import io.dropwizard.validation.BaseValidator;
 import org.apache.commons.cli.*;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Level;
