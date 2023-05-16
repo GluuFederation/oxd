@@ -12,7 +12,7 @@
     <properties>
         <dbcp.version>1.4</dbcp.version>
         <h2.version>2.1.210</h2.version>
-        <dropwizard.version>2.0.29</dropwizard.version>
+        <dropwizard.version>4.0.0</dropwizard.version>
         <jersey-test-framework-provider>2.29.1</jersey-test-framework-provider>
         <generate.windows.exe>false</generate.windows.exe>
         <commons-daemon.bin.version>1.2.1</commons-daemon.bin.version>
@@ -283,7 +283,7 @@
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-text</artifactId>
-                <version>1.8</version>
+                <version>1.10.0</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -482,7 +482,7 @@
         <dependency>
             <groupId>org.yaml</groupId>
             <artifactId>snakeyaml</artifactId>
-            <version>1.26</version>
+            <version>1.32</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
