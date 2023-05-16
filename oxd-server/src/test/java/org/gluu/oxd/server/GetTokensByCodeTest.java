@@ -1,7 +1,7 @@
 package org.gluu.oxd.server;
 
 import com.google.common.collect.Lists;
-import io.dropwizard.logback.shaded.guava.base.Strings;
+import io.dropwizard.util.Strings;
 import org.apache.commons.codec.binary.Base64;
 import org.gluu.oxauth.model.common.AuthenticationMethod;
 import org.gluu.oxauth.model.util.Util;
