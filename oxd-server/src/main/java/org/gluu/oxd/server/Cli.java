@@ -12,6 +12,7 @@ import io.dropwizard.jersey.validation.Validators;
 import io.dropwizard.jetty.ConnectorFactory;
 import io.dropwizard.jetty.HttpConnectorFactory;
 import io.dropwizard.jetty.HttpsConnectorFactory;
+import io.dropwizard.validation.BaseValidator;
 import org.apache.commons.cli.*;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Level;
@@ -136,7 +137,7 @@ public class Cli {
         }
 
         DefaultConfigurationFactoryFactory<OxdServerConfiguration> configurationFactoryFactory = new DefaultConfigurationFactoryFactory<>();
-        ConfigurationFactory<OxdServerConfiguration> configurationFactory = configurationFactoryFactory.create(OxdServerConfiguration.class, Validators.newValidator(), Jackson.newObjectMapper(), "dw");
+        ConfigurationFactory<OxdServerConfiguration> configurationFactory = configurationFactoryFactory.create(OxdServerConfiguration.class, BaseValidator.newValidator(), Jackson.newObjectMapper(), "dw");
         return configurationFactory.build(file);
     }
 
