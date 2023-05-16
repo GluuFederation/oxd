@@ -17,8 +17,9 @@ import java.util.concurrent.TimeUnit;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.Invocation.Builder;
 import javax.ws.rs.core.Form;
-import javax.ws.rs.core.Response;
 
+
+import jakarta.ws.rs.core.Response;
 import org.apache.commons.lang.StringUtils;
 import org.glassfish.jersey.message.internal.OutboundJaxrsResponse;
 import org.glassfish.jersey.message.internal.OutboundMessageContext;
@@ -285,7 +286,7 @@ public class OpClientFactoryMockImpl implements OpClientFactory {
 
             OutboundJaxrsResponse response = new OutboundJaxrsResponse(Response.Status.FORBIDDEN, outboundMessageContext);
 
-            when(client.registerTicketResponse(any(List.class), any())).thenReturn(response);
+            //when(client.registerTicketResponse(any(List.class), any())).thenReturn(response);
             opClientCache.put("RptPreProcessInterceptor", client);
         } else {
             client = (RptPreProcessInterceptor) opClientCache.getIfPresent("RptPreProcessInterceptor");
