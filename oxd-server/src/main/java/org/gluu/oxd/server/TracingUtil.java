@@ -5,7 +5,7 @@ import brave.opentracing.BraveTracer;
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
 import io.jaegertracing.Configuration;
-import io.jaegertracing.samplers.ConstSampler;
+import io.jaegertracing.internal.samplers.ConstSampler;
 import io.opentracing.Scope;
 import io.opentracing.Tracer;
 import io.opentracing.log.Fields;
@@ -71,7 +71,7 @@ public class TracingUtil {
     }
 
     public static Scope buildSpan(String spanName, boolean startActive) {
-        return getGlobalTracer().buildSpan(spanName).startActive(startActive);
+        return getGlobalTracer().scopeManager().activate(getGlobalTracer().activeSpan());
     }
 
     public static io.opentracing.Span buildChildSpan(io.opentracing.Span parentSpan, String childSpanName) {

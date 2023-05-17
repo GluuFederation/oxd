@@ -283,7 +283,7 @@
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-text</artifactId>
-                <version>1.8</version>
+                <version>1.10.0</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -482,7 +482,7 @@
         <dependency>
             <groupId>org.yaml</groupId>
             <artifactId>snakeyaml</artifactId>
-            <version>1.26</version>
+            <version>1.32</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -495,21 +495,21 @@
             <artifactId>commons-cli</artifactId>
             <version>1.4</version>
         </dependency>
+        <!-- OpenTracing Tracer Implementations -->
         <dependency>
             <groupId>io.opentracing.contrib</groupId>
             <artifactId>opentracing-web-servlet-filter</artifactId>
-            <version>0.1.1</version>
+            <version>0.4.1</version>
         </dependency>
         <dependency>
             <groupId>io.opentracing.contrib</groupId>
             <artifactId>opentracing-okhttp3</artifactId>
-            <version>0.1.0</version>
+            <version>3.0.0</version>
         </dependency>
-        <!-- OpenTracing Tracer Implementations -->
         <dependency>
             <groupId>com.lightstep.tracer</groupId>
             <artifactId>lightstep-tracer-jre</artifactId>
-            <version>0.14.2</version>
+            <version>0.32.0</version>
             <exclusions>
                 <exclusion>
                     <groupId>com.google.protobuf</groupId>
@@ -520,22 +520,22 @@
         <dependency>
             <groupId>io.jaegertracing</groupId>
             <artifactId>jaeger-core</artifactId>
-            <version>0.27.0</version>
+            <version>1.8.1</version>
         </dependency>
         <dependency>
             <groupId>io.opentracing.brave</groupId>
             <artifactId>brave-opentracing</artifactId>
-            <version>0.31.2</version>
+            <version>1.0.0</version>
         </dependency>
         <dependency>
             <groupId>io.zipkin.reporter2</groupId>
             <artifactId>zipkin-reporter</artifactId>
-            <version>2.7.6</version>
+            <version>2.16.4</version>
         </dependency>
         <dependency>
             <groupId>io.zipkin.reporter2</groupId>
             <artifactId>zipkin-sender-okhttp3</artifactId>
-            <version>2.7.6</version>
+            <version>2.16.4</version>
         </dependency>
         <dependency>
             <groupId>org.gluu</groupId>
