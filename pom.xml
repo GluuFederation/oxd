@@ -5,21 +5,21 @@
     <groupId>org.gluu</groupId>
     <artifactId>oxd</artifactId>
     <packaging>pom</packaging>
-    <version>4.5.2.Final</version>
+    <version>4.5.3-SNAPSHOT</version>
     <name>oxD</name>
     <url>https://jenkins.gluu.org</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.min-version>3.0.3</maven.min-version>
-        <oxCore.version>4.5.2.Final</oxCore.version>
+        <oxCore.version>4.5.3-SNAPSHOT</oxCore.version>
         <jackson.version>2.10.1</jackson.version>
         <httpcomponents.version>4.1.2</httpcomponents.version>
-        <oxauth.version>4.5.2.Final</oxauth.version>
+        <oxauth.version>4.5.3-SNAPSHOT</oxauth.version>
         <licensing.version>1.1.0</licensing.version>
         <guice.version>3.0</guice.version>
         <guava.version>[24.1.1,)</guava.version>
-        <oxlicense.version>4.5.2.Final</oxlicense.version>
+        <oxlicense.version>4.5.3-SNAPSHOT</oxlicense.version>
         <selenium.version>3.141.59</selenium.version>
 	<skip.swagger.client.generation>false</skip.swagger.client.generation>
 
@@ -75,7 +75,7 @@
             <dependency>
                 <groupId>org.gluu</groupId>
                 <artifactId>gluu-core-bom</artifactId>
-                <version>4.5.2.Final</version>
+                <version>4.5.3-SNAPSHOT</version>
                 <scope>import</scope>
                 <type>pom</type>
             </dependency>
@@ -89,7 +89,7 @@
             <dependency>
                 <groupId>org.gluu</groupId>
                 <artifactId>uma-rs-resteasy</artifactId>
-                <version>4.5.2.Final</version>
+                <version>4.5.3-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>org.gluu</groupId>
