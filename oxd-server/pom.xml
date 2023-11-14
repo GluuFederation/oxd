@@ -127,22 +127,22 @@
                         </artifactItem>
                         <artifactItem>
                             <groupId>org.bouncycastle</groupId>
-                            <artifactId>bcprov-jdk15on</artifactId>
-                            <version>1.70</version>
+                            <artifactId>bcprov-jdk18on</artifactId>
+                            <version>1.76</version>
                             <overWrite>true</overWrite>
                             <outputDirectory>${project.build.directory}/dependencies</outputDirectory>
                         </artifactItem>
                         <artifactItem>
                             <groupId>org.bouncycastle</groupId>
-                            <artifactId>bcpkix-jdk15on</artifactId>
-                            <version>1.70</version>
+                            <artifactId>bcpkix-jdk18on</artifactId>
+                            <version>1.76</version>
                             <overWrite>true</overWrite>
                             <outputDirectory>${project.build.directory}/dependencies</outputDirectory>
                         </artifactItem>
                         <artifactItem>
                             <groupId>org.bouncycastle</groupId>
-                            <artifactId>bcutil-jdk15on</artifactId>
-                            <version>1.70</version>
+                            <artifactId>bcutil-jdk18on</artifactId>
+                            <version>1.76</version>
                             <overWrite>true</overWrite>
                             <outputDirectory>${project.build.directory}/dependencies</outputDirectory>
                         </artifactItem>
@@ -573,15 +573,15 @@
             <exclusions>
                 <exclusion>
                     <groupId>org.bouncycastle</groupId>
-                    <artifactId>bcprov-jdk15on</artifactId>
+                    <artifactId>bcprov-jdk18on</artifactId>
                 </exclusion>
                 <exclusion>
                     <groupId>org.bouncycastle</groupId>
-                    <artifactId>bcpkix-jdk15on</artifactId>
+                    <artifactId>bcpkix-jdk18on</artifactId>
                 </exclusion>
                 <exclusion>
                     <groupId>org.bouncycastle</groupId>
-                    <artifactId>bcutil-jdk15on</artifactId>
+                    <artifactId>bcutil-jdk18on</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
@@ -720,12 +720,12 @@
             <dependencies>
                 <dependency>
                     <groupId>org.bouncycastle</groupId>
-                    <artifactId>bcprov-jdk15on</artifactId>
+                    <artifactId>bcprov-jdk18on</artifactId>
                     <scope>runtime</scope>
                 </dependency>
                 <dependency>
                     <groupId>org.bouncycastle</groupId>
-                    <artifactId>bcpkix-jdk15on</artifactId>
+                    <artifactId>bcpkix-jdk18on</artifactId>
                     <scope>runtime</scope>
                 </dependency>
             </dependencies>
