@@ -603,14 +603,8 @@
             <artifactId>log4j-api</artifactId>
         </dependency>
         
-        <!-- Force updates -->
-	<dependency>
-		<groupId>com.squareup.okio</groupId>
-		<artifactId>okio</artifactId>
-		<version>3.6.0</version>
-	</dependency>
 
-		<!-- selenium dependencies-->
+	<!-- selenium dependencies-->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
