@@ -31,7 +31,7 @@ public class SetUpTest {
     @BeforeSuite
     public static void beforeSuite(String host, String opHost, String redirectUrls) {
         try {
-            LOG.debug("Running beforeSuite ...");
+            LOG.info("Running beforeSuite ...");
             ServerLauncher.setSetUpSuite(true);
 
             SUPPORT = new DropwizardTestSupport<OxdServerConfiguration>(OxdServerApplication.class,
@@ -39,20 +39,20 @@ public class SetUpTest {
                     ConfigOverride.config("server.applicationConnectors[0].port", "0") // Optional, if not using a separate testing-specific configuration file, use a randomly selected port
             );
             SUPPORT.before();
-            LOG.debug("HTTP server started.");
+            LOG.info("HTTP server started.");
 
             removeExistingRps();
-            LOG.debug("Existing RPs are removed.");
+            LOG.info("Existing RPs are removed.");
 
             RegisterSiteResponse setupClient = SetupClientTest.setupClient(Tester.newClient(host), opHost, redirectUrls);
             Tester.setSetupClient(setupClient, host, opHost);
-            LOG.debug("SETUP_CLIENT is set in Tester.");
+            LOG.info("SETUP_CLIENT is set in Tester.");
 
             Preconditions.checkNotNull(Tester.getAuthorization());
-            LOG.debug("Tester's authorization is set.");
+            LOG.info("Tester's authorization is set.");
 
             setupSwaggerSuite(Tester.getTargetHost(host), opHost, redirectUrls);
-            LOG.debug("Finished beforeSuite!");
+            LOG.info("Finished beforeSuite!");
         } catch (Exception e) {
             LOG.error("Failed to start suite.", e);
             throw new AssertionError("Failed to start suite.");

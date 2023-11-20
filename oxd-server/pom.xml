@@ -12,7 +12,7 @@
     <properties>
         <dbcp.version>1.4</dbcp.version>
         <h2.version>2.1.210</h2.version>
-        <dropwizard.version>2.0.29</dropwizard.version>
+        <dropwizard.version>3.0.0</dropwizard.version>
         <jersey-test-framework-provider>2.29.1</jersey-test-framework-provider>
         <generate.windows.exe>false</generate.windows.exe>
         <commons-daemon.bin.version>1.2.1</commons-daemon.bin.version>
@@ -289,6 +289,26 @@
     </dependencyManagement>
 
     <dependencies>
+        <dependency>
+            <groupId>io.dropwizard.metrics</groupId>
+            <artifactId>metrics-core</artifactId>
+            <version>4.2.18</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-core</artifactId>
+            <version>1.2.12</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-access</artifactId>
+            <version>1.2.12</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-util</artifactId>
+            <version>11.0.15</version>
+        </dependency>
         <!-- DROPWIZARD -->
         <dependency>
             <groupId>io.dropwizard</groupId>
@@ -720,7 +740,7 @@
                 </property>
             </activation>
             <dependencies>
-                <dependency>
+                <!--<dependency>
                     <groupId>org.bouncycastle</groupId>
                     <artifactId>bcprov-jdk18on</artifactId>
                     <scope>runtime</scope>
@@ -729,7 +749,7 @@
                     <groupId>org.bouncycastle</groupId>
                     <artifactId>bcpkix-jdk18on</artifactId>
                     <scope>runtime</scope>
-                </dependency>
+                </dependency>-->
             </dependencies>
         </profile>
 
@@ -742,6 +762,11 @@
                 </property>
             </activation>
             <dependencies>
+                <dependency>
+                    <groupId>org.eclipse.jetty</groupId>
+                    <artifactId>jetty-util</artifactId>
+                    <version>9.4.53.v20231009</version>
+                </dependency>
                 <dependency>
                     <groupId>org.bouncycastle</groupId>
                     <artifactId>bc-fips</artifactId>
