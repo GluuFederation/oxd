@@ -20,7 +20,7 @@
         <guice.version>3.0</guice.version>
         <guava.version>[24.1.1,)</guava.version>
         <oxlicense.version>4.5.3-SNAPSHOT</oxlicense.version>
-        <selenium.version>3.141.59</selenium.version>
+        <selenium.version>4.0.0</selenium.version>
 	<skip.swagger.client.generation>false</skip.swagger.client.generation>
 
 	<sonar.projectKey>GluuFederation_oxd</sonar.projectKey>
