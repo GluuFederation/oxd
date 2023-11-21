@@ -1,7 +1,7 @@
 package org.gluu.oxd.server.op;
 
+import com.google.common.base.Strings;
 import com.google.inject.Injector;
-import io.dropwizard.util.Strings;
 import org.gluu.oxd.common.Command;
 import org.gluu.oxd.common.ErrorResponseCode;
 import org.gluu.oxd.common.ExpiredObject;
