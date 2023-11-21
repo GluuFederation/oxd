@@ -12,7 +12,7 @@
     <properties>
         <dbcp.version>1.4</dbcp.version>
         <h2.version>2.1.210</h2.version>
-        <dropwizard.version>3.0.0</dropwizard.version>
+        <dropwizard.version>3.0.4</dropwizard.version>
         <jersey-test-framework-provider>2.29.1</jersey-test-framework-provider>
         <generate.windows.exe>false</generate.windows.exe>
         <commons-daemon.bin.version>1.2.1</commons-daemon.bin.version>
@@ -437,6 +437,12 @@
             <artifactId>oxd-gen-client</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
+            <exclusions>
+            	<exclusion>
+            		<groupId>com.squareup.okio</groupId>
+            		<artifactId>okio</artifactId>
+            	</exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.gluu</groupId>
@@ -494,7 +500,7 @@
         <dependency>
             <groupId>org.yaml</groupId>
             <artifactId>snakeyaml</artifactId>
-            <version>1.33</version>
+            <version>2.0</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -545,9 +551,20 @@
             <version>2.16.4</version>
         </dependency>
         <dependency>
+            <groupId>com.squareup.okio</groupId>
+            <artifactId>okio</artifactId>
+            <version>3.4.0</version>
+        </dependency>
+        <dependency>
             <groupId>io.zipkin.reporter2</groupId>
             <artifactId>zipkin-sender-okhttp3</artifactId>
             <version>2.16.4</version>
+            <exclusions>
+            	<exclusion>
+            		<groupId>com.squareup.okio</groupId>
+            		<artifactId>okio</artifactId>
+            	</exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.gluu</groupId>
@@ -624,11 +641,23 @@
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-remote-driver</artifactId>
             <scope>test</scope>
+            <exclusions>
+            	<exclusion>
+            		<groupId>com.squareup.okio</groupId>
+            		<artifactId>okio</artifactId>
+            	</exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-support</artifactId>
             <scope>test</scope>
+            <exclusions>
+            	<exclusion>
+            		<groupId>com.squareup.okio</groupId>
+            		<artifactId>okio</artifactId>
+            	</exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
