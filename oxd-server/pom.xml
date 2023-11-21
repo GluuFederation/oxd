@@ -437,6 +437,12 @@
             <artifactId>oxd-gen-client</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
+            <exclusions>
+            	<exclusion>
+            		<groupId>com.squareup.okio</groupId>
+            		<artifactId>okio</artifactId>
+            	</exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.gluu</groupId>
@@ -545,9 +551,20 @@
             <version>2.16.4</version>
         </dependency>
         <dependency>
+            <groupId>com.squareup.okio</groupId>
+            <artifactId>okio</artifactId>
+            <version>3.4.0</version>
+        </dependency>
+        <dependency>
             <groupId>io.zipkin.reporter2</groupId>
             <artifactId>zipkin-sender-okhttp3</artifactId>
             <version>2.16.4</version>
+            <exclusions>
+            	<exclusion>
+            		<groupId>com.squareup.okio</groupId>
+            		<artifactId>okio</artifactId>
+            	</exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.gluu</groupId>
@@ -624,11 +641,23 @@
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-remote-driver</artifactId>
             <scope>test</scope>
+            <exclusions>
+            	<exclusion>
+            		<groupId>com.squareup.okio</groupId>
+            		<artifactId>okio</artifactId>
+            	</exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-support</artifactId>
             <scope>test</scope>
+            <exclusions>
+            	<exclusion>
+            		<groupId>com.squareup.okio</groupId>
+            		<artifactId>okio</artifactId>
+            	</exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
