@@ -2,7 +2,7 @@ package org.gluu.oxd.server.service;
 
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
-import io.dropwizard.util.Strings;
+import io.dropwizard.logback.shaded.guava.base.Strings;
 import org.gluu.oxauth.model.crypto.AbstractCryptoProvider;
 import org.gluu.oxauth.model.crypto.OxAuthCryptoProvider;
 import org.gluu.oxauth.model.crypto.encryption.KeyEncryptionAlgorithm;

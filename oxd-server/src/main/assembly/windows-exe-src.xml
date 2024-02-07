@@ -11,8 +11,8 @@
             <outputDirectory>/lib</outputDirectory>
             <useProjectArtifact>false</useProjectArtifact>
             <includes>
-                <include>org.bouncycastle:bcprov-jdk15on</include>
-                <include>org.bouncycastle:bcpkix-jdk15on</include>
+                <include>org.bouncycastle:bcprov-jdk18on</include>
+                <include>org.bouncycastle:bcpkix-jdk18on</include>
             </includes>
             <scope>runtime</scope>
         </dependencySet>

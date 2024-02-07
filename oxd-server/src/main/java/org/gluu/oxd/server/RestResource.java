@@ -1,6 +1,6 @@
 package org.gluu.oxd.server;
 
-import io.dropwizard.util.Strings;
+import com.google.common.base.Strings;
 import io.opentracing.Scope;
 import org.gluu.oxd.common.Command;
 import org.gluu.oxd.common.CommandType;

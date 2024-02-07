@@ -1,7 +1,7 @@
 package org.gluu.oxd.server.op;
 
 import com.google.inject.Injector;
-import io.dropwizard.util.Strings;
+import io.dropwizard.logback.shaded.guava.base.Strings;
 import org.apache.commons.lang.StringUtils;
 import org.gluu.oxauth.model.crypto.signature.SignatureAlgorithm;
 import org.gluu.oxauth.model.jwk.Algorithm;

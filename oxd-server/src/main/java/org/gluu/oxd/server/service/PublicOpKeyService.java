@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
+import io.dropwizard.logback.shaded.guava.base.Strings;
 import org.gluu.oxauth.client.JwkClient;
 import org.gluu.oxauth.client.JwkResponse;
 import org.gluu.oxauth.model.crypto.PublicKey;
@@ -24,7 +25,6 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 
-import io.dropwizard.util.Strings;
 
 /**
  * @author Yuriy Zabrovarnyy
