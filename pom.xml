@@ -17,10 +17,10 @@
         <httpcomponents.version>4.1.2</httpcomponents.version>
         <oxauth.version>4.5.3.Final</oxauth.version>
         <licensing.version>1.1.0</licensing.version>
-        <guice.version>3.0</guice.version>
+        <guice.version>5.0.0</guice.version>
         <guava.version>[24.1.1,)</guava.version>
         <oxlicense.version>4.5.3.Final</oxlicense.version>
-        <selenium.version>3.141.59</selenium.version>
+        <selenium.version>4.0.0</selenium.version>
 	<skip.swagger.client.generation>false</skip.swagger.client.generation>
 
 	<sonar.projectKey>GluuFederation_oxd</sonar.projectKey>
@@ -237,7 +237,7 @@
             <dependency>
                 <groupId>net.sourceforge.htmlunit</groupId>
                 <artifactId>htmlunit-cssparser</artifactId>
-                <version>1.9.0</version>
+                <version>1.14.0</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
