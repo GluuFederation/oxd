@@ -49,7 +49,6 @@ public class SeleniumTestUtils {
         //navigate to opHost
 
         String authzUrl = getAuthorizationUrl(authenticationDetails, responseTypes, scopes);
-        System.out.println(authzUrl);
         driver.navigate().to(authzUrl);
 
         //driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
@@ -83,43 +82,6 @@ public class SeleniumTestUtils {
         return authorizationResponse;
 
     }
-
-    /*private static AuthorizationResponse acceptAuthorization(WebDriver driver) {
-        String authorizationResponseStr = driver.getCurrentUrl();
-        AuthorizationResponse authorizationResponse = null;
-        // Check for authorization form if client has no persistent authorization
-        if (!authorizationResponseStr.contains("#")) {
-            Wait<WebDriver> wait = new FluentWait<WebDriver>(driver)
-                    .withTimeout(Duration.ofSeconds(WAIT_OPERATION_TIMEOUT))
-                    .pollingEvery(Duration.ofMillis(500))
-                    .ignoring(NoSuchElementException.class);
-
-            WebElement allowButton = wait.until(new Function<WebDriver, WebElement>() {
-                public WebElement apply(WebDriver d) {
-                    //System.out.println(d.getCurrentUrl());
-                    //System.out.println(d.getPageSource());
-                    return d.findElement(By.id("authorizeForm:allowButton"));
-                }
-            });
-
-            // We have to use JavaScript because target is link with onclick
-            JavascriptExecutor jse = (JavascriptExecutor) driver;
-            jse.executeScript("scroll(0, 1000)");
-
-            String previousURL = driver.getCurrentUrl();
-
-            Actions actions = new Actions(driver);
-            actions.click(allowButton).perform();
-
-            authorizationResponseStr = driver.getCurrentUrl();
-            authorizationResponse = new AuthorizationResponse(authorizationResponseStr);
-
-            LOG.info("Authorization Response url is: " + driver.getCurrentUrl());
-        } else {
-            fail("The authorization form was expected to be shown.");
-        }
-        return authorizationResponse;
-    }*/
 
     private static WebDriver initWebDriver(boolean enableJavascript, boolean cleanupCookies) {
         WebDriver currentDriver = new HtmlUnitDriver();
