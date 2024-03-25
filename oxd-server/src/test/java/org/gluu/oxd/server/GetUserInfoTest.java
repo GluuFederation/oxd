@@ -42,13 +42,11 @@ public class GetUserInfoTest {
 
     private GetTokensByCodeResponse2 requestTokens(ClientInterface client, RegisterSiteResponse site, AuthenticationDetails authenticationDetails) {
 
-        final String state = CoreUtils.secureRandomString();
-        final String nonce = CoreUtils.secureRandomString();
         final GetTokensByCodeParams params = new GetTokensByCodeParams();
         params.setOxdId(site.getOxdId());
 
         params.setCode(GetTokensByCodeTest.codeRequest(client, site, authenticationDetails));
-        params.setState(state);
+        params.setState(authenticationDetails.getState());
 
         final GetTokensByCodeResponse2 resp = client.getTokenByCode(Tester.getAuthorization(site), null, params);
         assertNotNull(resp);

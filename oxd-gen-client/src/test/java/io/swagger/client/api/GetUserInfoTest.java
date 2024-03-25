@@ -64,13 +64,10 @@ public class GetUserInfoTest {
 
     private GetTokensByCodeResponse requestTokens(DevelopersApi client, RegisterSiteResponse site, AuthenticationDetails authenticationDetails) throws Exception {
 
-        final String state = CoreUtils.secureRandomString();
-        final String nonce = CoreUtils.secureRandomString();
-
         final GetTokensByCodeParams params = new GetTokensByCodeParams();
         params.setOxdId(site.getOxdId());
         params.setCode(GetTokensByCodeTest.codeRequest(client, authenticationDetails, site.getOxdId(), getAuthorization(site)));
-        params.setState(state);
+        params.setState(authenticationDetails.getState());
 
         final GetTokensByCodeResponse resp = client.getTokensByCode(params, getAuthorization(site), null);
         assertNotNull(resp);

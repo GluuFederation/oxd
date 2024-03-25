@@ -70,12 +70,10 @@ public class DifferentAuthServerTest {
 
     private GetTokensByCodeResponse2 requestTokens(ClientInterface client, RegisterSiteResponse site, RegisterSiteResponse authServer, AuthenticationDetails authServerResp) {
 
-        final String state = CoreUtils.secureRandomString();
-        final String nonce = CoreUtils.secureRandomString();
         final GetTokensByCodeParams params = new GetTokensByCodeParams();
         params.setOxdId(site.getOxdId());
         params.setCode(GetTokensByCodeTest.codeRequest(client, site, authServerResp));
-        params.setState(state);
+        params.setState(authServerResp.getState());
 
         final GetTokensByCodeResponse2 resp = client.getTokenByCode(Tester.getAuthorization(authServer), authServer.getOxdId(), params);
         assertNotNull(resp);

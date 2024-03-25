@@ -79,7 +79,6 @@ public class GetTokensByCodeTest {
 
     private static GetTokensByCodeResponse tokenByCode(DevelopersApi client, RegisterSiteResponse site, AuthenticationDetails authenticationDetails, String authenticationMethod, String algorithm) throws Exception {
 
-        final String state = CoreUtils.secureRandomString();
         final RegisterSiteResponse authServer = RegisterSiteTest.registerSite(client, authenticationDetails.getOpHost(), authenticationDetails.getRedirectUrls());
         final String authorizationStr = Tester.getAuthorization(authServer);
 
@@ -90,7 +89,7 @@ public class GetTokensByCodeTest {
         final GetTokensByCodeParams params = new GetTokensByCodeParams();
         params.setOxdId(site.getOxdId());
         params.setCode(code);
-        params.setState(state);
+        params.setState(authenticationDetails.getState());
         params.setAuthenticationMethod(authenticationMethod);
         params.setAlgorithm(algorithm);
 
