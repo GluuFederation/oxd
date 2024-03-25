@@ -5,6 +5,7 @@ import org.apache.commons.lang.StringUtils;
 import org.gluu.oxd.client.ClientInterface;
 import org.gluu.oxd.client.GetTokensByCodeResponse2;
 import org.gluu.oxd.common.CoreUtils;
+import org.gluu.oxd.common.model.AuthenticationDetails;
 import org.gluu.oxd.common.params.GetTokensByCodeParams;
 import org.gluu.oxd.common.params.GetUserInfoParams;
 import org.gluu.oxd.common.params.RpGetRptParams;
@@ -22,15 +23,16 @@ import static org.testng.AssertJUnit.assertNotNull;
 //Set `protect_commands_with_access_token` field to true in oxd-server.yml file
 public class DifferentAuthServerTest {
 
-    @Parameters({"host", "opHost", "authServer", "redirectUrls", "clientId", "clientSecret", "userId", "userSecret"})
+    @Parameters({"host", "opHost", "authServer", "redirectUrls", "clientId", "clientSecret", "userId", "userSecret", "userInum", "userEmail"})
     @Test
-    public void getUserInfo_withDifferentAuthServer(String host, String opHost, String authServer, String redirectUrls, String clientId, String clientSecret, String userId, String userSecret) {
+    public void getUserInfo_withDifferentAuthServer(String host, String opHost, String authServer, String redirectUrls, String clientId, String clientSecret, String userId, String userSecret, String userInum, String userEmail) {
 
         ClientInterface client = org.gluu.oxd.server.Tester.newClient(host);
         RegisterSiteResponse site = RegisterSiteTest.registerSite(client, opHost, redirectUrls);
+        AuthenticationDetails authenticationDetails = io.swagger.client.api.TestUtils.setAuthenticationDetails(null, opHost, userId, userSecret, site.getClientId(), redirectUrls, CoreUtils.secureRandomString(), CoreUtils.secureRandomString(), userInum, userEmail);
         RegisterSiteResponse authServerResp = RegisterSiteTest.registerSite(client, authServer, redirectUrls);
 
-        final GetTokensByCodeResponse2 tokens = requestTokens(client, opHost, site, authServerResp, userId, userSecret, site.getClientId(), redirectUrls);
+        final GetTokensByCodeResponse2 tokens = requestTokens(client, site, authServerResp, authenticationDetails);
 
         GetUserInfoParams params = new GetUserInfoParams();
         params.setOxdId(site.getOxdId());
@@ -66,13 +68,13 @@ public class DifferentAuthServerTest {
         assertTrue(StringUtils.isNotBlank(response.getPct()));
     }
 
-    private GetTokensByCodeResponse2 requestTokens(ClientInterface client, String opHost, RegisterSiteResponse site, RegisterSiteResponse authServer, String userId, String userSecret, String clientId, String redirectUrls) {
+    private GetTokensByCodeResponse2 requestTokens(ClientInterface client, RegisterSiteResponse site, RegisterSiteResponse authServer, AuthenticationDetails authServerResp) {
 
         final String state = CoreUtils.secureRandomString();
         final String nonce = CoreUtils.secureRandomString();
         final GetTokensByCodeParams params = new GetTokensByCodeParams();
         params.setOxdId(site.getOxdId());
-        params.setCode(GetTokensByCodeTest.codeRequest(client, opHost, site, userId, userSecret, clientId, redirectUrls, state, nonce));
+        params.setCode(GetTokensByCodeTest.codeRequest(client, site, authServerResp));
         params.setState(state);
 
         final GetTokensByCodeResponse2 resp = client.getTokenByCode(Tester.getAuthorization(authServer), authServer.getOxdId(), params);

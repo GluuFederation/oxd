@@ -9,6 +9,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.gluu.oxd.common.ErrorResponse;
 import org.gluu.oxd.common.Jackson2;
+import org.gluu.oxd.common.model.AuthenticationDetails;
 
 import javax.ws.rs.WebApplicationException;
 import java.io.File;
@@ -61,5 +62,20 @@ public class TestUtils {
         DefaultConfigurationFactoryFactory<OxdServerConfiguration> configurationFactoryFactory = new DefaultConfigurationFactoryFactory<>();
         ConfigurationFactory<OxdServerConfiguration> configurationFactory = configurationFactoryFactory.create(OxdServerConfiguration.class, Validators.newValidatorFactory().getValidator(), Jackson.newObjectMapper(), "dw");
         return configurationFactory.build(file);
+    }
+
+    public static AuthenticationDetails setAuthenticationDetails(String host, String opHost, String userId, String userSecret, String clientId, String redirectUrls, String nonce, String state, String userInum, String userEmail) {
+        AuthenticationDetails authenticationDetails = new AuthenticationDetails();
+        authenticationDetails.setHost(host);
+        authenticationDetails.setNonce(nonce);
+        authenticationDetails.setOpHost(opHost);
+        authenticationDetails.setRedirectUrls(redirectUrls);
+        authenticationDetails.setState(state);
+        authenticationDetails.setUserId(userId);
+        authenticationDetails.setUserInum(userInum);
+        authenticationDetails.setClientId(clientId);
+        authenticationDetails.setUserSecret(userSecret);
+        authenticationDetails.setUserEmail(userEmail);
+        return authenticationDetails;
     }
 }

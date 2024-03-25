@@ -66,7 +66,11 @@ public class Tester {
         params.setOpHost(site.getOpHost());
         params.setClientId(site.getClientId());
         params.setClientSecret(site.getClientSecret());
-
+        System.out.println("========================================================"+site.getOpHost());
+        System.out.println("========================================================"+site.getClientId());
+        System.out.println("========================================================"+site.getClientSecret());
+        System.out.println("========================================================"+HOST);
+        System.out.println("========================================================"+params.toString());
         GetClientTokenResponse resp = Tester.newClient(HOST).getClientToken(params);
         assertNotNull(resp);
         assertTrue(!Strings.isNullOrEmpty(resp.getAccessToken()));

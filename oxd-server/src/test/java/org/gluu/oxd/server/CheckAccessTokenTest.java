@@ -3,6 +3,7 @@ package org.gluu.oxd.server;
 import org.gluu.oxd.client.ClientInterface;
 import org.gluu.oxd.client.GetTokensByCodeResponse2;
 import org.gluu.oxd.common.CoreUtils;
+import org.gluu.oxd.common.model.AuthenticationDetails;
 import org.gluu.oxd.common.params.CheckAccessTokenParams;
 import org.gluu.oxd.common.response.CheckAccessTokenResponse;
 import org.gluu.oxd.common.response.RegisterSiteResponse;
@@ -18,15 +19,16 @@ import static org.testng.AssertJUnit.assertTrue;
  */
 
 public class CheckAccessTokenTest {
-    @Parameters({"host", "redirectUrls", "userId", "userSecret", "opHost"})
+    @Parameters({"host", "redirectUrls", "userId", "userSecret", "opHost", "userInum", "userEmail"})
     @Test
-    public void test(String host, String redirectUrls, String userId, String userSecret, String opHost) {
+    public void test(String host, String redirectUrls, String userId, String userSecret, String opHost, String userInum, String userEmail) {
 
         ClientInterface client = Tester.newClient(host);
         String nonce = CoreUtils.secureRandomString();
         String state = CoreUtils.secureRandomString();
         RegisterSiteResponse site = RegisterSiteTest.registerSite(client, opHost, redirectUrls);
-        GetTokensByCodeResponse2 response = GetTokensByCodeTest.tokenByCode(client, site, opHost, userId, userSecret, site.getClientId(), redirectUrls, nonce, state);
+        AuthenticationDetails authenticationDetails = TestUtils.setAuthenticationDetails(host, opHost, userId, userSecret, site.getClientId(), redirectUrls, nonce, state, userInum, userEmail);
+        GetTokensByCodeResponse2 response = GetTokensByCodeTest.tokenByCode(client, site, authenticationDetails);
 
         final CheckAccessTokenParams params = new CheckAccessTokenParams();
         params.setAccessToken(response.getAccessToken());
