@@ -6,6 +6,7 @@ import io.swagger.client.model.GetTokensByCodeResponse;
 import io.swagger.client.model.GetUserInfoParams;
 import io.swagger.client.model.RegisterSiteResponse;
 import org.gluu.oxd.common.CoreUtils;
+import org.gluu.oxd.common.model.AuthenticationDetails;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
@@ -23,13 +24,14 @@ import static org.testng.Assert.*;
 
 public class GetUserInfoTest {
 
-    @Parameters({"opHost", "redirectUrls", "userId", "userSecret"})
+    @Parameters({"opHost", "redirectUrls", "userId", "userSecret", "userInum", "userEmail"})
     @Test
-    public void test(String opHost, String redirectUrls, String userId, String userSecret) throws Exception {
+    public void test(String opHost, String redirectUrls, String userId, String userSecret, String userInum, String userEmail) throws Exception {
         final DevelopersApi client = api();
 
         final RegisterSiteResponse site = RegisterSiteTest.registerSite(client, opHost, redirectUrls);
-        final GetTokensByCodeResponse tokens = requestTokens(client, opHost, site, userId, userSecret, site.getClientId(), redirectUrls);
+        AuthenticationDetails authenticationDetails = TestUtils.setAuthenticationDetails(null, opHost, userId, userSecret, site.getClientId(), redirectUrls, CoreUtils.secureRandomString(), CoreUtils.secureRandomString(), userInum, userEmail);
+        final GetTokensByCodeResponse tokens = requestTokens(client, site, authenticationDetails);
 
         final GetUserInfoParams params = new GetUserInfoParams();
         params.setOxdId(site.getOxdId());
@@ -42,9 +44,9 @@ public class GetUserInfoTest {
         assertNotNull(resp.get("sub"));
     }
 
-    @Parameters({"opHost", "redirectUrls"})
+    @Parameters({"opHost", "redirectUrls", "userInum", "userEmail"})
     @Test
-    public void testWithInvalidToken(String opHost, String redirectUrls) throws Exception {
+    public void testWithInvalidToken(String opHost, String redirectUrls, String userInum, String userEmail) throws Exception {
         final DevelopersApi client = api();
 
         final RegisterSiteResponse site = RegisterSiteTest.registerSite(client, opHost, redirectUrls);
@@ -60,15 +62,12 @@ public class GetUserInfoTest {
         assertNull(apiResponse.getData().get("sub"));
     }
 
-    private GetTokensByCodeResponse requestTokens(DevelopersApi client, String opHost, RegisterSiteResponse site, String userId, String userSecret, String clientId, String redirectUrls) throws Exception {
-
-        final String state = CoreUtils.secureRandomString();
-        final String nonce = CoreUtils.secureRandomString();
+    private GetTokensByCodeResponse requestTokens(DevelopersApi client, RegisterSiteResponse site, AuthenticationDetails authenticationDetails) throws Exception {
 
         final GetTokensByCodeParams params = new GetTokensByCodeParams();
         params.setOxdId(site.getOxdId());
-        params.setCode(GetTokensByCodeTest.codeRequest(client, opHost, site.getOxdId(), userId, userSecret, clientId, redirectUrls, state, nonce, getAuthorization(site)));
-        params.setState(state);
+        params.setCode(GetTokensByCodeTest.codeRequest(client, authenticationDetails, site.getOxdId(), getAuthorization(site)));
+        params.setState(authenticationDetails.getState());
 
         final GetTokensByCodeResponse resp = client.getTokensByCode(params, getAuthorization(site), null);
         assertNotNull(resp);

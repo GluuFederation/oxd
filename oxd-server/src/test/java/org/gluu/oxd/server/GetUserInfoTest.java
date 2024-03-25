@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import org.gluu.oxd.client.ClientInterface;
 import org.gluu.oxd.client.GetTokensByCodeResponse2;
 import org.gluu.oxd.common.CoreUtils;
+import org.gluu.oxd.common.model.AuthenticationDetails;
 import org.gluu.oxd.common.params.GetTokensByCodeParams;
 import org.gluu.oxd.common.params.GetUserInfoParams;
 import org.gluu.oxd.common.response.RegisterSiteResponse;
@@ -20,13 +21,14 @@ import static org.testng.AssertJUnit.assertNotNull;
 
 public class GetUserInfoTest {
 
-    @Parameters({"host", "opHost", "redirectUrls", "userId", "userSecret"})
+    @Parameters({"host", "opHost", "redirectUrls", "userId", "userSecret", "userInum", "userEmail"})
     @Test
-    public void test(String host, String opHost, String redirectUrls, String userId, String userSecret) {
+    public void test(String host, String opHost, String redirectUrls, String userId, String userSecret, String userInum, String userEmail) {
         ClientInterface client = Tester.newClient(host);
 
         final RegisterSiteResponse site = RegisterSiteTest.registerSite(client, opHost, redirectUrls);
-        final GetTokensByCodeResponse2 tokens = requestTokens(client, opHost, site, userId, userSecret, site.getClientId(), redirectUrls);
+        AuthenticationDetails authenticationDetails = TestUtils.setAuthenticationDetails(host, opHost, userId, userSecret, site.getClientId(), redirectUrls, CoreUtils.secureRandomString(), CoreUtils.secureRandomString(), userInum, userEmail);
+        final GetTokensByCodeResponse2 tokens = requestTokens(client, site, authenticationDetails);
 
         GetUserInfoParams params = new GetUserInfoParams();
         params.setOxdId(site.getOxdId());
@@ -38,14 +40,13 @@ public class GetUserInfoTest {
         assertNotNull(resp.get("sub"));
     }
 
-    private GetTokensByCodeResponse2 requestTokens(ClientInterface client, String opHost, RegisterSiteResponse site, String userId, String userSecret, String clientId, String redirectUrls) {
+    private GetTokensByCodeResponse2 requestTokens(ClientInterface client, RegisterSiteResponse site, AuthenticationDetails authenticationDetails) {
 
-        final String state = CoreUtils.secureRandomString();
-        final String nonce = CoreUtils.secureRandomString();
         final GetTokensByCodeParams params = new GetTokensByCodeParams();
         params.setOxdId(site.getOxdId());
-        params.setCode(GetTokensByCodeTest.codeRequest(client, opHost, site, userId, userSecret, clientId, redirectUrls, state, nonce));
-        params.setState(state);
+
+        params.setCode(GetTokensByCodeTest.codeRequest(client, site, authenticationDetails));
+        params.setState(authenticationDetails.getState());
 
         final GetTokensByCodeResponse2 resp = client.getTokenByCode(Tester.getAuthorization(site), null, params);
         assertNotNull(resp);

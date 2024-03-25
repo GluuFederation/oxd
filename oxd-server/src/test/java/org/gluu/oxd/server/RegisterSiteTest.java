@@ -2,6 +2,7 @@ package org.gluu.oxd.server;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
+import org.gluu.oxauth.model.common.AuthenticationMethod;
 import org.gluu.oxauth.model.common.GrantType;
 import org.gluu.oxd.client.ClientInterface;
 import org.gluu.oxd.common.params.RegisterSiteParams;
@@ -180,6 +181,7 @@ public class RegisterSiteTest {
         params.setGrantTypes(Lists.newArrayList(
                 GrantType.AUTHORIZATION_CODE.getValue(),
                 GrantType.OXAUTH_UMA_TICKET.getValue(),
+                GrantType.IMPLICIT.getValue(),
                 GrantType.CLIENT_CREDENTIALS.getValue()));
         params.setSyncClientFromOp(syncClientFromOp);
         params.setSyncClientPeriodInSeconds(0);
@@ -200,9 +202,11 @@ public class RegisterSiteTest {
         params.setIdTokenSignedResponseAlg(idTokenSignedResponseAlg);
         params.setGrantTypes(Lists.newArrayList(
                 GrantType.AUTHORIZATION_CODE.getValue(),
+                GrantType.CLIENT_CREDENTIALS.getValue(),
                 GrantType.OXAUTH_UMA_TICKET.getValue(),
-                GrantType.CLIENT_CREDENTIALS.getValue()));
-
+                GrantType.CLIENT_CREDENTIALS.getValue(),
+                GrantType.IMPLICIT.getValue()));
+        params.setClientTokenEndpointAuthMethod("client_secret_post");
         final RegisterSiteResponse resp = client.registerSite(params);
         assertNotNull(resp);
         assertTrue(!Strings.isNullOrEmpty(resp.getOxdId()));

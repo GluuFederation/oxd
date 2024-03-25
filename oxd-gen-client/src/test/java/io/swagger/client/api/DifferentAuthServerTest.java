@@ -4,6 +4,7 @@ import io.swagger.client.ApiResponse;
 import io.swagger.client.model.*;
 import org.apache.commons.lang.StringUtils;
 import org.gluu.oxd.common.CoreUtils;
+import org.gluu.oxd.common.model.AuthenticationDetails;
 import org.testng.Assert;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -20,14 +21,15 @@ import static org.testng.AssertJUnit.assertTrue;
 //Set `protect_commands_with_access_token` field to true in oxd-server.yml file
 public class DifferentAuthServerTest {
 
-    @Parameters({"opHost", "redirectUrls", "authServer", "userId", "userSecret"})
+    @Parameters({"opHost", "redirectUrls", "authServer", "userId", "userSecret", "userInum", "userEmail"})
     @Test(enabled = false)
-    public void getUserInfo_withDifferentAuthServer(String opHost, String redirectUrls, String authServer, String userId, String userSecret) throws Exception {
+    public void getUserInfo_withDifferentAuthServer(String opHost, String redirectUrls, String authServer, String userId, String userSecret, String userInum, String userEmail) throws Exception {
         final DevelopersApi client = api();
 
         final io.swagger.client.model.RegisterSiteResponse site = RegisterSiteTest.registerSite(client, opHost, redirectUrls);
         final io.swagger.client.model.RegisterSiteResponse authServerResp = RegisterSiteTest.registerSite(client, authServer, redirectUrls);
-        final GetTokensByCodeResponse tokens = requestTokens(client, opHost, site, authServerResp, userId, userSecret, site.getClientId(), redirectUrls);
+        AuthenticationDetails authenticationDetails = TestUtils.setAuthenticationDetails(null, opHost, userId, userSecret, site.getClientId(), redirectUrls, CoreUtils.secureRandomString(), CoreUtils.secureRandomString(), userInum, userEmail);
+        final GetTokensByCodeResponse tokens = requestTokens(client, site, authServerResp, authenticationDetails);
 
         final io.swagger.client.model.GetUserInfoParams params = new GetUserInfoParams();
         params.setOxdId(site.getOxdId());
@@ -92,14 +94,14 @@ public class DifferentAuthServerTest {
         return apiResp.getData();
     }
 
-    private GetTokensByCodeResponse requestTokens(DevelopersApi client, String opHost, io.swagger.client.model.RegisterSiteResponse site, io.swagger.client.model.RegisterSiteResponse authServer, String userId, String userSecret, String clientId, String redirectUrls) throws Exception {
+    private GetTokensByCodeResponse requestTokens(DevelopersApi client, io.swagger.client.model.RegisterSiteResponse site, io.swagger.client.model.RegisterSiteResponse authServer, AuthenticationDetails authenticationDetails) throws Exception {
 
         final String state = CoreUtils.secureRandomString();
         final String nonce = CoreUtils.secureRandomString();
 
         final io.swagger.client.model.GetTokensByCodeParams params = new GetTokensByCodeParams();
         params.setOxdId(site.getOxdId());
-        params.setCode(GetTokensByCodeTest.codeRequest(client, opHost, site.getOxdId(), userId, userSecret, clientId, redirectUrls, state, nonce, getAuthorization(site)));
+        params.setCode(GetTokensByCodeTest.codeRequest(client, authenticationDetails, site.getOxdId(), getAuthorization(site)));
         params.setState(state);
 
         final GetTokensByCodeResponse resp = client.getTokensByCode(params, getAuthorization(authServer), authServer.getOxdId());
