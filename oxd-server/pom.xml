@@ -128,21 +128,21 @@
                         <artifactItem>
                             <groupId>org.bouncycastle</groupId>
                             <artifactId>bcprov-jdk18on</artifactId>
-                            <version>1.76</version>
+                            <version>1.78.1</version>
                             <overWrite>true</overWrite>
                             <outputDirectory>${project.build.directory}/dependencies</outputDirectory>
                         </artifactItem>
                         <artifactItem>
                             <groupId>org.bouncycastle</groupId>
                             <artifactId>bcpkix-jdk18on</artifactId>
-                            <version>1.76</version>
+                            <version>1.78.1</version>
                             <overWrite>true</overWrite>
                             <outputDirectory>${project.build.directory}/dependencies</outputDirectory>
                         </artifactItem>
                         <artifactItem>
                             <groupId>org.bouncycastle</groupId>
                             <artifactId>bcutil-jdk18on</artifactId>
-                            <version>1.76</version>
+                            <version>1.78.1</version>
                             <overWrite>true</overWrite>
                             <outputDirectory>${project.build.directory}/dependencies</outputDirectory>
                         </artifactItem>
